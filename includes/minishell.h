@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/24 14:38:48 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/24 18:15:14 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,22 @@ typedef enum e_token_type
 
 typedef struct s_list
 {
-	int				token;
 	char			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_token
+{
+	char value;
+	char *value_concat;
+	t_token_type type;
+} t_token;
 
 typedef struct s_info
 {
 	char **info_env;
 	char *path;
+	t_list *list_input_token;
 } t_info;
 
 t_info g_info;
@@ -89,7 +96,9 @@ int		ft_strlcpy(char *dest, char *src, int size);
 char	*ft_strchrr(char *str, int c);
 
 //// ----- parsing ///
-int getChartype(char *str);
+void tokenizer(char *str);
+void clear_token(void *content);
+
 
 
 
