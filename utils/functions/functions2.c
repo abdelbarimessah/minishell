@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 13:04:02 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/24 12:13:47 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:12:05 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_strtrim(char *s1, char *set)
 
 char	*ft_strchrr(char *str, int c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i <= ft_strlen(str))

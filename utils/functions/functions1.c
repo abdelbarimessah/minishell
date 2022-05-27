@@ -6,24 +6,20 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:55:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/24 12:13:44 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:35:06 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+int	ft_strlen(char *s)
+{	
+	int	i;
 
 	i = 0;
-	if (s)
-	{
-		while (s[i])
-			i++;
-		return (i);
-	}
-	return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
 
 char	*ft_strdup(const char *src)
@@ -46,30 +42,27 @@ char	*ft_strdup(const char *src)
 	return (copie);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, int start, int len)
 {
-	size_t	i;
-	size_t	rest;
-	char	*copie;
+	int			lenght;
+	int			x;
+	char		*sub;
 
-	i = 0;
+	x = 0;
 	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
+	if (start > ft_strlen(s))
 		return (ft_strdup(""));
-	rest = ft_strlen(s) - (size_t)start;
-	if (len > rest)
-		len = rest;
-	copie = malloc(sizeof(char) * (len + 1));
-	if (copie == NULL)
+	lenght = ft_strlen(&s[start]);
+	if (lenght >= len)
+		lenght = len;
+	sub = malloc(lenght + 1);
+	if (!sub)
 		return (NULL);
-	while (i < len)
-	{
-		copie[i] = s[i + start];
-		i++;
-	}
-	copie[i] = '\0';
-	return (copie);
+	while (s[start] && x < len)
+		sub[x++] = s[start++];
+	sub [x] = '\0';
+	return (sub);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -90,25 +83,58 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*movee(char *s1, char *s2, char *s)
 {
+	int		a;
 	int		i;
-	int		j;
-	char	*str;
 
-	if (!s1)
-		return (NULL);
-	i = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(sizeof(char) * (i + 1));
-	if (!str)
-		return (NULL);
+	a = ft_strlen(s1);
 	i = 0;
-	j = 0;
-	while (s1[i])
-		str[j++] = s1[i++];
+	if (s1)
+	{
+		while (s1[i])
+		{
+			s[i] = s1[i];
+			i++;
+		}
+	}
 	i = 0;
 	while (s2[i])
-		str[j++] = s2[i++];
-	str[j] = '\0';
-	return (str);
+	{
+		s[a] = s2[i];
+		a++;
+		i++;
+	}
+	s[a] = '\0';
+	return (s);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		a;
+	int		i;
+	char	*s;
+
+	i = 0;
+	if (!s1)
+	{
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1[0] = '\0';
+	}
+	if (!s2)
+		return (NULL);
+	a = ft_strlen(s1);
+	s = (char *)malloc(a + ft_strlen(s2) + 1);
+	if (s == NULL)
+		return (NULL);
+	s = movee(s1, s2, s);
+	free(s1);
+	return (s);
+}
+
+int ft_skip_space(char *str, int i)
+{
+	while(str[i] == ' ')
+		i++;
+	return i;
 }

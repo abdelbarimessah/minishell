@@ -6,30 +6,34 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/24 12:13:52 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:36:29 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_path(char **envp)
+char	*get_from_env(char **str, char *to_find)
 {
-	char	*path;
 	int		i;
-	int		len;
+	int		j;
+	int		x;
 
-	if (!envp[0])
-		return (NULL);
-	len = ft_strlen("PATH=");
-	i = 0;
-	while (envp[i])
+	i = -1;
+	j = 0;
+	while (str[++i])
 	{
-		if (ft_strncmp("PATH", envp[i], len - 1) == 0)
+		j = 0;
+		x = 0;
+		while (str[i][j] == to_find[x] && str[i][j] != '=')
 		{
-			path = ft_substr(envp[i], len, ft_strlen(envp[i]) - len);
-			return (path);
+			if (str[i][j + 1] == '=')
+			{
+				if(!ft_strncmp(str[i], to_find, ft_strlen(to_find)))
+					return (&str[i][j + 2]);
+			}
+			x++;
+			j++;
 		}
-		i++;
 	}
-	return (0);
+	return (NULL);
 }

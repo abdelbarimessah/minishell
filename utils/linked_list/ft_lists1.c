@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:57:51 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/24 12:14:03 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:22:19 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		elem = *lst;
 		elem = ft_lstlast(*lst);
 		elem->next = new;
-		return ;
 	}
 	*lst = new;
 }

@@ -6,83 +6,205 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/24 18:28:27 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/27 19:04:53 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int Bad_characters(char *str)
+int check_str(char *str, int i)
 {
-    int i = 0;
-    while(str[i])
-    {
-        if(str[i] == ';' || str[i] == '&' || (str[i] == '|' && str[i + 1] == '|'))
-            return 0;
-        i++;
-    }
-    return (1);
+	if(str[i] && str[i] != '|' && str[i] != '&' && str[i] != ' '
+		&& str[i] != '\'' && str[i] != '"'  && str[i] != '$'
+		&& str[i] != '(' && str[i] != ')' && str[i] != '>' && str[i] != '<')
+		return(1);
+	else
+	{
+		if(str[i] == '&' && str[i + 1] != '&')
+			return(1);
+		else
+			return(0);
+	}
 }
 
-int getChartype(char *str)
+int check_pipe(t_list *token)
 {
-    int i = -1;
+    t_list *head;
+    head = token;
 
-    if(!Bad_characters(str))
-        return (0);
-    while(str[++i])
+    while(head)
     {
-        if (str[i] == '|')
-            return(pip);
-        else if (str[i] == '\'')
-            return (single_quote);
-        else if (str[i] == '\"')
-            return (double_quote);
-        else if (str[i] == ' ')
-            return (white_space);
-        else if (str[i] == '$')
-            return (dollar);
-        else if (str[i] == '<')
-            return (simple_redi_left);
-        else if (str[i] == '>')
-            return (simple_redi_right);
-        else
-            return (general_word);
+        if(head->token == PIP)
+            return (1);
+        head = head->next;
     }
     return (0);
 }
 
-t_token *create_token(char token_value, t_token_type token_type)
+int ft_checker1(t_list **node, char *str, int i, char **env)
 {
-    t_token *token;
-    int size;
-
-    size = sizeof(t_token);
-    token = malloc(size);
-    if(!token || !token_value)
-        exit(1);
-    token->value = token_value;
-    token->type = token_type;
-    return (token);
+    int j;
+    int c;
+    int n;
+    char *s;
+    
+    j = i;
+    if(str[j] == '"' && str[j + 1] == '"')
+        return (0);
+    while(++j)
+    {
+        if(str[j] == '"')
+            break ;
+    }
+    if(str[j] == '"')
+    {
+        i++;
+        c = i - 1;
+        while(++c < j)
+        {
+            if(str[c] == '$')
+                break;
+        }
+        if(str[c] == '$')
+        {
+            ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, c - i), WORD));
+            n = c++;
+            while(check_str(str, c))
+                c++;
+            s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
+            ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
+            n = c;
+            while(c < j)
+                c++;
+            ft_lstadd_back(node, ft_lstnew(ft_substr(str, n, c - n), WORD));
+        }
+        else
+            ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, j - i), WORD));
+        return (j - i + 1);
+    }
+    return(printf("double quotes not closed"), -1);
 }
 
-void tokenizer(char *str)
+int ft_checker2(t_list **node, char *str, int i)
 {
-    int i = -1;
-    char *value;
-    t_list *new;
-    t_token *tokeny;
-    t_token_type tok_type;
+    int j;
 
-    value = ft_strdup(str);
-    if(!value)
-        exit(0);
-    while(value[++i])
+    j = i;
+    if(str[j] == '\'' && str[j + 1] == '\'')
+        return (0);
+    while(str[++j])
     {
-        tok_type = getChartype(&value[i]);
-        tokeny = create_token(value[i], tok_type);
-        if(!(new = ft_lstnew(tokeny)))
-            exit(1);
-        ft_lstadd_back(&g_info.list_input_token, new);
+        if(str[j] == '\'')
+            break ;
     }
+    if(str[j] == '\'')
+    {
+        i++;
+        ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, j - i), WORD));
+        return (j - i + 1);
+    }
+    return (-1);
+}
+
+int ft_create_tokens(struct s_list **node, char *str, char **env) 
+{
+    int i;
+    int j;
+    char *s;
+
+    i = 0;
+    j = 1;
+    
+    while(str[i] == ' ')
+        i++;
+    while(i < ft_strlen(str))
+    {
+        j = 0;
+        if(str[i] == ' ')
+        {
+            while(str[i] == ' ')
+                i++;
+            if(!str[i])
+                break;
+            ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), SPACE));
+            i--;
+        }
+        else if(str[i] == '|')
+            ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIP));
+        else if(str[i] == '"')
+        {
+            j = ft_checker1(node, str, i, env);
+            if(j == -1)
+                return (0);
+            i += j + 1;
+        }
+        else if(str[i] == '\'')
+        {
+            j = ft_checker2(node, str, i);
+            if( j == -1)
+            {
+                printf("single quotes not closed !\n");
+                return 0;
+            }
+            i += j + 1;
+        }
+        else if(str[i] == '$')
+        {
+            if(!str[i + 1] || str[i + 1] == ' ')
+                ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WORD));
+            else
+            {
+                j = i + 1;
+                while(check_str(str, j))
+                    j++;
+                s = get_from_env(env, ft_substr(str, i + 1, j - (i + 1)));
+                ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WORD));
+                i += (j - i);
+            }
+        }
+        else if(str[i] == '>')
+            ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OUTPUTE_REDI));
+        else if(str[i] == '<')
+            ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), INPUTE_REDI));
+        else
+        {
+            i--;
+            while(check_str(str, ++i))
+                j++;
+            ft_lstadd_back(node, ft_lstnew(ft_substr(str,  i - j, j), WORD));
+        }
+        if(!j)
+            i++;
+    }
+    ft_lstadd_back(node, ft_lstnew(ft_strdup("<-"), END_TOK));
+    
+    return (1);
+}
+
+void	printf_list(t_list *lst)
+{
+	while (lst)
+	{
+		printf("%d - %s\n", lst->token, lst->content);
+		lst = lst->next;
+	}
+	puts("");
+}
+
+void tokenizer(char *str, char  **env)
+{
+    int i;
+    int j;
+    t_list *token;
+    t_list *head;
+    
+    i = 0;
+    j = 1;
+    if(str[0] == '\0')
+        return;
+    token = ft_lstnew(ft_strdup("->"), START_TOK);
+    head = token;
+    if(!ft_create_tokens(&token, str, env))
+        return ;
+    printf_list(head);
 }
