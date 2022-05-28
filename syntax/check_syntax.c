@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 12:01:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 16:59:36 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/28 17:07:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,25 @@ int check_special_caracs(char *str)
     return (1);
 }
 
+int check_double_special_carac(char *str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        if(str[i] == '|' && str[i + 1] == '|')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
 int check_syntax(char *str)
 {
     if(!check_special_caracs(str))
+        ft_error("syntax error !\n", 0);
+    if(!check_double_special_carac(str))
         ft_error("syntax error !\n", 0);
     return (1);
 }
