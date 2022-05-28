@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/27 18:34:36 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/28 15:49:06 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,16 @@ char	*get_from_env(char **str, char *to_find);
 int		ft_strlcpy(char *dest, char *src, int size);
 char	*ft_strchrr(char *str, int c);
 int		ft_skip_space(char *str, int i);
+int		ft_error(char *str, int retu);
 
 //// ----- parsing ///
 void tokenizer(char *str, char  **env);
 
 
-
+////// ------ syntax ////
+int check_syntax(char *str);
+int inside_limiters(char *str, char limiter, char c);
+int limiter_stat(char *str, char limiter);
 
 
 #endif

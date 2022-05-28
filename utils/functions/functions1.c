@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:55:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/27 18:35:06 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/28 12:58:03 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,11 @@ int ft_skip_space(char *str, int i)
 	while(str[i] == ' ')
 		i++;
 	return i;
+}
+
+int	ft_error(char *str, int retu)
+{
+	if (str)
+		write(2, str, ft_strlen(str));
+	return (retu);
 }
