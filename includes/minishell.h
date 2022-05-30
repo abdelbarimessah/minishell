@@ -6,12 +6,14 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 17:35:25 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 14:32:19 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+
 
 # include <signal.h>
 # include <unistd.h>
@@ -36,6 +38,7 @@
 
 # define START_TOK 999
 # define END_TOK 999
+# define BUFFER_SIZE 1
 
 typedef enum e_token_type
 {
@@ -92,5 +95,24 @@ int check_syntax(char *str);
 int inside_limiters(char *str, char limiter, char c);
 int limiter_stat(char *str, char limiter);
 
+////// --------- pipe ////
+char	*search_for_path(char **env);
+void	file_error(char *str);
+int		process_2(char **argv, char **env, char *path, int fd[]);
+int		process_1(char **argv, char **env, char *path, int fd[]);
+char	*join(char *str1, char *str2, char *str3);
+char	*unix_cmd(char	*line, char **argv);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	child_process(char *argv, char **env);
+int		get_next_line_pipex(char **line);
+void	here_doc(char *limiter, int argc);
+char	*ft_strnstr(const char	*big, const char *little, size_t len);
+char	*ft_strdup(const char *s1);
+int		get_next_line(char **line);
+char	*find_path(char *cmd, char **envp);
+void	execute(char *argv, char **envp);
+void	error(void);
+int		open_file(char *argv, int i);
+int		main_pipe(int argc, char *argv[], char **env);
 
 #endif

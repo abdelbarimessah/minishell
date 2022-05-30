@@ -11,6 +11,11 @@ SRC = 	minishell.c                   	\
 		utils/linked_list/ft_lists2.c	\
 		syntax/check_syntax.c			\
 		parsing/token.c 			  	\
+		pip/ft_utils.c \
+		pip/ft_utils2.c \
+		pip/gnl.c \
+		pip/main_bonus.c \
+
 
 OBJ = ${SRC:.c=.o}
 
