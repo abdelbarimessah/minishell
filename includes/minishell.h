@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 16:17:21 by amessah          ###   ########.fr       */
+/*   Updated: 2022/05/30 17:41:28 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	*find_path(char *cmd, char **envp);
 void	execute(char *argv, char **envp);
 void	error(void);
 int		open_file(char *argv, int i);
-int	main_pipe(int num_com, char **str, char **env, t_list *node);
+int		main_pipe(int num_com, char **str, char **env, t_list *node);
 
 ////------ builtins /////
 void	ft_putstr_fd(char *s, int fd);

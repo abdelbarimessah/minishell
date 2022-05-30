@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 16:43:06 by amessah          ###   ########.fr       */
+/*   Updated: 2022/05/30 17:50:26 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int main(int ac, char **av, char **env)
         }
         else
         {
+            //test_builtins(input_str, env);
             tokenizer(input_str, env);
-           //test_builtins(input_str, env);
            
         }
         if(input_str[0] != '\0')

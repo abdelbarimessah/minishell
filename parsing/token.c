@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 16:59:13 by amessah          ###   ########.fr       */
+/*   Updated: 2022/05/30 17:50:33 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,16 +222,39 @@ void ft_join_pipe(t_list *node, char **env)
 		head = head->next;
 	}
 	str_split = ft_split(str, '|');
-	// int i = 0;
-	// while(str_split[i])
-	// {
-	//     printf("%s\n", str_split[i]);
-	//     i++;
-	// }
 	num_com = num_commande(str_split);
 	free(str);
 	/// --> work with the pipe
 	main_pipe(num_com, str_split, env, head);
+}
+
+void ft_execute_comnd(t_list *node, char **env)
+{
+	t_list *head;
+	char *str;
+	int pid;
+	
+	head = node;
+	str = ft_strdup("");
+	head = head->next;
+	while(head->token != END_TOK)
+	{
+		if(head->token == SPACE)
+			str = ft_strjoin(str, " ");
+		else if(head->content)
+			str = ft_strjoin(str, head->content);
+		head = head->next;
+	}
+	if(!str)
+	{
+		puts("");
+		return ;
+	}	
+	pid = fork();
+	if(pid == 0)
+		execute(str, env);
+	waitpid(pid, NULL, 0);
+	free(str);
 }
 
 void tokenizer(char *str, char  **env)
@@ -257,6 +280,6 @@ void tokenizer(char *str, char  **env)
 			ft_join_pipe(head, env);
 		waitpid(pid, NULL, 0);
 	}
-	
-	//printf_list(head);
+	else
+		ft_execute_comnd(head, env);
 }
