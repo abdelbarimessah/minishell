@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/27 19:04:53 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/28 17:53:14 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
     j = i;
     if(str[j] == '"' && str[j + 1] == '"')
         return (0);
-    while(++j)
+    while(str[++j])
     {
         if(str[j] == '"')
             break ;
@@ -82,7 +82,7 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
             ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, j - i), WORD));
         return (j - i + 1);
     }
-    return(printf("double quotes not closed"), -1);
+    return(printf("double quotes not closed !\n"), -1);
 }
 
 int ft_checker2(t_list **node, char *str, int i)
@@ -206,5 +206,5 @@ void tokenizer(char *str, char  **env)
     head = token;
     if(!ft_create_tokens(&token, str, env))
         return ;
-    printf_list(head);
+    //printf_list(head);
 }

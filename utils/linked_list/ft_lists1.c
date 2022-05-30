@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:57:51 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/27 17:22:19 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/28 17:35:13 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,19 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	}
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst)
 {
-	t_list	*s;
-	t_list	*tmp;
+	t_list	*head;
 
-	if (!*lst || !del)
+	if (!lst)
 		return ;
-	s = *lst;
-	while (s)
+	while (*lst)
 	{
-		tmp = s->next;
-		del(s->content);
-		free(s);
-		s = tmp;
+		head = *lst;
+		*lst = (*lst)->next;
+		if(head->content)
+			free(head->content);
+		free(head);
 	}
 	*lst = NULL;
 }

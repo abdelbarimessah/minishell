@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 12:01:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 17:07:59 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 11:32:03 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int check_special_caracs(char *str)
 {
-    char special[] = ";&\\";
+    char special[] = ";#~&\\";
     int i;
     int j;
     

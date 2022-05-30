@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 15:49:06 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/28 17:35:25 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+# define START_TOK 999
+# define END_TOK 999
+
 typedef enum e_token_type
 {
-	START_TOK,
 	PIP,
 	DOUBLE_QUOTE,
 	SINGLE_QUOTE,
@@ -45,7 +47,6 @@ typedef enum e_token_type
 	DOLLAR,
 	INPUTE_REDI,
 	OUTPUTE_REDI,
-	END_TOK,
 } t_token_type;
 
 typedef struct s_list
@@ -63,7 +64,7 @@ int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void*));
-void	ft_lstclear(t_list **lst, void (*del)(void*));
+void	ft_lstclear(t_list **lst);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 // ------- functions utils /////
