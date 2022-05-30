@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 14:32:19 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 15:09:44 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ typedef struct s_list
 	char			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_env
+{
+    char *value;
+    struct s_env *next; 
+} t_env;
+
 
 
 // ----- LISTS /////
@@ -114,5 +121,20 @@ void	execute(char *argv, char **envp);
 void	error(void);
 int		open_file(char *argv, int i);
 int		main_pipe(int argc, char *argv[], char **env);
+
+////------ builtins /////
+void	ft_putstr_fd(char *s, int fd);
+int 	ft_check_n(char *str,char *substr);
+int		ft_echo(char **args);
+int		ft_isalnum(char *str);
+int 	ft_exit(char **str);
+int		ft_atoi(const char *str);
+void	ft_pwd();
+t_env	*init_env(void *data);
+t_env	*add_to_list(t_env *list,void *data);
+t_env	*list_env(char **env);
+void	test_builtins(char *str,char **env);
+void	ft_env(char **env);
+
 
 #endif

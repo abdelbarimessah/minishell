@@ -11,10 +11,16 @@ SRC = 	minishell.c                   	\
 		utils/linked_list/ft_lists2.c	\
 		syntax/check_syntax.c			\
 		parsing/token.c 			  	\
-		pip/ft_utils.c \
-		pip/ft_utils2.c \
-		pip/gnl.c \
-		pip/main_bonus.c \
+		pip/ft_utils.c				    \
+		pip/ft_utils2.c 				\
+		pip/gnl.c 						\
+		pip/main_bonus.c 				\
+		builtins/test_builtins.c 		\
+		builtins/builtins_utils.c 		\
+		builtins/ft_echo.c		 		\
+		builtins/ft_pwd.c		 		\
+		builtins/ft_env.c		 		\
+		builtins/ft_exit.c		 		\
 
 
 OBJ = ${SRC:.c=.o}
