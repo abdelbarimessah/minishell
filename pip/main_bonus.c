@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/30 14:53:30 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 16:52:13 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ char	*find_path(char *cmd, char **envp)
 	{
 		part_path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part_path, cmd);
-		free(part_path);
+		// free(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
-		free(path);
+		// free(path);
 		i++;
 	}
 	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+	// while (paths[++i])
+	// 	free(paths[i]);
+	// free(paths);
 	return (0);
 }
 
@@ -76,23 +76,24 @@ void	execute(char *argv, char **envp)
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+		// while (cmd[++i])
+		// 	free(cmd[i]);
+		// free(cmd);
 		error();
 	}
 	if (execve(path, cmd, envp) == -1)
 		error();
 }
 
-int	main_pipe(int argc, char *argv[], char **env)
+int	main_pipe(int num_com, char **str, char **env, t_list *node)
 {
 	int i;
 	
-	i = 2;
-	while (i < argc - 2)
-		child_process(argv[i++], env);
+	(void)node;
+	i = -1;
+	while (i < num_com - 1)
+		child_process(str[i++], env);
 		// dup2(f1, STDOUT_FILENO);
-	execute(argv[argc - 2], env);
+	execute(str[num_com - 1], env);
 	return (0);
 }

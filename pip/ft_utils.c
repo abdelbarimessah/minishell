@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 21:05:34 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/30 14:25:07 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 16:57:11 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	error(void)
 {
-	perror("\033[31mError");
+	printf("command not found !\n");
 	exit(1);
 }
