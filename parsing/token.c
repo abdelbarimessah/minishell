@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 17:53:14 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 14:18:45 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,30 @@ void	printf_list(t_list *lst)
 	puts("");
 }
 
+void ft_join_pipe(t_list *node, char **env)
+{
+    t_list *head;
+    char *str;
+    char **str_split;
+
+    (void)env;
+    str = ft_strdup("");
+    head = node->next;
+    while(head->token != END_TOK)
+    {
+        if(head->token == PIP)
+            str = ft_strjoin(str, "|");
+        else if(head->token == SPACE)
+            str = ft_strjoin(str, " ");
+        else
+            str = ft_strjoin(str, head->content);
+        head = head->next;
+    }
+    str_split = ft_split(str, '|');
+    free(str);
+    /// --> work with the pipe
+}
+
 void tokenizer(char *str, char  **env)
 {
     int i;
@@ -206,5 +230,7 @@ void tokenizer(char *str, char  **env)
     head = token;
     if(!ft_create_tokens(&token, str, env))
         return ;
+    if(check_pipe(head))
+       ft_join_pipe(head, env);
     //printf_list(head);
 }

@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 12:01:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 11:32:03 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 13:40:07 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int check_double_special_carac(char *str)
 int check_syntax(char *str)
 {
     if(!check_special_caracs(str))
-        ft_error("syntax error !\n", 0);
+        return (0);
     if(!check_double_special_carac(str))
-        ft_error("syntax error !\n", 0);
+        return (0);
     return (1);
 }

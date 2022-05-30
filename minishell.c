@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 17:39:06 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/30 13:40:22 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int main(int ac, char **av, char **env)
         
         if(!check_syntax(input_str))
         {
-            ft_error("syntax error ! n", 0);
+            ft_error("syntax error ! \n", 0);
             free(input_str);
         }
         else
-            tokenizer(input_str, env); 
+            tokenizer(input_str, env);
         if(input_str[0] != '\0')
             add_history(input_str);
         free(input_str);
