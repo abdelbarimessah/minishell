@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/30 17:49:22 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/31 02:05:58 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@ void test_builtins(char *str,char **env)
         ft_exit(str1);
     else if (!ft_strcmp(str1[0], "env"))
         ft_env(env);
+    else if(!ft_strcmp(str1[0], "export"))
+        ft_export(env);
 }

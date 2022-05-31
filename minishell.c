@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 17:50:26 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/31 00:13:13 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 int main(int ac, char **av, char **env)
 {
     char *input_str;
+    t_env *list;
+    char **new_env;
+    
 
     (void)av;
     if(ac != 1)
         return (printf("program doesnt accepts args !"), 0);
     input_str = NULL;
+    list = list_env(env);
+    new_env = new_env_function(list);
     while(1)
     {
         input_str = readline("minishell -> ");
@@ -34,8 +39,7 @@ int main(int ac, char **av, char **env)
         else
         {
             //test_builtins(input_str, env);
-            tokenizer(input_str, env);
-           
+            tokenizer(input_str, new_env);
         }
         if(input_str[0] != '\0')
             add_history(input_str);

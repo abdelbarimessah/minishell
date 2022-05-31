@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 17:50:33 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/31 02:06:12 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ void ft_join_pipe(t_list *node, char **env)
 	str_split = ft_split(str, '|');
 	num_com = num_commande(str_split);
 	free(str);
-	/// --> work with the pipe
 	main_pipe(num_com, str_split, env, head);
 }
 
@@ -233,6 +232,7 @@ void ft_execute_comnd(t_list *node, char **env)
 	t_list *head;
 	char *str;
 	int pid;
+	char **buil;
 	
 	head = node;
 	str = ft_strdup("");
@@ -250,10 +250,17 @@ void ft_execute_comnd(t_list *node, char **env)
 		puts("");
 		return ;
 	}	
-	pid = fork();
-	if(pid == 0)
-		execute(str, env);
-	waitpid(pid, NULL, 0);
+	buil = ft_split(str,' ');
+	if(!ft_strcmp(buil[0], "echo") || !ft_strcmp(buil[0], "cd") || !ft_strcmp(buil[0], "pwd")
+		|| !ft_strcmp(buil[0], "env") || !ft_strcmp(buil[0], "export") || !ft_strcmp(buil[0], "exit") || !ft_strcmp(buil[0], "unset"))
+		test_builtins(str, env);
+	else
+	{	
+		pid = fork();
+		if(pid == 0)
+			execute(str, env);
+		waitpid(pid, NULL, 0);
+	}
 	free(str);
 }
 

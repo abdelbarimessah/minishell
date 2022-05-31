@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/30 17:41:28 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/05/31 02:06:56 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ t_env	*add_to_list(t_env *list,void *data);
 t_env	*list_env(char **env);
 void	test_builtins(char *str,char **env);
 void	ft_env(char **env);
+char	**new_env_function(t_env *list);
+void	ft_export(char **env);
 
 
 #endif

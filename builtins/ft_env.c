@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/30 14:14:18 by amessah          ###   ########.fr       */
+/*   Updated: 2022/05/31 01:43:10 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_env	*list_env(char **env)
 	while(env[i])
 	{
 		list = add_to_list(list,env[i]);
-		list = add_to_list(list,"\n");
+		// list = add_to_list(list,"\n");
 		i++;
 	}
-		list = add_to_list(list,"\n");
+	// list = add_to_list(list,"\n");
 	return (head);
 }
 
@@ -65,8 +65,8 @@ void	ft_env(char **env)
 	list = list_env(env);
 	while(list->next)
 	{
-		ft_putstr_fd(list->value,2);
-		// ft_putstr_fd("\n",2);
+		ft_putstr_fd(list->value,1);
+		ft_putstr_fd("\n",1);
 		list = list->next;
 	}
 }
