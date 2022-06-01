@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/01 13:28:09 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/01 13:54:21 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,14 +315,12 @@ void ft_execute_comnd(t_list *node, char **env)
 	int fd;
 	char *file_n;
 	int i;
-	int ka;
 	char **cmd;
 	
 	head = node;
-	ka = 1;
 	str = ft_strdup("");
 	head = head->next;
-	while(head->token != END_TOK)
+	while(head)
 	{
 		if(head->token == SPACE)
 			str = ft_strjoin(str, " ");
@@ -332,12 +330,10 @@ void ft_execute_comnd(t_list *node, char **env)
 			head = head->next;
 			if(head->token == SPACE)
 				head = head->next;
-			while(head->token == WORD)
+			while(head->token == WORD && head->token != END_TOK)
 			{
 				file_n = ft_strjoin(file_n, head->content);
 				head = head->next;
-				if(head->token == END_TOK)
-					ka = 0;
 			}
 			fd = open(file_n, O_RDONLY);
 			if(fd == -1)
@@ -350,8 +346,7 @@ void ft_execute_comnd(t_list *node, char **env)
 		}
 		else if(head->token == WORD)
 			str = ft_strjoin(str, head->content);
-		if(ka == 1)
-			head = head->next;
+		head = head->next;
 	}
 	cmd = ft_split(str, ' ');
 	if(!str[0])
