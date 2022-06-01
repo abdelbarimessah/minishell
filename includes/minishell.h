@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/31 02:06:56 by amessah          ###   ########.fr       */
+/*   Updated: 2022/05/31 19:47:39 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int		ft_strlcpy(char *dest, char *src, int size);
 char	*ft_strchrr(char *str, int c);
 int		ft_skip_space(char *str, int i);
 int		ft_error(char *str, int retu);
+char	**ft_split_two(char *s, char c);
 
 //// ----- parsing ///
 void tokenizer(char *str, char  **env);
@@ -118,9 +119,15 @@ char	*ft_strdup(const char *s1);
 int		get_next_line(char **line);
 char	*find_path(char *cmd, char **envp);
 void	execute(char *argv, char **envp);
+void	execute_tb(char *argv, char **envp, t_list *node, int i, int fd);
 void	error(void);
 int		open_file(char *argv, int i);
 int		main_pipe(int num_com, char **str, char **env, t_list *node);
+char	*get_path(char **envp);
+char	*get_cmd(char *path, char **av, int i);
+void	ft_freee(char **tabo, char *cmd);
+char	*ft_path(char **env, char *cd);
+void	ft_is_erreur(char **mycmd, char **mypath);
 
 ////------ builtins /////
 void	ft_putstr_fd(char *s, int fd);
@@ -133,7 +140,7 @@ void	ft_pwd();
 t_env	*init_env(void *data);
 t_env	*add_to_list(t_env *list,void *data);
 t_env	*list_env(char **env);
-void	test_builtins(char *str,char **env);
+void 	test_builtins(t_list *node,char **env);
 void	ft_env(char **env);
 char	**new_env_function(t_env *list);
 void	ft_export(char **env);

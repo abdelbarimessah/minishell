@@ -7,6 +7,7 @@ SRC = 	minishell.c                   	\
 		utils/functions/functions2.c  	\
 		utils/functions/split.c       	\
 		utils/functions/get_env_info.c  \
+		utils/functions/split_two.c 	\
 		utils/linked_list/ft_lists1.c 	\
 		utils/linked_list/ft_lists2.c	\
 		syntax/check_syntax.c			\
@@ -21,7 +22,7 @@ SRC = 	minishell.c                   	\
 		builtins/ft_pwd.c		 		\
 		builtins/ft_env.c		 		\
 		builtins/ft_exit.c		 		\
-		builtins/ft_export.c		 		\
+		builtins/ft_export.c		 	\
 
 
 OBJ = ${SRC:.c=.o}

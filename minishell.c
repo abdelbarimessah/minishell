@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/31 00:13:13 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/01 12:55:45 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(int ac, char **av, char **env)
     new_env = new_env_function(list);
     while(1)
     {
-        input_str = readline("minishell -> ");
+        input_str = readline("minishell ---: ");
         if(!input_str || !ft_strcmp(input_str, "exit"))
             break;
         

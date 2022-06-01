@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/31 02:06:12 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/01 13:28:09 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int check_str(char *str, int i)
 	}
 }
 
-int check_pipe(t_list *token)
+int check_tok(t_list *token, int tok)
 {
 	t_list *head;
 	head = token;
 
 	while(head)
 	{
-		if(head->token == PIP)
+		if(head->token == tok)
 			return (1);
 		head = head->next;
 	}
@@ -176,7 +176,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 		if(!j)
 			i++;
 	}
-	ft_lstadd_back(node, ft_lstnew(ft_strdup("<-"), END_TOK));
+	ft_lstadd_back(node, ft_lstnew(ft_strdup("---"), END_TOK));
 	
 	return (1);
 }
@@ -227,41 +227,144 @@ void ft_join_pipe(t_list *node, char **env)
 	main_pipe(num_com, str_split, env, head);
 }
 
+int ft_execute_builtins(t_list *node, char **env)
+{
+	t_list *head;
+	char *str;
+	char **cmd;
+	int c;
+
+	(void)env;
+	str = ft_strdup("");
+	head = node->next;
+	c = 0;
+	while(head->token != END_TOK)
+	{
+		if(head->token == SPACE)
+			str = ft_strjoin(str, " ");
+		else if(head->token == OUTPUTE_REDI)
+			return (0);
+		else if(head->token == INPUTE_REDI)
+			return (0);
+		else if(head->content)
+			str = ft_strjoin(str, head->content);
+		head = head->next;
+	}
+	if(!str[0])
+		return (0);
+	cmd = ft_split(str, ' ');
+	free(str);
+	if(!strcmp(cmd[0], "echo"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
+	if(!strcmp(cmd[0], "cd"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
+	if(!strcmp(cmd[0], "export"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
+	if(!strcmp(cmd[0], "unset"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
+	if(!strcmp(cmd[0], "pwd"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
+	if(!strcmp(cmd[0], "env"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
+	ft_free(cmd);
+	return (0);
+}
+
+void execute_tb(char *cmds, char **env, t_list *node, int fd, int i)
+{
+	char *path;
+	char **cmd;
+
+	(void)node;
+	cmd = ft_split(cmds, ' ');
+	dup2(fd, i);
+	close(fd);
+	path = ft_path(env, cmds);
+	if(access(cmd[0], X_OK) == 0)
+		path = cmd[0];
+	if(execve(path, cmd, env) == -1)
+	{
+		perror("Error");
+		exit (1);
+	}
+}
+
 void ft_execute_comnd(t_list *node, char **env)
 {
 	t_list *head;
 	char *str;
 	int pid;
-	char **buil;
+	int fd;
+	char *file_n;
+	int i;
+	int ka;
+	char **cmd;
 	
 	head = node;
+	ka = 1;
 	str = ft_strdup("");
 	head = head->next;
 	while(head->token != END_TOK)
 	{
 		if(head->token == SPACE)
 			str = ft_strjoin(str, " ");
-		else if(head->content)
+		else if(head->token == INPUTE_REDI)
+		{			
+			file_n = ft_strdup("");
+			head = head->next;
+			if(head->token == SPACE)
+				head = head->next;
+			while(head->token == WORD)
+			{
+				file_n = ft_strjoin(file_n, head->content);
+				head = head->next;
+				if(head->token == END_TOK)
+					ka = 0;
+			}
+			fd = open(file_n, O_RDONLY);
+			if(fd == -1)
+			{
+				printf(" ---> %s <----- No such file or directory\n", file_n);
+				return ;
+			}
+			free(file_n);
+			i = 0;
+		}
+		else if(head->token == WORD)
 			str = ft_strjoin(str, head->content);
-		head = head->next;
+		if(ka == 1)
+			head = head->next;
 	}
-	if(!str)
-	{
-		puts("");
+	cmd = ft_split(str, ' ');
+	if(!str[0])
 		return ;
-	}	
-	buil = ft_split(str,' ');
-	if(!ft_strcmp(buil[0], "echo") || !ft_strcmp(buil[0], "cd") || !ft_strcmp(buil[0], "pwd")
-		|| !ft_strcmp(buil[0], "env") || !ft_strcmp(buil[0], "export") || !ft_strcmp(buil[0], "exit") || !ft_strcmp(buil[0], "unset"))
-		test_builtins(str, env);
 	else
 	{	
 		pid = fork();
 		if(pid == 0)
-			execute(str, env);
+			execute_tb(str, env, head, fd, i);
 		waitpid(pid, NULL, 0);
 	}
 	free(str);
+	ft_free(cmd);
 }
 
 void tokenizer(char *str, char  **env)
@@ -276,17 +379,20 @@ void tokenizer(char *str, char  **env)
 	j = 1;
 	if(str[0] == '\0')
 		return;
-	token = ft_lstnew(ft_strdup("->"), START_TOK);
+	token = ft_lstnew(ft_strdup("---"), START_TOK);
 	head = token;
 	if(!ft_create_tokens(&token, str, env))
 		return ;
-	if(check_pipe(head))
+	if(check_tok(head, PIP))
 	{
 		pid = fork();
 		if(pid == 0)
 			ft_join_pipe(head, env);
 		waitpid(pid, NULL, 0);
 	}
-	else
+	else if(ft_execute_builtins(head, env) == 1)
+		test_builtins(head, env);
+	else if(!ft_execute_builtins(head, env))
 		ft_execute_comnd(head, env);
+	ft_lstclear(&token);
 }
