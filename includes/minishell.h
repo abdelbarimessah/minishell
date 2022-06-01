@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/31 19:47:39 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/01 14:23:25 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*ft_strdup(const char *s1);
 int		get_next_line(char **line);
 char	*find_path(char *cmd, char **envp);
 void	execute(char *argv, char **envp);
-void	execute_tb(char *argv, char **envp, t_list *node, int i, int fd);
+void 	execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2]);
 void	error(void);
 int		open_file(char *argv, int i);
 int		main_pipe(int num_com, char **str, char **env, t_list *node);

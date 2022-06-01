@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/01 13:54:21 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/01 14:55:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,16 +201,22 @@ int num_commande(char **str)
 	return (i);
 }
 
+
+
 void ft_join_pipe(t_list *node, char **env)
 {
 	t_list *head;
+	// t_list *right_side;
 	char *str;
 	char **str_split;
 	int num_com;
-
+	// int i;
+	
+	// i = 0;
 	(void)env;
 	str = ft_strdup("");
 	head = node->next;
+	printf_list(head);
 	while(head->token != END_TOK)
 	{
 		if(head->token == PIP)
@@ -222,6 +228,14 @@ void ft_join_pipe(t_list *node, char **env)
 		head = head->next;
 	}
 	str_split = ft_split(str, '|');
+	// while(str_split[0][i])
+	// {
+	// 	if(str[0][i] == '<' || str[0][i] == '>')
+	// 	{
+	// 		right_side = 
+	// 	}
+	// 	i++;
+	// }
 	num_com = num_commande(str_split);
 	free(str);
 	main_pipe(num_com, str_split, env, head);
@@ -288,15 +302,30 @@ int ft_execute_builtins(t_list *node, char **env)
 	return (0);
 }
 
-void execute_tb(char *cmds, char **env, t_list *node, int fd, int i)
+void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2])
 {
 	char *path;
 	char **cmd;
 
 	(void)node;
 	cmd = ft_split(cmds, ' ');
-	dup2(fd, i);
-	close(fd);
+	if(i[0] == 0 && i[1] == 1)
+	{
+		dup2(fd[0], i[0]);
+		close(fd[0]);
+		dup2(fd[1], i[1]);
+		close(fd[1]);
+	}
+	else if(i[0] == 0)
+	{
+		dup2(fd[0], i[0]);
+		close(fd[0]);
+	}
+	else if(i[1] == 1)
+	{
+		dup2(fd[1], i[1]);
+		close(fd[1]);
+	}
 	path = ft_path(env, cmds);
 	if(access(cmd[0], X_OK) == 0)
 		path = cmd[0];
@@ -312,9 +341,9 @@ void ft_execute_comnd(t_list *node, char **env)
 	t_list *head;
 	char *str;
 	int pid;
-	int fd;
+	int fd[2];
 	char *file_n;
-	int i;
+	int i[2];
 	char **cmd;
 	
 	head = node;
@@ -335,14 +364,36 @@ void ft_execute_comnd(t_list *node, char **env)
 				file_n = ft_strjoin(file_n, head->content);
 				head = head->next;
 			}
-			fd = open(file_n, O_RDONLY);
-			if(fd == -1)
+			fd[0] = open(file_n, O_RDONLY);
+			if(fd[0] == -1)
 			{
 				printf(" ---> %s <----- No such file or directory\n", file_n);
 				return ;
 			}
 			free(file_n);
-			i = 0;
+			i[0] = 0;
+			// i[1] = -1;
+		}
+		else if(head->token == OUTPUTE_REDI)
+		{
+			file_n = ft_strdup("");
+			head = head->next;
+			if(head->token == SPACE)
+				head = head->next;
+			while(head->token == WORD && head->token != END_TOK)
+			{
+				file_n = ft_strjoin(file_n, head->content);
+				head = head->next;
+			}
+			fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
+			if(fd[1] == -1)
+			{
+				printf(" ---> %s <----- Error in file creation\n", file_n);
+				return ;
+			}
+			free(file_n);
+			// i[0] = -1;
+			i[1] = 1;
 		}
 		else if(head->token == WORD)
 			str = ft_strjoin(str, head->content);
