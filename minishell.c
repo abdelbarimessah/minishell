@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/01 12:55:45 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:16:58 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int ac, char **av, char **env)
 {
     char *input_str;
-    t_env *list;
+    // t_env *list;
     char **new_env;
     
 
@@ -23,8 +23,8 @@ int main(int ac, char **av, char **env)
     if(ac != 1)
         return (printf("program doesnt accepts args !"), 0);
     input_str = NULL;
-    list = list_env(env);
-    new_env = new_env_function(list);
+    g_glob = list_env(env);
+    new_env = new_env_function(g_glob);
     while(1)
     {
         input_str = readline("minishell ---: ");

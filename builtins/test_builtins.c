@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/04 18:59:50 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/05 13:51:38 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void test_builtins(t_list *node,char **env)
     else if(ft_strcmp(cmd[0], "export") == 0)
         ft_export(env);
     else if(ft_strcmp(cmd[0], "cd") == 0)
-        printf("cd in progress"); // ---- > replace by cd function.
+        ft_cd(cmd,env);
     free(str);
     ft_free(cmd);
 }

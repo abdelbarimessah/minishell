@@ -23,6 +23,7 @@ SRC = 	minishell.c                   	\
 		builtins/ft_env.c		 		\
 		builtins/ft_exit.c		 		\
 		builtins/ft_export.c		 	\
+		builtins/ft_cd.c		 		\
 
 
 OBJ = ${SRC:.c=.o}

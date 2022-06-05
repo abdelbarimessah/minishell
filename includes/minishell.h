@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/05 13:25:59 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/05 16:38:37 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct s_env
     char *value;
     struct s_env *next; 
 } t_env;
+
+t_env *g_glob;
 
 typedef struct s_vars
 {
@@ -159,14 +161,16 @@ void	ft_pwd();
 t_env	*init_env(void *data);
 t_env	*add_to_list(t_env *list,void *data);
 t_env	*list_env(char **env);
-void 	test_builtins(t_list *node,char **env);
+void    test_builtins(t_list *node,char **env);
 void	ft_env(char **env);
 char	**new_env_function(t_env *list);
 void	ft_export(char **env);
+void    ft_cd(char **args);
+char    *check_home_path(char **str);
+char    *check_oldpwd_path(char **str);
 
 /////// i dont know
 int ft_execute_builtins(t_list *node, char **env);
-void test_builtins(t_list *node,char **env);
 char	*ft_path(char **env, char *cd);
 
 

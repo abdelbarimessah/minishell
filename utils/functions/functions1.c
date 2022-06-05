@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:55:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/28 12:58:03 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/05 13:54:48 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s == NULL)
 		return (NULL);
 	s = movee(s1, s2, s);
-	free(s1);
+	// free(s1);
 	return (s);
 }
 
