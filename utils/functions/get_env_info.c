@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/05/31 19:43:58 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:16:48 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,18 +139,21 @@ char	*ft_path(char **env, char *cd)
 
 	str = get_from_env(env, "PATH");
 	p = ft_split_two(str, ':');
-    cmd = ft_split(cd, ' ');
-	if(access(cmd[0], X_OK) == 0)
+	cmd = ft_split(cd, '\v');
+	if (access(cmd[0], X_OK) == 0)
 	{
 		ft_free(cmd);
 		ft_free(p);
-        return (cmd[0]);
+		return (cmd[0]);
 	}
-	if (!cmd[0])
+	if (!cmd)
 	{
+		ft_putstr_fd("minishell : command not found: ", 2);
+		if (cmd[0])
+			ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd("\n", 2);
 		ft_free(cmd);
-		ft_free(p);
-		exit(0);
+		exit(127);
 	}
 	i = -1;
 	while (p[++i])
@@ -163,11 +166,12 @@ char	*ft_path(char **env, char *cd)
 		}
 		free(str2);
 	}
-	printf("minishell : command not found: ");
-	printf("%s", cmd[0]);
-	printf("\n");
+	ft_putstr_fd("minishell : command not found: ", 2);
+	if (cmd[0])
+		ft_putstr_fd(cmd[0], 2);
+	ft_putstr_fd("\n", 2);
 	ft_free(cmd);
-	exit(1);
+	exit(127);
 }
 
 void	ft_is_erreur(char **mycmd, char **mypath)

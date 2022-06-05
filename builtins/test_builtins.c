@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/31 18:40:25 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/04 18:59:50 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void test_builtins(t_list *node,char **env)
     while(head->token != END_TOK)
     {
         if(head->token == SPACE)
-            str = ft_strjoin(str, " ");
+            str = ft_strjoin(str, "\v");
         else if (head->content)
             str = ft_strjoin(str, head->content);
         head = head->next;
     }
-    cmd = ft_split(str, ' ');
+    cmd = ft_split(str, '\v');
     if(ft_strcmp(cmd[0], "echo") == 0)
         ft_echo(cmd);
     else if(ft_strcmp(cmd[0], "pwd") == 0)

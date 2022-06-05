@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/01 14:23:25 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/05 13:25:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef enum e_token_type
 	DOLLAR,
 	INPUTE_REDI,
 	OUTPUTE_REDI,
+    INTPUTE_HEREDOC,
+    OUTPUTE_HEREDOC,
 } t_token_type;
 
 typedef struct s_list
@@ -65,6 +67,20 @@ typedef struct s_env
     struct s_env *next; 
 } t_env;
 
+typedef struct s_vars
+{
+    int        c;
+    int        c2;
+    int        fd[2];
+    int        x[2];
+    char    *file_n;
+    char    *value;
+    int        st_in;
+    t_list    *node;
+    int        *id;
+    // -- > add vars for cmds;
+    
+}    t_vars;
 
 
 // ----- LISTS /////
@@ -93,15 +109,18 @@ char	*ft_strchrr(char *str, int c);
 int		ft_skip_space(char *str, int i);
 int		ft_error(char *str, int retu);
 char	**ft_split_two(char *s, char c);
+void	printf_list(t_list *lst);
 
 //// ----- parsing ///
 void tokenizer(char *str, char  **env);
+int check_tok(t_list *token, int tok);
 
 
 ////// ------ syntax ////
 int check_syntax(char *str);
 int inside_limiters(char *str, char limiter, char c);
 int limiter_stat(char *str, char limiter);
+int check_tok(t_list *token, int tok);
 
 ////// --------- pipe ////
 char	*search_for_path(char **env);
@@ -111,18 +130,18 @@ int		process_1(char **argv, char **env, char *path, int fd[]);
 char	*join(char *str1, char *str2, char *str3);
 char	*unix_cmd(char	*line, char **argv);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	child_process(char *argv, char **env);
+void	child_process(char *argv, char **env, t_list *node);
 int		get_next_line_pipex(char **line);
 void	here_doc(char *limiter, int argc);
 char	*ft_strnstr(const char	*big, const char *little, size_t len);
 char	*ft_strdup(const char *s1);
 int		get_next_line(char **line);
-char	*find_path(char *cmd, char **envp);
+//char	*find_path(char *cmd, char **envp);
 void	execute(char *argv, char **envp);
 void 	execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2]);
 void	error(void);
 int		open_file(char *argv, int i);
-int		main_pipe(int num_com, char **str, char **env, t_list *node);
+void	main_pipe(int num_com, char **str, char **env, t_list *node);
 char	*get_path(char **envp);
 char	*get_cmd(char *path, char **av, int i);
 void	ft_freee(char **tabo, char *cmd);
@@ -144,6 +163,11 @@ void 	test_builtins(t_list *node,char **env);
 void	ft_env(char **env);
 char	**new_env_function(t_env *list);
 void	ft_export(char **env);
+
+/////// i dont know
+int ft_execute_builtins(t_list *node, char **env);
+void test_builtins(t_list *node,char **env);
+char	*ft_path(char **env, char *cd);
 
 
 #endif
