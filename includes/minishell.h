@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/07 02:48:32 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 03:17:57 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,6 @@ char    *check_home_path(char **str);
 char    *check_oldpwd_path(char **str);
 t_env   *search_and_replce_OLDPWD(t_env *list, void *data);
 t_env   *search_and_replce_PWD(t_env *list, void *data);
-int     check_oldpwd(char **str);
 
 /////// i dont know
 int ft_execute_builtins(t_list *node, char **env);

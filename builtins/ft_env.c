@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 02:45:33 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 03:18:28 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,6 @@ t_env *search_and_replce_PWD(t_env *list, void *data)
 		list = list->next;
 	}
 	return (list);
-}
-
-int check_oldpwd(char **str)
-{
-	int i = 0;
-	int cont;
-	char **tmp;
-
-	cont = 0;
-	while(str[i])
-	{
-		tmp = ft_split(str[i], '=');
-		if(!ft_strcmp(tmp[0], "OLDPWD"))
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 t_env	*list_env(char **env)
