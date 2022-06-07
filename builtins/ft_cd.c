@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 13:32:40 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/05 16:57:25 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 03:03:32 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ char    *check_oldpwd_path(char **str)
     return (NULL);
 }
 
-void    old_pwd(void)
+void    old_pwd(t_env *list)
 {
     char path[1024];
     char *old;
 
     getcwd(path, 1024);
     old = ft_strjoin("OLDPWD=", path);
-    g_glob = add_to_list(g_glob, old);
+    list = search_and_replce_OLDPWD(g_glob, old);
 }
 
-void cd_pwd(void)
+void cd_pwd(t_env *list)
 {
     char	path[1024];
     char *pwd;
@@ -68,7 +68,7 @@ void cd_pwd(void)
 		return ;
 	}
     pwd = ft_strjoin("PWD=", path);
-    g_glob = add_to_list(g_glob, pwd);
+    list = search_and_replce_PWD(g_glob, pwd);
 }
 
 void ft_cd(char **args)
@@ -78,7 +78,7 @@ void ft_cd(char **args)
     t_env *list;
 
     list = g_glob;
-    old_pwd();
+    old_pwd(list);
     if(!args[1] || !ft_strcmp(args[1], "--") || !ft_strcmp(args[1], "~"))
     {
         cm = new_env_function(list);
@@ -92,12 +92,12 @@ void ft_cd(char **args)
     }
     else if(!ft_strcmp(args[1],"-"))
     {
-        cm = new_env_function(list);
-        str = check_oldpwd_path(cm);
-        if(!str)
+        if(g_glob->index == 0)
+        {
             ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-        else
-            args[1] = str;
+        }
+        chdir("-");
+        return ;
     }
     if(chdir(args[1]) == -1)
     {
@@ -105,5 +105,5 @@ void ft_cd(char **args)
         ft_putstr_fd(args[1],1);
         ft_putstr_fd(": No such file or directory\n",1);
     }
-    cd_pwd();
+    cd_pwd(list);
 }

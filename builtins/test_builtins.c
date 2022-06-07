@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/05 13:51:38 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 02:19:26 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void test_builtins(t_list *node,char **env)
     else if(ft_strcmp(cmd[0], "export") == 0)
         ft_export(env);
     else if(ft_strcmp(cmd[0], "cd") == 0)
-        ft_cd(cmd,env);
+        ft_cd(cmd);
     free(str);
     ft_free(cmd);
 }
