@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/05 13:50:13 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 20:43:35 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ int check_tok(t_list *token, int tok)
 		head = head->next;
 	}
 	return (0);
+}
+
+int check_tok_pip(t_list *token, int tok)
+{
+	t_list *head;
+
+	head = token;
+	while (head)
+	{
+		if(head->token == PIP)
+			break;
+		if(head->token == tok)
+			return(1);
+		head = head->next;
+	}
+	return(0);
 }
 
 int ft_checker1(t_list **node, char *str, int i, char **env)
@@ -150,8 +166,16 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 		}
 		else if(str[i] == '$')
 		{
-			if(!str[i + 1] || str[i + 1] == ' ')
+			if(!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '$')
+			{
 				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WORD));
+				i++;
+			}
+			else if (str[i + 1] == '?')
+			{
+				ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(g_glob->exit_status)), WORD));
+				i++;
+			}
 			else
 			{
 				j = i + 1;
@@ -162,16 +186,25 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 				i += (j - i);
 			}
 		}
-		else if(str[i] == '>')
+		else if(str[i] == '>' && str[i + 1] == '>')
+		{
+			i++;
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUTE_HEREDOC));
+		}
+		else if(str[i] == '>' && str[i + 1] != '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OUTPUTE_REDI));
 		else if(str[i] == '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), INPUTE_REDI));
 		else
 		{
-			i--;
-			while(check_str(str, ++i))
-				j++;
-			ft_lstadd_back(node, ft_lstnew(ft_substr(str,  i - j, j), WORD));
+			if(str[i] != ' ')
+			{
+				i--;
+				while(check_str(str, ++i))
+					j++;
+				ft_lstadd_back(node, ft_lstnew(ft_substr(str,  i - j, j), WORD));
+			}
+
 		}
 		if(!j)
 			i++;
@@ -208,13 +241,19 @@ void ft_join_pipe(t_list *node, char **env)
 	char **str_split;
 	int num_com;
 	
-	(void)env;
+	// (void)env;
 	str = ft_strdup("");
 	head = node->next;
 	while(head->token != END_TOK)
 	{
 		if(head->token == PIP)
 			str = ft_strjoin(str, "|");
+		else if(head->token == OUTPUTE_HEREDOC)
+		{
+			head = head->next;
+			while(head->token == SPACE && head->token != END_TOK)
+				head = head->next;
+		}
 		else if(head->token == OUTPUTE_REDI)
 		{
 			head = head->next;
@@ -258,6 +297,8 @@ int ft_execute_builtins(t_list *node, char **env)
 		else if(head->token == OUTPUTE_REDI)
 			return (0);
 		else if(head->token == INPUTE_REDI)
+			return (0);
+		else if(head->token == OUTPUTE_HEREDOC)
 			return (0);
 		else if(head->content)
 			str = ft_strjoin(str, head->content);
@@ -366,6 +407,26 @@ void ft_execute_comnd(t_list *node, char **env)
 			free(file_n);
 			i[0] = 0;
 		}
+		else if(head->token == OUTPUTE_HEREDOC)
+		{
+			file_n = ft_strdup("");
+			head = head->next;
+			if(head->token == SPACE)
+				head = head->next;
+			while(head->token == WORD && head->token != END_TOK)
+			{
+				file_n = ft_strjoin(file_n, head->content);
+				head = head->next;
+			}
+			fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+			if(fd[1] == -1)
+			{
+				printf(" ---> %s <----- Error in file creation\n", file_n);
+				return ;
+			}
+			free(file_n);
+			i[1] = 1;
+		}
 		else if(head->token == OUTPUTE_REDI)
 		{
 			file_n = ft_strdup("");
@@ -400,6 +461,8 @@ void ft_execute_comnd(t_list *node, char **env)
 			execute_tb(str, env, head, fd, i);
 		waitpid(pid, NULL, 0);
 	}
+	fd[0] = 0;
+	fd[1] = 0;
 	free(str);
 	ft_free(cmd);
 }

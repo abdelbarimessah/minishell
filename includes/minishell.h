@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/07 03:17:57 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 19:45:49 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_env
 {
     char *value;
     struct s_env *next;
+    int exit_status;
     int index;
 } t_env;
 
@@ -97,6 +98,7 @@ void	ft_lstclear(t_list **lst);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 // ------- functions utils /////
+char	*ft_itoa(int n);
 int		ft_strlen(char *s);
 char	*ft_strdup(const char *src);
 char	*ft_substr(char *s, int start, int len);
@@ -140,6 +142,7 @@ char	*ft_strnstr(const char	*big, const char *little, size_t len);
 char	*ft_strdup(const char *s1);
 int		get_next_line(char **line);
 //char	*find_path(char *cmd, char **envp);
+int check_tok_pip(t_list *token, int tok);
 void	execute(char *argv, char **envp);
 void 	execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2]);
 void	error(void);

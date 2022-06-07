@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/05 13:41:23 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 20:28:07 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_is_last(t_list *node, int c, int c2, int end)
 
 void ft_child_1(char *cmd, char **env, int *end_pipe, t_vars var)
 {	
-	if(check_tok(var.node, INPUTE_REDI) && ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
+	if(check_tok_pip(var.node, INPUTE_REDI) && ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
 	{
 		dup2(var.st_in, 0);
 		close(var.st_in);
@@ -125,7 +125,7 @@ void ft_child_1(char *cmd, char **env, int *end_pipe, t_vars var)
 		close(end_pipe[0]);
 		close(end_pipe[1]);
 	}
-	if(check_tok(var.node, OUTPUTE_REDI) || check_tok(var.node, OUTPUTE_HEREDOC))
+	if(check_tok_pip(var.node, OUTPUTE_REDI) || check_tok_pip(var.node, OUTPUTE_HEREDOC))
 	{
 		dup2(var.fd[1], var.x[1]);
 		close(var.fd[1]);
@@ -138,14 +138,14 @@ void ft_child_1(char *cmd, char **env, int *end_pipe, t_vars var)
 
 void ft_child_2(char *cmd, char **env, t_vars var)
 {
-	if(check_tok(var.node, INPUTE_REDI) && ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
+	if(check_tok_pip(var.node, INPUTE_REDI) && ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
 	{
 		dup2(var.st_in, 0);
 		close(var.st_in);
 		dup2(var.fd[0], var.x[0]);
 		close(var.fd[0]);
 	}
-	if (check_tok(var.node, OUTPUTE_REDI) || check_tok(var.node, OUTPUTE_HEREDOC))
+	if (check_tok_pip(var.node, OUTPUTE_REDI) || check_tok_pip(var.node, OUTPUTE_HEREDOC))
 	{
 		dup2(var.fd[1], var.x[1]);
 		close(var.fd[1]);
@@ -158,7 +158,7 @@ void ft_child_2(char *cmd, char **env, t_vars var)
 
 void ft_child_3(char *cmd, char **env, int *end_pipe, t_vars var)
 {
-	if(check_tok(var.node, INPUTE_REDI) && ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
+	if(check_tok_pip(var.node, INPUTE_REDI) && ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
 	{
 		dup2(var.st_in, 0);
 		close(var.st_in);
@@ -214,6 +214,26 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 					head = head->next;
 				}
 				var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
+				if (var.fd[1] == -1)
+				{
+					printf(" ---> %s <----- Error in file creation\n", var.file_n);
+					break ;
+				}
+				free(var.file_n);
+				var.x[1] = 1;
+			}
+			else if(head->token == OUTPUTE_HEREDOC)
+			{
+				var.file_n = ft_strdup("");
+				head = head->next;
+				if (head->token == SPACE)
+					head = head->next;
+				while (head->token == WORD && head->token != END_TOK)
+				{
+					var.file_n = ft_strjoin(var.file_n, head->content);
+					head = head->next;
+				}
+				var.fd[1] = open(var.file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
 				if (var.fd[1] == -1)
 				{
 					printf(" ---> %s <----- Error in file creation\n", var.file_n);
