@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 13:32:40 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 03:03:32 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 04:11:36 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,27 @@ void cd_pwd(t_env *list)
     list = search_and_replce_PWD(g_glob, pwd);
 }
 
+char *path_OLDPWD(t_env *list)
+{
+    char **str;
+    t_env *tmp;
+
+    tmp = list;
+    if(!tmp)
+        return (NULL);
+    while(tmp->next)
+    {
+        if(!ft_strncmp(tmp->value,"PWD",3))
+        {
+            str = ft_split(tmp->value, '=');
+            printf("%s\n",str[1]);
+            return (str[1]);
+        }
+        tmp = tmp->next;
+    }
+    return (NULL);
+}
+
 void ft_cd(char **args)
 {
     char *str;
@@ -96,7 +117,16 @@ void ft_cd(char **args)
         {
             ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
         }
-        chdir("-");
+        else
+        {
+            args[1] = path_OLDPWD(g_glob);
+            if(chdir(args[1]) == -1)
+            {
+                ft_putstr_fd("cd: ",1);
+                ft_putstr_fd(args[1],1);
+                ft_putstr_fd(": No such file or directory\n",1);
+            }
+        }
         return ;
     }
     if(chdir(args[1]) == -1)
@@ -106,4 +136,5 @@ void ft_cd(char **args)
         ft_putstr_fd(": No such file or directory\n",1);
     }
     cd_pwd(list);
+    g_glob->index++;
 }

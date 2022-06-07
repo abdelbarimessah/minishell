@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 03:18:28 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/07 03:49:27 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	ft_env(char **env)
 	list = list_env(env);
 	while(list->next)
 	{
+		if(!ft_strncmp(list->value, "OLDPWD",6) && g_glob->index == 0)
+			list = list->next;
 		ft_putstr_fd(list->value,1);
 		ft_putstr_fd("\n",1);
 		list = list->next;
