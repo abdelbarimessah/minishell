@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/07 20:43:35 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:37:17 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 			while(check_str(str, c))
 				c++;
 			s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
+			if(s)
+				ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
 			n = c;
 			while(c < j)
 				c++;
@@ -127,10 +128,14 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 	int i;
 	int j;
 	char *s;
-
+	t_env *tmp;
+	char **env1;
+	(void)env;
 	i = 0;
 	j = 1;
 	
+	tmp = g_glob;
+	env1 = new_env_function(tmp);
 	while(str[i] == ' ')
 		i++;
 	while(i < ft_strlen(str))
@@ -149,7 +154,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIP));
 		else if(str[i] == '"')
 		{
-			j = ft_checker1(node, str, i, env);
+			j = ft_checker1(node, str, i, env1);
 			if(j == -1)
 				return (0);
 			i += j + 1;
@@ -181,8 +186,9 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 				j = i + 1;
 				while(check_str(str, j))
 					j++;
-				s = get_from_env(env, ft_substr(str, i + 1, j - (i + 1)));
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WORD));
+				s = get_from_env(env1, ft_substr(str, i + 1, j - (i + 1)));
+				if(s)
+					ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
 				i += (j - i);
 			}
 		}

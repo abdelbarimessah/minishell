@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/08 03:56:13 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:45:57 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_env *sort_env(t_env *tmp)
 			list = list->next;
 		while(list != NULL && list->next != NULL)
 		{
-			// printf("%s****\n%s-----\n",list->export_value,list->next->export_value);
 			lr = ft_strcmp(list->export_value,list->next->export_value);
 			if(lr > 0 && list->export_value != NULL && list->next->export_value != NULL)
 			{
@@ -50,9 +49,28 @@ t_env *sort_env(t_env *tmp)
 		list = tmp;
 	}
 	tmp = tmp->next;
+	lr = 0;
 	while(tmp)
 	{
-		printf("declare -x %s\n",tmp->export_value);
+		ft_putstr_fd("declare -x ",1);
+		lr = 0;
+		while(tmp->export_value[lr])
+		{
+			if(tmp->export_value[lr] == '=')
+			{
+				ft_putstr_fd("=",1);
+				ft_putstr_fd("\"",1);
+				lr++;
+			}
+			write(1,&tmp->export_value[lr],1);
+			lr++;
+		}
+		if(check_for_equal(tmp->value) == 0)
+		{
+			ft_putstr_fd("\n",1);
+		}
+		else
+			ft_putstr_fd("\"\n",1);
 		tmp = tmp->next;
 	}
 	return (tmp);
@@ -78,6 +96,8 @@ void	check_args(char **str)
 		if(str[i][0] == '-' || ft_isalpha(str[i][0]))
 		{
 			add_to_list(list, str[i]);
+			// add_to_list(g_glob, str[i]);
+			
 		}
 		else
 		{

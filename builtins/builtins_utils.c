@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:30:27 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/31 00:13:17 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:19:58 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char **new_env_function(t_env *list)
 	env = malloc(10000);
 	if(!list)
 		return (NULL);
-	while(list->next)
+	while(list)
 	{
 		env[i] = list->value;
 		list = list->next;

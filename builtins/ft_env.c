@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/08 02:59:28 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 16:02:34 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_env *add_to_list(t_env *list,void *data)
 	list->next = noued;
 	return (list);
 }
-
 
 t_env *search_and_replce_OLDPWD(t_env *list, void *data)
 {
@@ -90,17 +89,40 @@ t_env	*list_env(char **env)
 	return (head);
 }
 
-void	ft_env(char **env)
+int check_for_equal(char *str)
 {
-	t_env *list;
-
-	list = list_env(env);
-	while(list)
+	int cont;
+	int i;
+	
+	cont = 0;
+	i = 0;
+	if(!str)
+		return(0);
+	while(str[i])
 	{
-		if(!ft_strncmp(list->value, "OLDPWD",6) && g_glob->index == 0)
-			list = list->next;
-		ft_putstr_fd(list->value,1);
-		ft_putstr_fd("\n",1);
-		list = list->next;
+		if(str[i] == '=')
+			cont++;
+		i++;
+	}
+	if(cont != 0)
+		return (1);
+	return (0);
+}
+
+void	ft_env(void)
+{
+	t_env *tmp;
+	
+	tmp = g_glob;
+	while(tmp)
+	{
+		if(!ft_strncmp(tmp->value, "OLDPWD",6) && g_glob->index == 0 )
+			tmp = tmp->next;
+		if(check_for_equal(tmp->value) != 0)
+		{
+			ft_putstr_fd(tmp->value,1);
+			ft_putstr_fd("\n",1);
+		}
+		tmp = tmp->next;
 	}
 }

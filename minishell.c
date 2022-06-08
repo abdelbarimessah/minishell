@@ -6,11 +6,21 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/07 02:55:38 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:31:29 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+void	printf_list_z(t_env *lst)
+{
+	while (lst)
+	{
+		printf("%s\n", lst->value);
+		lst = lst->next;
+	}
+	puts("");
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -20,12 +30,14 @@ int main(int ac, char **av, char **env)
     t_env *list;
     
 
+    
     (void)av;
     if(ac != 1)
         return (printf("program doesnt accepts args !"), 0);
     input_str = NULL;
     g_glob = list_env(env);
     g_glob->index = 0;
+    g_glob->index_env = 0;
     while(1)
     {
         list = g_glob;

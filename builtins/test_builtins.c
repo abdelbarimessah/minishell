@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 22:05:54 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 15:48:39 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void test_builtins(t_list *node,char **env)
     char **cmd;
     int c;
 
+    (void)env;
     str = ft_strdup("");
     head = node->next;
     c = 0;
@@ -38,7 +39,7 @@ void test_builtins(t_list *node,char **env)
     else if(ft_strcmp(cmd[0], "exit") == 0)
         ft_exit(cmd);
     else if (ft_strcmp(cmd[0], "env") == 0)
-        ft_env(env);
+        ft_env();
     else if(ft_strcmp(cmd[0], "export") == 0)
         ft_export(cmd);
     else if(ft_strcmp(cmd[0], "cd") == 0)
