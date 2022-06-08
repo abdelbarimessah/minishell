@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/07 19:45:49 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/07 23:23:53 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ typedef struct s_list
 typedef struct s_env
 {
     char *value;
-    struct s_env *next;
     int exit_status;
     int index;
+    char *export_value;
+    struct s_env *next;
 } t_env;
 
 t_env *g_glob;

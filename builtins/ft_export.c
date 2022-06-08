@@ -6,39 +6,101 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/31 02:10:55 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 03:56:13 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    ft_export(char **env)
+void swap_list(t_env *a,t_env *b)
 {
-    int i;
-    int j;
-    char *tmp;
+	char *str;
+	str = a->export_value;
+	a->export_value = b->export_value;
+	b->export_value = str;
+}
 
-    i = 0;
-    j = 0;
-    while(env[i])
-        i++;
-    while( j < i)
-    {
-        if(ft_strcmp(env[j], env[j + 1]) > 0 && env[j + 1])
-        {
-			tmp = env[j];
-			env[j] = env[j + 1];
-			env[j + 1] = tmp;
-			j = -1;
+
+
+t_env *sort_env(t_env *tmp)
+{
+	int swap;
+	t_env *list;
+	int lr;
+
+	swap = 1;
+	list = tmp;
+	lr = 0;
+	while(swap == 1)
+	{
+		swap = 0;
+			list = list->next;
+		while(list != NULL && list->next != NULL)
+		{
+			// printf("%s****\n%s-----\n",list->export_value,list->next->export_value);
+			lr = ft_strcmp(list->export_value,list->next->export_value);
+			if(lr > 0 && list->export_value != NULL && list->next->export_value != NULL)
+			{
+				swap_list(list,list->next);
+				swap = 1;
+				lr = 0;
+			}
+			list = list->next;
 		}
-		j++;
-    }
-    i = 0;
-    while(env[i])
-    {
-       ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env[i], 1);
-		ft_putstr_fd("\n", 1);
-        i++;
-    }
+		list = tmp;
+	}
+	tmp = tmp->next;
+	while(tmp)
+	{
+		printf("declare -x %s\n",tmp->export_value);
+		tmp = tmp->next;
+	}
+	return (tmp);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 'A' && c <= 'Z' ) || (c >= 'a' && c <= 'z' ))
+		return (1);
+	else
+		return (0);
+}
+
+void	check_args(char **str)
+{
+	int i;
+	t_env *list;
+
+	list = g_glob;
+	i = 1;
+	while (str[i])
+	{
+		if(str[i][0] == '-' || ft_isalpha(str[i][0]))
+		{
+			add_to_list(list, str[i]);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: export: ",2);
+			ft_putstr_fd(str[i],2);
+			ft_putstr_fd(": not a valid identifier\n",2);
+		}
+		i++;
+	}
+	
+}
+
+void    ft_export(char **str)
+{
+	t_env *list;
+	list = g_glob;
+
+	if(!str[1])
+	{
+		sort_env(list);
+	}
+	else
+	{
+		check_args(str);
+	}
 }

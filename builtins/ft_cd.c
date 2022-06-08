@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 13:32:40 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 04:11:36 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 01:19:17 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char *path_OLDPWD(t_env *list)
         return (NULL);
     while(tmp->next)
     {
-        if(!ft_strncmp(tmp->value,"PWD",3))
+        if(!ft_strncmp(tmp->value,"OLDPWD",6))
         {
             str = ft_split(tmp->value, '=');
             printf("%s\n",str[1]);
@@ -97,21 +97,11 @@ void ft_cd(char **args)
     char *str;
     char **cm;
     t_env *list;
+    int a;
 
+    a = 0;
     list = g_glob;
-    old_pwd(list);
-    if(!args[1] || !ft_strcmp(args[1], "--") || !ft_strcmp(args[1], "~"))
-    {
-        cm = new_env_function(list);
-        str = check_home_path(cm);
-        if(!str)
-        {
-            ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			return ;
-        }
-        args[1] = str;
-    }
-    else if(!ft_strcmp(args[1],"-"))
+    if(!ft_strcmp(args[1],"-"))
     {
         if(g_glob->index == 0)
         {
@@ -127,9 +117,22 @@ void ft_cd(char **args)
                 ft_putstr_fd(": No such file or directory\n",1);
             }
         }
-        return ;
+        a++;
     }
-    if(chdir(args[1]) == -1)
+    old_pwd(list);
+    if(!args[1] || !ft_strcmp(args[1], "--") || !ft_strcmp(args[1], "~"))
+    {
+        cm = new_env_function(list);
+        str = check_home_path(cm);
+        if(!str || access(str,F_OK) == 0)
+        {
+            puts("ddd");
+            ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			return ;
+        }
+        args[1] = str;
+    }
+    if(chdir(args[1]) == -1 && a == 0)
     {
         ft_putstr_fd("cd: ",1);
         ft_putstr_fd(args[1],1);

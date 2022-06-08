@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 03:49:27 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/08 02:59:28 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_env *add_to_list(t_env *list,void *data)
 		return (NULL);
 	noued->next = NULL;
 	noued->value = ft_strdup(data);
+	noued->export_value = ft_strdup(data);
 	list->next = noued;
 	return (list);
 }
@@ -44,7 +45,7 @@ t_env *search_and_replce_OLDPWD(t_env *list, void *data)
 {
 	if(!list || !data)
 		return (NULL);
-	while (list->next)
+	while (list)
 	{
 		if(!ft_strncmp(list->value, "OLDPWD", 6))
 		{
@@ -59,7 +60,7 @@ t_env *search_and_replce_PWD(t_env *list, void *data)
 {
 	if(!list || !data)
 		return (NULL);
-	while (list->next)
+	while (list)
 	{
 		if(!ft_strncmp(list->value, "PWD", 3))
 		{
@@ -94,7 +95,7 @@ void	ft_env(char **env)
 	t_env *list;
 
 	list = list_env(env);
-	while(list->next)
+	while(list)
 	{
 		if(!ft_strncmp(list->value, "OLDPWD",6) && g_glob->index == 0)
 			list = list->next;
