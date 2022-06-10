@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/08 17:31:29 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/10 03:03:25 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ void	printf_list_z(t_env *lst)
 int main(int ac, char **av, char **env)
 {
     char *input_str;
-    // t_env *list;
     char **new_env;
     t_env *list;
-    
-
     
     (void)av;
     if(ac != 1)
@@ -38,14 +35,15 @@ int main(int ac, char **av, char **env)
     g_glob = list_env(env);
     g_glob->index = 0;
     g_glob->index_env = 0;
+    signal_handl();
     while(1)
     {
+        g_glob->sig = 0;
         list = g_glob;
         new_env = new_env_function(list);
         input_str = readline("minishell ---: ");
         if(!input_str || !ft_strcmp(input_str, "exit"))
             break;
-        
         if(!check_syntax(input_str))
         {
             ft_error("syntax error ! \n", 0);
@@ -54,7 +52,9 @@ int main(int ac, char **av, char **env)
         else
         {            
             tokenizer(input_str, new_env);
+            g_glob->sig = 1;
         }
+
         g_glob->index++;
         if(input_str[0] != '\0')
             add_history(input_str);

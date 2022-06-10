@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 23:22:42 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/01 13:32:20 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/09 23:37:50 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ int				ft_echo(char **args)
 	i = 1;
 	n_option = 0;
 	cpt = 0;
-	while (args[i] && ft_check_n(args[i], "-n") == 0)
-	{
+	// while (args[i] && ft_check_n(args[i], "-n") == 0)
+	// {
+	// 	n_option = 1;
+	// 	i++;
+	// }
+	if(args[1] && !ft_strncmp(args[1],"-n",2))
 		n_option = 1;
-		i++;
-	}
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], 1);

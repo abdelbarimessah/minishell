@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/08 16:52:51 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/10 03:32:41 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_env
     int index_env;
     char *export_value;
     char **env_new;
+    int sig;
     struct s_env *next;
 } t_env;
 
@@ -178,6 +179,15 @@ char    *check_oldpwd_path(char **str);
 t_env   *search_and_replce_OLDPWD(t_env *list, void *data);
 t_env   *search_and_replce_PWD(t_env *list, void *data);
 int check_for_equal(char *str);
+void	sig_handler(int sig);
+void	signal_handl(void);
+void    ft_unset(char **str);
+int	check_arg(char *arg);
+void deleteNode_from_export(t_env **head_ref, char *str);
+void deleteNode_from_env(t_env **head_ref, char *str);
+int	ft_isalnum1(int c);
+int	ft_isalpha(int c);
+
 
 /////// i dont know
 int ft_execute_builtins(t_list *node, char **env);

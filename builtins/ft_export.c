@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/08 17:45:57 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/10 03:33:14 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,39 +65,63 @@ t_env *sort_env(t_env *tmp)
 			write(1,&tmp->export_value[lr],1);
 			lr++;
 		}
-		if(check_for_equal(tmp->value) == 0)
+		if(check_for_equal(tmp->value) != 0)
 		{
-			ft_putstr_fd("\n",1);
+			ft_putstr_fd("\"\n",1);
 		}
 		else
-			ft_putstr_fd("\"\n",1);
+			ft_putstr_fd("\n",1);
 		tmp = tmp->next;
 	}
 	return (tmp);
-}
-
-int	ft_isalpha(int c)
-{
-	if ((c >= 'A' && c <= 'Z' ) || (c >= 'a' && c <= 'z' ))
-		return (1);
-	else
-		return (0);
 }
 
 void	check_args(char **str)
 {
 	int i;
 	t_env *list;
+	t_env *tmp;
+	char **eq;
+	char **eq1;
+	int cont;
+	int len;
 
+	cont = 0;
+	len = 0;
 	list = g_glob;
+	tmp = g_glob;
 	i = 1;
 	while (str[i])
 	{
 		if(str[i][0] == '-' || ft_isalpha(str[i][0]))
 		{
-			add_to_list(list, str[i]);
-			// add_to_list(g_glob, str[i]);
-			
+			while(tmp)
+			{
+				eq = ft_split(tmp->export_value,'=');
+				eq1 = ft_split(str[i],'=');
+				len = ft_strlen(eq1[0]);
+				if(eq && eq1 &&  !ft_strcmp(eq[0],eq1[0]) && eq1[0][len - 1] != '+')
+				{
+					tmp->export_value = str[i];
+					tmp->value  = str[i];
+					cont = 1;
+					ft_free(eq);
+					ft_free(eq1);
+					break;
+				}
+				else if(eq && eq1 && !ft_strncmp(eq[0],eq1[0],len -1) && eq1[0][len - 1 ] == '+')
+				{
+					tmp->export_value = ft_strjoin(tmp->export_value,eq1[1]);
+					tmp->value = ft_strjoin(tmp->export_value,eq1[1]);
+					cont = 1;
+					ft_free(eq);
+					ft_free(eq1);
+					break;
+				}
+				tmp = tmp->next;
+			}
+			if(cont == 0)
+				add_to_list(list, str[i]);
 		}
 		else
 		{
@@ -107,7 +131,6 @@ void	check_args(char **str)
 		}
 		i++;
 	}
-	
 }
 
 void    ft_export(char **str)

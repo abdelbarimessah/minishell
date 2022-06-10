@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:11:22 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/30 13:54:36 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/09 00:10:45 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int ft_exit(char **str)
 	int exit_nb;
 
 	exit_nb = 0;
+	
 	if(str[0] && !str[1])
 	{
 		ft_putstr_fd("exit\n",1);

@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/08 17:37:17 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/09 00:15:28 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,6 +344,11 @@ int ft_execute_builtins(t_list *node, char **env)
 		ft_free(cmd);
 		return (1);
 	}
+	if(!strcmp(cmd[0], "exit"))
+	{
+		ft_free(cmd);
+		return (1);
+	}
 	ft_free(cmd);
 	return (0);
 }
@@ -496,9 +501,14 @@ void tokenizer(char *str, char  **env)
 			ft_join_pipe(head, env);
 		waitpid(pid, NULL, 0);
 	}
+
 	else if(ft_execute_builtins(head, env) == 1)
-		test_builtins(head, env);
+	{
+		test_builtins(head, env);	
+	}
 	else if(!ft_execute_builtins(head, env))
+	{
 		ft_execute_comnd(head, env);
+	}
 	ft_lstclear(&token);
 }

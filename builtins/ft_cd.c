@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 13:32:40 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/08 01:19:17 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/09 23:12:10 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void ft_cd(char **args)
 
     a = 0;
     list = g_glob;
-    if(!ft_strcmp(args[1],"-"))
-    {
+    if(args[1] != NULL && !ft_strcmp(args[1],"-"))
+    {  
         if(g_glob->index == 0)
         {
             ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
@@ -120,19 +120,18 @@ void ft_cd(char **args)
         a++;
     }
     old_pwd(list);
-    if(!args[1] || !ft_strcmp(args[1], "--") || !ft_strcmp(args[1], "~"))
+    if(args[1] == NULL || !ft_strcmp(args[1],"--") || !ft_strcmp(args[1],"~"))
     {
         cm = new_env_function(list);
         str = check_home_path(cm);
-        if(!str || access(str,F_OK) == 0)
+        if(!str)
         {
-            puts("ddd");
             ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return ;
         }
         args[1] = str;
     }
-    if(chdir(args[1]) == -1 && a == 0)
+    if(chdir(args[1]) == -1 && a == 0 && args[1])
     {
         ft_putstr_fd("cd: ",1);
         ft_putstr_fd(args[1],1);
