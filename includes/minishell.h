@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/10 03:32:41 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/10 23:48:58 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ void	sig_handler(int sig);
 void	signal_handl(void);
 void    ft_unset(char **str);
 int	check_arg(char *arg);
-void deleteNode_from_export(t_env **head_ref, char *str);
-void deleteNode_from_env(t_env **head_ref, char *str);
+void deleteNode_from_export(t_env *list, char *str, int len);
+void deleteNode_from_env(t_env *list, char *str, int len);
 int	ft_isalnum1(int c);
 int	ft_isalpha(int c);
 

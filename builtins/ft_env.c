@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/08 16:02:34 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/11 23:34:22 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_env *init_env(void *data)
 		return (NULL);
 	list->next = NULL;
 	list->value = ft_strdup(data);
+	list->export_value = ft_strdup(data);
 	return (list);
 }
 t_env *add_to_list(t_env *list,void *data)
@@ -81,8 +82,6 @@ t_env	*list_env(char **env)
 	head = list;
 	while(env[i])
 	{
-		// if(!ft_strncmp(env[i], "OLDPWD", 6))
-		// 	i++;
 		list = add_to_list(list,env[i]);
 		i++;
 	}
@@ -118,7 +117,7 @@ void	ft_env(void)
 	{
 		if(!ft_strncmp(tmp->value, "OLDPWD",6) && g_glob->index == 0 )
 			tmp = tmp->next;
-		if(check_for_equal(tmp->value) != 0)
+		if(check_for_equal(tmp->value) != 0 && tmp->value != NULL)
 		{
 			ft_putstr_fd(tmp->value,1);
 			ft_putstr_fd("\n",1);

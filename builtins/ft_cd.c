@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 13:32:40 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/09 23:12:10 by amessah          ###   ########.fr       */
+/*   Created: 2022/06/10 17:32:46 by amessah           #+#    #+#             */
+/*   Updated: 2022/06/11 21:39:53 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char *path_OLDPWD(t_env *list)
     tmp = list;
     if(!tmp)
         return (NULL);
-    while(tmp->next)
+    while(tmp)
     {
         if(!ft_strncmp(tmp->value,"OLDPWD",6))
         {

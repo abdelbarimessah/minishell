@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/09 00:15:28 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/11 01:22:23 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,7 +378,6 @@ void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2])
 		perror("Error");
 		exit (1);
 	}	
-	
 }
 
 void ft_execute_comnd(t_list *node, char **env)
@@ -466,7 +465,7 @@ void ft_execute_comnd(t_list *node, char **env)
 	if(!str[0])
 		return ;
 	else
-	{	
+	{
 		pid = fork();
 		if(pid == 0)
 			execute_tb(str, env, head, fd, i);

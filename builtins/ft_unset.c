@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/10 03:38:53 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 00:19:24 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,51 +30,48 @@ int	ft_isalnum1(int c)
 	return (1);
 }
 
-
-void deleteNode_from_env(t_env **head_ref, char *str)
+void deleteNode_from_env(t_env *list, char *str, int len)
 {
-    t_env *temp ;
-    t_env *prev;
-    
-    temp = *head_ref;
-    if (temp != NULL && !ft_strcmp(temp->value,str)) 
+    t_env *tmp;
+
+    if(!ft_strncmp(list->value,str,len))
     {
-        *head_ref = temp->next;
-        free(temp);
-        return;
+        g_glob = g_glob->next;
+        free(g_glob->value);
+        free(g_glob->export_value);
     }
-    while (temp != NULL && ft_strcmp(temp->value,str)) 
+    else
     {
-        prev = temp;
-        temp = temp->next;
+        while(list)
+        {
+            tmp = list->next;
+            if(!ft_strncmp(tmp->value,str,len))
+                break ;
+            list = list->next;
+        }
+        list->next = tmp->next;
     }
-    if (temp == NULL)
-        return;
-    prev->next = temp->next;
-    free(temp);
 }
 
-void deleteNode_from_export(t_env **head_ref, char *str)
+void deleteNode_from_export(t_env *list, char *str,int len)
 {
-    t_env *temp ;
-    t_env *prev;
-    
-    temp = *head_ref;
-    if (temp != NULL && !ft_strcmp(temp->export_value,str)) 
+    t_env *tmp;
+
+    if(!list)
+        return ;
+    list = list->next;
+    while(list)
     {
-        *head_ref = temp->next;
-        free(temp);
-        return;
+        if(!ft_strncmp(list->export_value, str, len) && list->export_value)
+        {
+            tmp = list;
+            list = list->next;
+            free(tmp->export_value);
+            // free(tmp);
+            return ;
+        }
+        list = list->next;  
     }
-    while (temp != NULL && ft_strcmp(temp->export_value,str)) 
-    {
-        prev = temp;
-        temp = temp->next;
-    }
-    if (temp == NULL)
-        return;
-    prev->next = temp->next;
-    free(temp);
 }
 
 int	check_arg(char *arg)
@@ -99,10 +96,12 @@ void    ft_unset(char **str)
     int i;
     t_env *list;
     t_env *tmp;
+    int len;
     
     list = g_glob;
     tmp = g_glob;
     i = 1;
+    len = 0;
     while(str[i])
     {
         if(!check_arg(str[i]))
@@ -113,8 +112,8 @@ void    ft_unset(char **str)
         }
         else
         {
-            deleteNode_from_env(&list,str[i]);
-            // deleteNode_from_export(&tmp,str[i]);
+            len = ft_strlen(str[i]);
+            deleteNode_from_env(list,str[i],len);
         }
         i++;
     }

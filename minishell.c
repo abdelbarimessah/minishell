@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/10 03:03:25 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/11 01:31:09 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int main(int ac, char **av, char **env)
     g_glob = list_env(env);
     g_glob->index = 0;
     g_glob->index_env = 0;
+    
     signal_handl();
+    // rl_catch_signals = 0;
     while(1)
     {
         g_glob->sig = 0;
