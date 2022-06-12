@@ -6,33 +6,33 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 00:55:20 by amessah           #+#    #+#             */
-/*   Updated: 2022/05/30 14:25:44 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/12 15:33:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	c1;
-	char	*str;
-	int		i;
+// char static *ft_strchr(const char *s, int c)
+// {
+// 	char	c1;
+// 	char	*str;
+// 	int		i;
 
-	c1 = (char )c;
-	str = (char *)s;
-	i = 0;
-	if (c1 == '\0')
-		return (str + ft_strlen(str));
-	if (!s)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == c1)
-			return (str + i);
-		i++;
-	}
-	return (NULL);
-}
+// 	c1 = (char )c;
+// 	str = (char *)s;
+// 	i = 0;
+// 	if (c1 == '\0')
+// 		return (str + ft_strlen(str));
+// 	if (!s)
+// 		return (NULL);
+// 	while (str[i])
+// 	{
+// 		if (str[i] == c1)
+// 			return (str + i);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
 
 int	get_next_line(char **line)
 {

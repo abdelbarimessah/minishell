@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:55:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/05 13:54:48 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 15:22:25 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,4 +144,24 @@ int	ft_error(char *str, int retu)
 	if (str)
 		write(2, str, ft_strlen(str));
 	return (retu);
+}
+
+char	*ft_strchr(const char *str, int pos)
+{
+	int		i;
+	char	*str1;
+	char	c1;
+
+	str1 = (char *)str;
+	c1 = (char)pos;
+	i = 0;
+	if (c1 == '\0')
+		return (str1 + ft_strlen(str1));
+	while (str1[i] != '\0')
+	{
+		if (str1[i] == c1)
+			return (str1 + i);
+		i++;
+	}
+	return (NULL);
 }

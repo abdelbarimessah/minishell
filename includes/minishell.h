@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 02:29:41 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 16:48:38 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_vars
     char    *file_n;
     char    *value;
     int        st_in;
+    int        st_out;
     t_list    *node;
     int        *id;
     // -- > add vars for cmds;
@@ -120,6 +121,7 @@ int		ft_skip_space(char *str, int i);
 int		ft_error(char *str, int retu);
 char	**ft_split_two(char *s, char c);
 void	printf_list(t_list *lst);
+char	*ft_strchr(const char *str, int pos);
 
 //// ----- parsing ///
 void tokenizer(char *str, char  **env);

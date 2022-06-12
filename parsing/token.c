@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/11 01:22:23 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 16:44:37 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 	int j;
 	int c;
 	int n;
+	int x;
 	char *s;
+	char *stri;
 	
 	j = i;
 	if(str[j] == '"' && str[j + 1] == '"')
@@ -75,28 +77,34 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 	if(str[j] == '"')
 	{
 		i++;
-		c = i - 1;
-		while(++c < j)
+		stri = ft_substr(str, i, j - i);
+		x = i;
+		
+		if(ft_strchr(str, '$'))
 		{
-			if(str[c] == '$')
-				break;
-		}
-		if(str[c] == '$')
-		{
-			ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, c - i), WORD));
-			n = c++;
-			while(check_str(str, c))
-				c++;
-			s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
-			if(s)
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
-			n = c;
-			while(c < j)
-				c++;
-			ft_lstadd_back(node, ft_lstnew(ft_substr(str, n, c - n), WORD));
+			c = i - 1;
+			while(++c < j)
+			{
+				if(str[c] == '$')
+				{
+					if(c - x)
+						ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, c - x), WORD));
+					n = c++;
+					while(check_str(str, c))
+						c++;
+					s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
+					if(s)
+						ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
+					x = c;
+					c--;
+				}
+			}
+			if(j - x)
+				ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, j - x), WORD));
+			free(stri);
 		}
 		else
-			ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, j - i), WORD));
+			ft_lstadd_back(node, ft_lstnew(stri, WORD));
 		return (j - i + 1);
 	}
 	return(printf("double quotes not closed !\n"), -1);
@@ -247,10 +255,9 @@ void ft_join_pipe(t_list *node, char **env)
 	char **str_split;
 	int num_com;
 	
-	// (void)env;
 	str = ft_strdup("");
 	head = node->next;
-	while(head->token != END_TOK)
+	while(head)
 	{
 		if(head->token == PIP)
 			str = ft_strjoin(str, "|");
@@ -510,4 +517,4 @@ void tokenizer(char *str, char  **env)
 		ft_execute_comnd(head, env);
 	}
 	ft_lstclear(&token);
-}
+} 

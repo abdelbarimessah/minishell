@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/07 20:28:07 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/12 19:46:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,10 @@ int	is2or1(int i)
 
 int	ft_cheak(int i, char **cmd)
 {
-	if (!is2or1(i))
-	{
-		if (!cmd[i + 1])
-			return (2);
-		else
-			return (3);
-	}
-	else if (is2or1(i))
-	{
-		if (!cmd[i + 1])
-			return (2);
-		else
-			return (3);
-	}
+	if (!cmd[i + 1])
+		return (2);
+	else
+		return (3);
 	return (0);
 }
 
@@ -186,7 +176,6 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 {
 	t_vars var;
 	int end_pipe[2];
-	//char *p;
 	int i;
 	t_list *head;
 
@@ -194,6 +183,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 	var.file_n = ft_strdup("");
 	var.id = malloc(num_com * sizeof(int));
 	var.st_in = dup(0);
+	var.st_out = dup(1);
 	while(str[++i])
 	{
 		var.node = node;
@@ -214,7 +204,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 					head = head->next;
 				}
 				var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
-				if (var.fd[1] == -1)
+				if (var.fd[1] == -1) 
 				{
 					printf(" ---> %s <----- Error in file creation\n", var.file_n);
 					break ;
@@ -283,16 +273,16 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			var.c = var.id[i];
 		ft_skip_node(&node);
 		dup2(end_pipe[0], 0);
-		close(end_pipe[1]);
 		close(end_pipe[0]);
 		var.fd[0] = 0;
 		var.fd[1] = 0;
-	}
+	} 
 	waitpid(var.c, NULL, 0);
-	while(i)
+	while(i != -1)
 	{
 		waitpid(var.id[i], NULL, 0);
 		i--;
 	}
+	close(end_pipe[1]);
 	ft_free(str);
 }
