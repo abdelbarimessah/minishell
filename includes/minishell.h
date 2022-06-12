@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 16:48:38 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/12 20:53:50 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,11 @@ int check_tok(t_list *token, int tok);
 
 ////// ------ syntax ////
 int check_syntax(char *str);
+int check_syntax_list(t_list *list);
 int inside_limiters(char *str, char limiter, char c);
 int limiter_stat(char *str, char limiter);
 int check_tok(t_list *token, int tok);
+int ft_error_pipe(t_list *list);
 
 ////// --------- pipe ////
 char	*search_for_path(char **env);

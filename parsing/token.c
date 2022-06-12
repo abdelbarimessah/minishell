@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 16:44:37 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/12 21:18:50 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 	int i;
 	int j;
 	char *s;
+	char *st;
 	t_env *tmp;
 	char **env1;
 	(void)env;
@@ -194,9 +195,12 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 				j = i + 1;
 				while(check_str(str, j))
 					j++;
+				st = ft_substr(str, i , j - i);
 				s = get_from_env(env1, ft_substr(str, i + 1, j - (i + 1)));
 				if(s)
 					ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
+				else if(str[i + 1] == '/')
+					ft_lstadd_back(node, ft_lstnew(ft_strdup(st), WORD));
 				i += (j - i);
 			}
 		}
@@ -500,6 +504,11 @@ void tokenizer(char *str, char  **env)
 	head = token;
 	if(!ft_create_tokens(&token, str, env))
 		return ;
+	if(!check_syntax_list(head))
+	{
+		ft_error("syntax error dude! \n", 0);
+		exit(0);
+	}
 	if(check_tok(head, PIP))
 	{
 		pid = fork();
