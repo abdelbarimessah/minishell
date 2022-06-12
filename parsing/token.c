@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 21:18:50 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/12 21:22:51 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -506,8 +506,8 @@ void tokenizer(char *str, char  **env)
 		return ;
 	if(!check_syntax_list(head))
 	{
-		ft_error("syntax error dude! \n", 0);
-		exit(0);
+		ft_error("syntax error ! \n", 0);
+		return ;
 	}
 	if(check_tok(head, PIP))
 	{
