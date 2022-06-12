@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:30:27 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/08 17:19:58 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 02:46:26 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ int	ft_atoi(const char *str)
 	return (r * s);
 }
 
-char **new_env_function(t_env *list)
+char	**new_env_function(t_env *list)
 {
-	char **env;
-	int i;
+	char	**env;
+	int		i;
 
 	i = 0;
 	env = malloc(10000);
-	if(!list)
+	if (!list)
 		return (NULL);
-	while(list)
+	while (list)
 	{
 		env[i] = list->value;
 		list = list->next;
-        i++;
+		i++;
 	}
 	return (env);
 }

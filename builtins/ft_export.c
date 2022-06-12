@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/10 03:33:14 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 02:21:11 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	check_args(char **str)
 			ft_putstr_fd("minishell: export: ",2);
 			ft_putstr_fd(str[i],2);
 			ft_putstr_fd(": not a valid identifier\n",2);
+			g_glob->exit_status = 1;
 		}
 		i++;
 	}

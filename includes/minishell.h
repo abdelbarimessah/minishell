@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/10 23:48:58 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 02:29:41 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include <string.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <term.h>
 
 # define START_TOK 999
 # define END_TOK 999
@@ -170,7 +171,7 @@ t_env	*init_env(void *data);
 t_env	*add_to_list(t_env *list,void *data);
 t_env	*list_env(char **env);
 void    test_builtins(t_list *node,char **env);
-void	ft_env(void);
+void	ft_env(char **str);
 char	**new_env_function(t_env *list);
 void	ft_export(char **env);
 void    ft_cd(char **args);
@@ -187,6 +188,7 @@ void deleteNode_from_export(t_env *list, char *str, int len);
 void deleteNode_from_env(t_env *list, char *str, int len);
 int	ft_isalnum1(int c);
 int	ft_isalpha(int c);
+void	ctrl_d(void);
 
 
 /////// i dont know

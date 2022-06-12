@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/11 01:31:09 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 02:26:05 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ int main(int ac, char **av, char **env)
         list = g_glob;
         new_env = new_env_function(list);
         input_str = readline("minishell ---: ");
-        if(!input_str || !ft_strcmp(input_str, "exit"))
+        if(!input_str)
+            ctrl_d();
+        if(!ft_strcmp(input_str, "exit"))
             break;
         if(!check_syntax(input_str))
         {

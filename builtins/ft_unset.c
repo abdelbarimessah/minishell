@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 00:19:24 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 02:23:27 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,18 @@ int	ft_isalnum1(int c)
 void deleteNode_from_env(t_env *list, char *str, int len)
 {
     t_env *tmp;
+    t_env *head;
+    int cont ;
 
-    if(!ft_strncmp(list->value,str,len))
+    head  = g_glob;
+    cont = 0;
+    while(head)
     {
-        g_glob = g_glob->next;
-        free(g_glob->value);
-        free(g_glob->export_value);
+        if(!ft_strncmp(head->value,str,len))
+            cont++;
+        head = head->next;
     }
-    else
+    if(cont !=0)
     {
         while(list)
         {
@@ -49,28 +53,8 @@ void deleteNode_from_env(t_env *list, char *str, int len)
                 break ;
             list = list->next;
         }
-        list->next = tmp->next;
-    }
-}
-
-void deleteNode_from_export(t_env *list, char *str,int len)
-{
-    t_env *tmp;
-
-    if(!list)
-        return ;
-    list = list->next;
-    while(list)
-    {
-        if(!ft_strncmp(list->export_value, str, len) && list->export_value)
-        {
-            tmp = list;
-            list = list->next;
-            free(tmp->export_value);
-            // free(tmp);
-            return ;
-        }
-        list = list->next;  
+        if(tmp && list)
+            list->next = tmp->next;
     }
 }
 
@@ -109,6 +93,7 @@ void    ft_unset(char **str)
             ft_putstr_fd("unset: `",2);
             ft_putstr_fd(str[i],2);
             ft_putstr_fd("': not a valid identifier\n",2);
+            g_glob->exit_status = 1;
         }
         else
         {

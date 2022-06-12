@@ -26,6 +26,7 @@ SRC = 	minishell.c                   	\
 		builtins/ft_cd.c		 		\
 		builtins/ft_sig.c		 		\
 		builtins/ft_unset.c		 		\
+		builtins/ft_ctrl_d.c		 	\
 
 
 OBJ = ${SRC:.c=.o}
@@ -37,7 +38,7 @@ CC = cc
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@$(CC) $(CFLAGS) -lreadline $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) -lreadline -lncurses $(OBJ) -o $(NAME)
 
 clean : 
 	@rm -f $(OBJ)

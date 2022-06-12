@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_info.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/04 19:16:48 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/12 02:41:15 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ char	*ft_path(char **env, char *cd)
 			ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd("\n", 2);
 		ft_free(cmd);
-		exit(127);
+		g_glob->exit_status = 127;
+		exit(g_glob->exit_status);
 	}
 	i = -1;
 	while (p[++i])
@@ -171,7 +172,8 @@ char	*ft_path(char **env, char *cd)
 		ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd("\n", 2);
 	ft_free(cmd);
-	exit(127);
+	g_glob->exit_status = 127;
+	exit(g_glob->exit_status);
 }
 
 void	ft_is_erreur(char **mycmd, char **mypath)
