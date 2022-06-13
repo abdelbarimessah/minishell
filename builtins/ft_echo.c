@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 23:22:42 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 02:12:45 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/12 21:53:45 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int				ft_echo(char **args)
 	n_option = 0;
 	cpt = 0;
 	if(args[1] && !ft_strncmp(args[1],"-n",2))
+	{
 		n_option = 1;
+		i = 2;
+	}
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], 1);

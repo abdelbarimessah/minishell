@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 02:26:05 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/13 04:12:26 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,55 @@ void	printf_list_z(t_env *lst)
 	puts("");
 }
 
+// void    incrument_shlvl(void)
+// {
+//     t_env *tmp;
+//     char **str;
+//     int shlvl;
+//     char *join;
+
+//     tmp = g_glob;
+//     while(tmp)
+//     {
+//         if(!ft_strncmp(tmp->value, "SHLVL", 5))
+//         {
+//             str = ft_split(tmp->value, '=');
+//             shlvl = ft_atoi(str[1]);
+//             printf("%d\n",shlvl);
+//             shlvl++;
+//             join = ft_strjoin("SHLVL=", ft_itoa(shlvl));
+//             printf("%s\n",join);
+//             tmp->value = join;
+//             // printf("%s\n", tmp->value);
+//             free(join);
+//             ft_free(str);
+//             break ;
+//         }
+//         tmp = tmp->next;
+//     }
+//     tmp = g_glob;
+//     while(tmp){
+//         printf("%s\n",tmp->value);
+//         tmp  = tmp->next;
+//     }
+// }
+
+
+void    incrument_shlvl(t_env *list)
+{
+    char *str;
+
+    str = "SHLVL";
+    deleteNode_from_env(list, str, 5);
+}
+
 int main(int ac, char **av, char **env)
 {
     char *input_str;
     char **new_env;
     t_env *list;
+    t_env *tmp;
+    t_env *head;
     
     (void)av;
     if(ac != 1)
@@ -42,12 +86,16 @@ int main(int ac, char **av, char **env)
     {
         g_glob->sig = 0;
         list = g_glob;
+        tmp = g_glob;
+        head = g_glob;
         new_env = new_env_function(list);
         input_str = readline("minishell ---: ");
         if(!input_str)
             ctrl_d();
         if(!ft_strcmp(input_str, "exit"))
             break;
+        if(!ft_strcmp(input_str, "./minishell"))
+            incrument_shlvl(head);
         if(!check_syntax(input_str))
         {
             ft_error("syntax error ! \n", 0);

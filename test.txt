@@ -1,0 +1,22 @@
+***************
+	echo $TEST$TEST=lol$TEST""lol - 
+	echo "\$TEST" -
+	echo "$=TEST" - 
+    echo "$" -
+    echo "$?TEST" - 
+    echo "$1TEST" - 
+***************
+    export 1TEST= ; +
+    ls -la | wtf -
+    cat -e|ls - 
+    cd .. | pwd - 
+    mkdir sdfsdf | ls -la - 
+****************
+    SHLVL -
+    $HOME +
+
+
+
+
+    //// github///////////
+    https://github.com/solaldunckel/minishell-tester/blob/master/test.sh
