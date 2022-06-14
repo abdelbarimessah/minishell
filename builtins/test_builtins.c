@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 02:14:22 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/14 00:58:20 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void test_builtins(t_list *node,char **env)
     c = 0;
     while(head->token != END_TOK)
     {
-        if(head->token == SPACE)
+        if(head->token == WSPACE)
             str = ft_strjoin(str, "\v");
         else if (head->content)
             str = ft_strjoin(str, head->content);

@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 02:27:02 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/13 01:04:27 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/14 01:54:58 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	ctrl_d(void)
     
 	sr_cap = tgetstr("sr", NULL); 
 	tputs(sr_cap, 0, ft_putchar); 
-	ft_putstr_fd("\n minishell$ exit \n", 1);
+	ft_putstr_fd("		exit\n", 1);
 	exit(g_glob->exit_status); 
 }

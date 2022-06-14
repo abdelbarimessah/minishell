@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/13 01:23:39 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/14 01:52:34 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 	
 	j = i;
 	if(str[j] == '"' && str[j + 1] == '"')
+	{
+		ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), NUL));	
 		return (0);
+	}
 	while(str[++j])
 	{
 		if(str[j] == '"')
@@ -116,7 +119,10 @@ int ft_checker2(t_list **node, char *str, int i)
 
 	j = i;
 	if(str[j] == '\'' && str[j + 1] == '\'')
+	{
+		ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), NUL));
 		return (0);
+	}
 	while(str[++j])
 	{
 		if(str[j] == '\'')
@@ -156,7 +162,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 				i++;
 			if(!str[i])
 				break;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), SPACE));
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WSPACE));
 			i--;
 		}
 		else if(str[i] == '|')
@@ -236,7 +242,7 @@ void	printf_list(t_list *lst)
 {
 	while (lst)
 	{
-		printf("%d - %s\n", lst->token, lst->content);
+		printf("%s : %d\n", lst->content , lst->token);
 		lst = lst->next;
 	}
 	puts("");
@@ -268,22 +274,22 @@ void ft_join_pipe(t_list *node, char **env)
 		else if(head->token == OUTPUTE_HEREDOC)
 		{
 			head = head->next;
-			while(head->token == SPACE && head->token != END_TOK)
+			while(head->token == WSPACE && head->token != END_TOK)
 				head = head->next;
 		}
 		else if(head->token == OUTPUTE_REDI)
 		{
 			head = head->next;
-			while(head->token == SPACE && head->token != END_TOK)
+			while(head->token == WSPACE && head->token != END_TOK)
 				head = head->next;
 		}
 		else if(head->token == INPUTE_REDI)
 		{
 			head = head->next;
-			while(head->token == SPACE && head->token != END_TOK)
+			while(head->token == WSPACE && head->token != END_TOK)
 				head = head->next;
 		}
-		else if(head->token == SPACE)
+		else if(head->token == WSPACE)
 			str = ft_strjoin(str, "\v");
 		else if(head->token == WORD)
 			str = ft_strjoin(str, head->content);
@@ -309,7 +315,7 @@ int ft_execute_builtins(t_list *node, char **env)
 	c = 0;
 	while(head->token != END_TOK)
 	{
-		if(head->token == SPACE)
+		if(head->token == WSPACE)
 			str = ft_strjoin(str, "\v");
 		else if(head->token == OUTPUTE_REDI)
 			return (0);
@@ -406,13 +412,13 @@ void ft_execute_comnd(t_list *node, char **env)
 	head = head->next;
 	while(head)
 	{
-		if(head->token == SPACE)
+		if(head->token == WSPACE)
 			str = ft_strjoin(str, "\v");
 		else if(head->token == INPUTE_REDI)
 		{	
 			file_n = ft_strdup("");
 			head = head->next;
-			if(head->token == SPACE)
+			if(head->token == WSPACE)
 				head = head->next;
 			while(head->token == WORD && head->token != END_TOK)
 			{
@@ -432,7 +438,7 @@ void ft_execute_comnd(t_list *node, char **env)
 		{
 			file_n = ft_strdup("");
 			head = head->next;
-			if(head->token == SPACE)
+			if(head->token == WSPACE)
 				head = head->next;
 			while(head->token == WORD && head->token != END_TOK)
 			{
@@ -452,7 +458,7 @@ void ft_execute_comnd(t_list *node, char **env)
 		{
 			file_n = ft_strdup("");
 			head = head->next;
-			if(head->token == SPACE)
+			if(head->token == WSPACE)
 				head = head->next;
 			while(head->token == WORD && head->token != END_TOK)
 			{
@@ -468,18 +474,23 @@ void ft_execute_comnd(t_list *node, char **env)
 			free(file_n);
 			i[1] = 1;
 		}
+		else if(head->token == NUL)
+			str = ft_strjoin(str, " ");
 		else if(head->token == WORD)
 			str = ft_strjoin(str, head->content);
 		head = head->next;
 	}
 	cmd = ft_split(str, '\v');
-	if(!str[0])
+	
+	if(!cmd[0])
 		return ;
 	else
 	{
 		pid = fork();
 		if(pid == 0)
 			execute_tb(str, env, head, fd, i);
+		else
+			g_glob->status = 1;
 		waitpid(pid, NULL, 0);
 	}
 	fd[0] = 0;
@@ -504,11 +515,12 @@ void tokenizer(char *str, char  **env)
 	head = token;
 	if(!ft_create_tokens(&token, str, env))
 		return ;
-	if(!check_syntax_list(head))
-	{
-		ft_error("syntax error ! \n", 0);
-		return ;
-	}
+	//printf_list(head);
+	// if(!check_syntax_list(head))
+	// {
+	// 	ft_error("syntax error ! \n", 0);
+	// 	return ;
+	// }
 	if(check_tok(head, PIP))
 	{
 		pid = fork();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 19:46:59 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/14 00:58:08 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			{
 				var.file_n = ft_strdup("");
 				head = head->next;
-				if (head->token == SPACE)
+				if (head->token == WSPACE)
 					head = head->next;
 				while (head->token == WORD && head->token != END_TOK)
 				{
@@ -216,7 +216,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			{
 				var.file_n = ft_strdup("");
 				head = head->next;
-				if (head->token == SPACE)
+				if (head->token == WSPACE)
 					head = head->next;
 				while (head->token == WORD && head->token != END_TOK)
 				{
@@ -236,7 +236,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			{
 				var.file_n = ft_strdup("");
 				head = head->next;
-				if (head->token == SPACE)
+				if (head->token == WSPACE)
 					head = head->next;
 				while (head->token == WORD && head->token != END_TOK)
 				{
@@ -273,6 +273,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			var.c = var.id[i];
 		ft_skip_node(&node);
 		dup2(end_pipe[0], 0);
+		close(end_pipe[1]);
 		close(end_pipe[0]);
 		var.fd[0] = 0;
 		var.fd[1] = 0;
@@ -283,6 +284,6 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 		waitpid(var.id[i], NULL, 0);
 		i--;
 	}
-	close(end_pipe[1]);
+	
 	ft_free(str);
 }

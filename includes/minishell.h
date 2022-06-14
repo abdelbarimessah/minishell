@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 20:53:50 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/14 01:51:01 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@
 # define END_TOK 999
 # define BUFFER_SIZE 1
 
+#define NUL -1
+
 typedef enum e_token_type
 {
 	PIP,
 	DOUBLE_QUOTE,
 	SINGLE_QUOTE,
 	WORD,
-	SPACE,
+	WSPACE,
 	DOLLAR,
 	INPUTE_REDI,
 	OUTPUTE_REDI,
@@ -71,6 +73,8 @@ typedef struct s_env
     char *export_value;
     char **env_new;
     int sig;
+    int shlvl_val;
+    int status;
     struct s_env *next;
 } t_env;
 

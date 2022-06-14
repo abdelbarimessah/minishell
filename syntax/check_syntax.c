@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 12:01:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/12 21:17:36 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/14 00:56:59 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int ft_error_pipe(t_list *list)
         if(list->token == PIP)
         {
             list = list->next;
-            while(list->token == SPACE)
+            while(list->token == WSPACE)
                 list = list->next;
             if(list->next->token != WORD || list->next->token == END_TOK)
                 return (0);

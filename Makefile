@@ -33,12 +33,16 @@ OBJ = ${SRC:.c=.o}
 
 CFLAGS = -Wall -Wextra -Werror
 
+LDFLAGS = "-L/goinfre/amessah/.brew/opt/readline/lib"
+
+CPPFLAGS = "-I/goinfre/amessah/.brew/opt/readline/include"
+
 CC = cc
 
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@$(CC) $(CFLAGS) -lreadline -lncurses $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) -lreadline -lncurses $(OBJ) -o $(NAME) $(LDFLAGS)  $(CPPFLAGS)
 
 clean : 
 	@rm -f $(OBJ)

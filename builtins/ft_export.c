@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 02:21:11 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 00:19:38 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,34 @@ t_env *sort_env(t_env *tmp)
 	return (tmp);
 }
 
+int	check_for_special(char *str)
+{
+	int i;
+
+	i = 0;
+	if(!check_for_equal(str))
+	{
+		while(str[i])
+		{
+			if((str[i] == '+' && str[i + 1] != '=' && str[i - 1] == '=' ))
+				return (0);
+			i++;
+		}
+		return (1);
+	}
+	else
+	{
+		while (str[i])
+		{
+			if(!ft_isalnum1(str[i]) && str[i] != '=' && str[i] != '+' && str[i] != '_')
+				return(0);
+			i++;
+		}
+		return (1);
+	}
+	return (1);
+}
+
 void	check_args(char **str)
 {
 	int i;
@@ -85,15 +113,18 @@ void	check_args(char **str)
 	char **eq1;
 	int cont;
 	int len;
+	// int j;
+	// char *plus;
 
 	cont = 0;
 	len = 0;
+	// j = 0;
 	list = g_glob;
 	tmp = g_glob;
 	i = 1;
 	while (str[i])
 	{
-		if(str[i][0] == '-' || ft_isalpha(str[i][0]))
+		if((str[i][0] == '_' || ft_isalpha(str[i][0])) && check_for_special(str[i]))
 		{
 			while(tmp)
 			{
@@ -118,6 +149,19 @@ void	check_args(char **str)
 					ft_free(eq1);
 					break;
 				}
+				// else if(eq1[0][len - 1 ] == '+')
+				// {
+				// 	plus = malloc(sizeof(char *) * (ft_strlen(str[i]) - 1));
+				// 	while(str[i][j])
+				// 	{
+				// 		if(str[i][j] == '+')
+				// 			j++;
+				// 		plus[j] = str[i][j];
+				// 		j++;
+				// 	}
+				// 	plus[j] = '\0';
+				// 	add_to_list(list,plus);
+				// }
 				tmp = tmp->next;
 			}
 			if(cont == 0)

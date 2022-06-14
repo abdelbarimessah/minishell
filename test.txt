@@ -1,20 +1,29 @@
 ***************
 	echo $TEST$TEST=lol$TEST""lol - 
-	echo "\$TEST" -
 	echo "$=TEST" - 
     echo "$" -
     echo "$?TEST" - 
     echo "$1TEST" - 
 ***************
     export 1TEST= ; +
-    ls -la | wtf -
-    cat -e|ls - 
-    cd .. | pwd - 
+    ls -la | wtf +
+    cat -e|ls + 
+    cd .. | pwd + 
     mkdir sdfsdf | ls -la - 
+    echo gwg | grep g -
 ****************
-    SHLVL -
+    SHLVL +
     $HOME +
+    minishell exit +
+    cat && grep ctrlc -
+    127 in command not found -
+    export aaaAA+dadasdasd -
+    export aaaaa+=adasdasda -
+    export a+=sdfds -
+    
 
+*********
+change SPACE to WSPACE +
 
 
 
