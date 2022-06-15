@@ -6,11 +6,27 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/14 01:52:34 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 18:10:32 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_isalphaa(int c)
+{
+	if ((c >= 'A' && c <= 'Z' ) || (c >= 'a' && c <= 'z' ))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isdigitt(int c )
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	else
+		return (0);
+}
 
 int check_str(char *str, int i)
 {
@@ -82,7 +98,6 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 		i++;
 		stri = ft_substr(str, i, j - i);
 		x = i;
-		
 		if(ft_strchr(str, '$'))
 		{
 			c = i - 1;
@@ -90,10 +105,16 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 			{
 				if(str[c] == '$')
 				{
+					if(str[c + 1] == '/')
+					{
+						stri = ft_substr(str, i, c - i);
+						ft_lstadd_back(node, ft_lstnew(ft_strdup(stri), WORD));
+						break ;
+					}
 					if(c - x)
 						ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, c - x), WORD));
 					n = c++;
-					while(check_str(str, c))
+					while(ft_isdigitt(str[c]) || ft_isalphaa(str[c]) || str[c] == '_')
 						c++;
 					s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
 					if(s)
@@ -199,7 +220,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 			else
 			{
 				j = i + 1;
-				while(check_str(str, j))
+				while(ft_isdigitt(str[j]) || ft_isalphaa(str[j]) || str[j] == '_')
 					j++;
 				st = ft_substr(str, i , j - i);
 				s = get_from_env(env1, ft_substr(str, i + 1, j - (i + 1)));

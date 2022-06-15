@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/15 15:02:37 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 17:57:55 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,16 +149,27 @@ void	check_args(char **str)
 				}
 				// else if(eq1[0][len - 1 ] == '+')
 				// {
+				// 	cont = 1;
 				// 	plus = malloc(sizeof(char *) * (ft_strlen(str[i]) - 1));
-				// 	while(str[i][j])
+				// 	printf("%s\n",str[i]);
+				// 	while(str[i][j] != '\0')
 				// 	{
 				// 		if(str[i][j] == '+')
-				// 			j++;
+				// 			break;
+				// 		plus[j] = str[i][j];
+				// 		j++;
+				// 	}
+				// 	j += 1;
+				// 	while(str[i][j])
+				// 	{
+				// 		puts("dfsd");
 				// 		plus[j] = str[i][j];
 				// 		j++;
 				// 	}
 				// 	plus[j] = '\0';
+				// 	printf("%s\n",plus);
 				// 	add_to_list(list,plus);
+				// 	break;
 				// }
 				tmp = tmp->next;
 			}
