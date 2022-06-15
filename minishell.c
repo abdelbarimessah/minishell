@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/14 01:51:25 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 01:37:43 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void    incrument_shlvl(void)
     
     g_glob->shlvl_val = ft_atoi(get_shlvl());
     g_glob->shlvl_val++;
-    str = malloc(100000);
+    str = malloc(100000);////******************************
     str[0] = ft_strdup("export");
     str[1] = ft_strjoin("SHLVL=",ft_itoa(g_glob->shlvl_val));
     ft_export(str);
@@ -118,8 +118,6 @@ int main(int ac, char **av, char **env)
             ctrl_d();
         if(!ft_strcmp(input_str, "exit"))
             break;
-        // if(!ft_strcmp(input_str, "./minishell"))
-        //     incrument_shlvl(head);
         if(!check_syntax(input_str))
         {
             ft_error("syntax error ! \n", 0);

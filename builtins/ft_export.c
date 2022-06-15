@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/15 00:19:38 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 15:02:37 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,23 @@ int	check_for_special(char *str)
 	int i;
 
 	i = 0;
-	if(!check_for_equal(str))
+	if(check_for_equal(str))
 	{
 		while(str[i])
 		{
-			if((str[i] == '+' && str[i + 1] != '=' && str[i - 1] == '=' ))
+			if((str[i] == '+' && str[i + 1] != '=' && str[i - 1] != '=' ))
 				return (0);
 			i++;
 		}
-		return (1);
 	}
 	else
 	{
 		while (str[i])
 		{
-			if(!ft_isalnum1(str[i]) && str[i] != '=' && str[i] != '+' && str[i] != '_')
+			if(!ft_isalnum1(str[i]) && str[i] != '_')
 				return(0);
 			i++;
 		}
-		return (1);
 	}
 	return (1);
 }
@@ -184,11 +182,7 @@ void    ft_export(char **str)
 	list = g_glob;
 
 	if(!str[1])
-	{
 		sort_env(list);
-	}
 	else
-	{
 		check_args(str);
-	}
 }
