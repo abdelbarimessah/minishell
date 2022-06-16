@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/15 17:57:55 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 23:39:47 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_env *sort_env(t_env *tmp)
 		lr = 0;
 		while(tmp->export_value[lr])
 		{
-			if(tmp->export_value[lr] == '=')
+			if(tmp->export_value[lr] == '=' && tmp->export_value[lr - 1] != '=')
 			{
 				ft_putstr_fd("=",1);
 				ft_putstr_fd("\"",1);
@@ -112,11 +112,13 @@ void	check_args(char **str)
 	int cont;
 	int len;
 	// int j;
+	// int j1;
 	// char *plus;
 
 	cont = 0;
 	len = 0;
 	// j = 0;
+	// j1 = 0;
 	list = g_glob;
 	tmp = g_glob;
 	i = 1;
@@ -140,6 +142,7 @@ void	check_args(char **str)
 				}
 				else if(eq && eq1 && !ft_strncmp(eq[0],eq1[0],len -1) && eq1[0][len - 1 ] == '+')
 				{
+					puts("asda");
 					tmp->export_value = ft_strjoin(tmp->export_value,eq1[1]);
 					tmp->value = ft_strjoin(tmp->export_value,eq1[1]);
 					cont = 1;
@@ -149,25 +152,25 @@ void	check_args(char **str)
 				}
 				// else if(eq1[0][len - 1 ] == '+')
 				// {
+				// 	puts("aaaaa");
 				// 	cont = 1;
 				// 	plus = malloc(sizeof(char *) * (ft_strlen(str[i]) - 1));
-				// 	printf("%s\n",str[i]);
-				// 	while(str[i][j] != '\0')
+				// 	while(str[i][j])
 				// 	{
+				// 		plus[j] = str[i][j];
 				// 		if(str[i][j] == '+')
 				// 			break;
-				// 		plus[j] = str[i][j];
 				// 		j++;
 				// 	}
+				// 	j1 = j;
 				// 	j += 1;
 				// 	while(str[i][j])
 				// 	{
-				// 		puts("dfsd");
-				// 		plus[j] = str[i][j];
+				// 		plus[j1] = str[i][j];
 				// 		j++;
+				// 		j1++;
 				// 	}
-				// 	plus[j] = '\0';
-				// 	printf("%s\n",plus);
+				// 	plus[j1] = '\0';
 				// 	add_to_list(list,plus);
 				// 	break;
 				// }

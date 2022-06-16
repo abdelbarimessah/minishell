@@ -18,10 +18,14 @@
     cat && grep ctrlc -
     127 in command not found -
     export aaaAA+dadasdasd -
-    export aaaaa+=adasdasda -
+    export aaaaa+=adasdasda +
     export a+=sdfds -
-    
-
+    ""ls -
+    echo achraf> ff sabbar -
+    export t========="acharfa" +
+    export | ls -
+    export SHLVL=-400 +
+    export a=sdfsdfs && export a -
 *********
 change SPACE to WSPACE +
 
@@ -29,3 +33,4 @@ change SPACE to WSPACE +
 
     //// github///////////
     https://github.com/solaldunckel/minishell-tester/blob/master/test.sh
+    

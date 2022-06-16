@@ -165,6 +165,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 	char *s;
 	char *st;
 	t_env *tmp;
+	char *limiter;
 	char **env1;
 	(void)env;
 	i = 0;
@@ -236,9 +237,15 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 			i++;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUTE_HEREDOC));
 		}
+		else if(str[i] == '<' && str[i + 1] == '<')
+		{
+			limiter = ft_strdup("");
+			
+
+		}
 		else if(str[i] == '>' && str[i + 1] != '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OUTPUTE_REDI));
-		else if(str[i] == '<')
+		else if(str[i] == '<' && str[i + 1] != '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), INPUTE_REDI));
 		else
 		{

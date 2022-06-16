@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/15 01:37:43 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/15 23:05:20 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ void    incrument_shlvl(void)
     char **str;
     
     g_glob->shlvl_val = ft_atoi(get_shlvl());
-    g_glob->shlvl_val++;
+    if(g_glob->shlvl_val < 0)
+        g_glob->shlvl_val = 0;
+    else
+        g_glob->shlvl_val++;
     str = malloc(100000);////******************************
     str[0] = ft_strdup("export");
     str[1] = ft_strjoin("SHLVL=",ft_itoa(g_glob->shlvl_val));
