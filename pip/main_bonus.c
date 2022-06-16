@@ -178,6 +178,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 	int end_pipe[2];
 	int i;
 	t_list *head;
+	char *p;
 
 	i = -1;
 	var.file_n = ft_strdup("");
@@ -232,6 +233,23 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 				free(var.file_n);
 				var.x[1] = 1;
 			}
+			else if(head->token == INTPUTE_HEREDOC)
+			{
+				var.value = ft_strdup("");
+				head = head->next;
+				while(head->token == WSPACE && head->token != END_TOK)
+					head = head->next;
+				dup2(var.st_in, 0);
+				while(1)
+				{
+					p = readline("> ");
+					if(!ft_strcmp(p , head->content))
+						break ;
+					p = ft_strjoin_nf(p, "\n");
+					var.value = ft_strjoin(var.value, p);
+					free(p);
+				}
+			}
 			else if (head->token == INPUTE_REDI)
 			{
 				var.file_n = ft_strdup("");
@@ -254,6 +272,15 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			}
 			else 
 				head = head->next;
+		}
+		if(check_tok_pip(node, INTPUTE_HEREDOC) && var.value)
+		{
+			if(pipe(end_pipe) == -1)
+				perror("Error");
+			ft_putstr_fd(var.value, end_pipe[1]);
+			close(end_pipe[1]);
+			dup2(end_pipe[0], 0);
+			close(end_pipe[0]);
 		}
 		var.id[i] = forkpipe(end_pipe);
 		if(var.id[i] == -1)
@@ -284,6 +311,5 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 		waitpid(var.id[i], NULL, 0);
 		i--;
 	}
-	
 	ft_free(str);
 }

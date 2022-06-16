@@ -84,7 +84,7 @@ void    incrument_shlvl(void)
         g_glob->shlvl_val = 0;
     else
         g_glob->shlvl_val++;
-    str = malloc(100000);////******************************
+    str = malloc(100000);////************/******************
     str[0] = ft_strdup("export");
     str[1] = ft_strjoin("SHLVL=",ft_itoa(g_glob->shlvl_val));
     ft_export(str);
@@ -106,8 +106,8 @@ int main(int ac, char **av, char **env)
     g_glob->index = 0;
     g_glob->index_env = 0;
     incrument_shlvl();
-    signal_handl();
-    rl_catch_signals = 0;
+    // signal_handl();
+    //rl_catch_signals = 0;
     while(1)
     {
         g_glob->status = 0;

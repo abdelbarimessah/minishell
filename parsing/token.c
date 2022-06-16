@@ -162,6 +162,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 {
 	int i;
 	int j;
+	char *sb;
 	char *s;
 	char *st;
 	t_env *tmp;
@@ -240,8 +241,81 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 		else if(str[i] == '<' && str[i + 1] == '<')
 		{
 			limiter = ft_strdup("");
-			
-
+			i += 2;
+			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INTPUTE_HEREDOC));
+			while(str[i] == ' ')
+				i++;
+			while(str[i] && str[i] != ' ' &&  str[i] != '<' && str[i] != '>' && str[i] != '|')
+			{
+				if(str[i] == '"')
+				{
+					if(str[i] == '"' && str[i + 1] == '"')
+					{
+						sb = ft_strdup("");
+						i += 2;
+						j = 1;
+					}
+					else
+					{
+						i++;
+						j = 0;
+						while(str[i] && str[i] != '"')
+						{
+							i++;
+							j++;
+						}
+						if(!str[i])
+							return(printf("double quotes not closed !\n"), 0);
+						else
+						{
+							sb = ft_substr(str, i - j, j);
+							limiter = ft_strjoin(limiter, sb);
+						}
+						i++;
+					}
+				}
+				else if(str[i] == '\'')
+				{
+					if(str[i] == '\'' && str[i + 1] == '\'')
+					{
+						sb = ft_strdup("");
+						i += 2;
+						j = 1;
+					}
+					else
+					{
+						i++;
+						j = 0;
+						while(str[i] && str[i] != '\'')
+						{
+							i++;
+							j++;
+						}
+						if(!str[i])
+							return(printf("single quotes not closed !\n"), 0);
+						else
+						{
+							sb = ft_substr(str, i - j, j);
+							limiter = ft_strjoin(limiter, sb);
+						}
+						i++;
+					}
+				}
+				else
+				{
+					j = 0;
+					while(str[i] && str[i] != '\'' && str[i] != '"' && str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i] != '|')
+					{
+						i++;
+						j++;
+					}
+					sb = ft_substr(str, i - j, j);
+					limiter = ft_strjoin(limiter, sb);
+				}
+			}
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(limiter), LIMITERR));
+			free(limiter);
+			j = 5;
 		}
 		else if(str[i] == '>' && str[i + 1] != '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OUTPUTE_REDI));
@@ -305,6 +379,8 @@ void ft_join_pipe(t_list *node, char **env)
 			while(head->token == WSPACE && head->token != END_TOK)
 				head = head->next;
 		}
+		else if (head->token == INTPUTE_HEREDOC)
+			head = head->next;
 		else if(head->token == OUTPUTE_REDI)
 		{
 			head = head->next;
@@ -319,6 +395,8 @@ void ft_join_pipe(t_list *node, char **env)
 		}
 		else if(head->token == WSPACE)
 			str = ft_strjoin(str, "\v");
+		else if (head->token == NUL)
+			str = ft_strjoin(str, ft_strdup(" "));
 		else if(head->token == WORD)
 			str = ft_strjoin(str, head->content);
 		head = head->next;
@@ -398,13 +476,32 @@ int ft_execute_builtins(t_list *node, char **env)
 	return (0);
 }
 
-void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2])
+void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2], t_vars var)
 {
 	char *path;
 	char **cmd;
-	(void)node;
+	int end_p[2];
+	//(void)node;
 	
-	cmd = ft_split(cmds, '\v');
+	cmd = ft_split(cmds, ' ');
+	if(check_tok(node, INTPUTE_HEREDOC))
+	{
+		
+		if(!ft_is_last(node, INTPUTE_HEREDOC, INPUTE_REDI, END_TOK))
+		{
+			dup2(fd[0], i[0]);
+			close(fd[0]);
+		}
+		else
+		{
+			if(pipe(end_p) == -1)
+				perror("error");
+			ft_putstr_fd(var.value, end_p[1]);
+			close(end_p[1]);
+			dup2(end_p[0], 0);
+			close(end_p[0]);
+		}
+	}
 	if(i[0] == 0)
 	{
 		dup2(fd[0], i[0]);
@@ -428,13 +525,17 @@ void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2])
 void ft_execute_comnd(t_list *node, char **env)
 {
 	t_list *head;
+	t_vars var;
 	char *str;
 	int pid;
 	int fd[2];
 	char *file_n;
 	int i[2];
 	char **cmd;
+	char *p;
 	
+	fd[0] = dup(0);
+	fd[1] = dup(1);
 	head = node;
 	str = ft_strdup("");
 	head = head->next;
@@ -461,6 +562,22 @@ void ft_execute_comnd(t_list *node, char **env)
 			}
 			free(file_n);
 			i[0] = 0;
+		}
+		else if(head->token == INTPUTE_HEREDOC)
+		{
+			var.value = ft_strdup("");
+			head = head->next;
+			while(head->token == WSPACE && head->token != END_TOK)
+				head = head->next;
+			while(1)
+			{
+				p = readline("> ");
+				if(!ft_strcmp_2(p, head->content))
+					break ;
+				p = ft_strjoin_nf(p, "\n");
+				var.value = ft_strjoin(var.value, p);
+				free(p);
+			}
 		}
 		else if(head->token == OUTPUTE_HEREDOC)
 		{
@@ -509,20 +626,17 @@ void ft_execute_comnd(t_list *node, char **env)
 		head = head->next;
 	}
 	cmd = ft_split(str, '\v');
-	
-	if(!cmd[0])
+	if(!str[0])
 		return ;
 	else
 	{
 		pid = fork();
 		if(pid == 0)
-			execute_tb(str, env, head, fd, i);
+			execute_tb(str, env, node, fd, i, var);
 		else
 			g_glob->status = 1;
 		waitpid(pid, NULL, 0);
 	}
-	fd[0] = 0;
-	fd[1] = 0;
 	free(str);
 	ft_free(cmd);
 }
@@ -543,7 +657,8 @@ void tokenizer(char *str, char  **env)
 	head = token;
 	if(!ft_create_tokens(&token, str, env))
 		return ;
-	//printf_list(head);
+	// printf_list(head);
+	// exit(0);
 	// if(!check_syntax_list(head))
 	// {
 	// 	ft_error("syntax error ! \n", 0);

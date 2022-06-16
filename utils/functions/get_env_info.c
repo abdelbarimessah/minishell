@@ -139,7 +139,7 @@ char	*ft_path(char **env, char *cd)
 
 	str = get_from_env(env, "PATH");
 	p = ft_split_two(str, ':');
-	cmd = ft_split(cd, '\v');
+	cmd = ft_split(cd, ' ');
 	if (access(cmd[0], X_OK) == 0)
 	{
 		ft_free(cmd);

@@ -109,6 +109,23 @@ char	*movee(char *s1, char *s2, char *s)
 	return (s);
 }
 
+char	*ft_strjoin_nf(char *s1, char *s2)
+{
+	int		a;
+	int		i;
+	char	*s;
+
+	i = 0;
+	if (!s2)
+		return (NULL);
+	a = ft_strlen(s1);
+	s = (char *)malloc(a + ft_strlen(s2) + 1);
+	if (s == NULL)
+		return (NULL);
+	s = movee(s1, s2, s);
+	return (s);
+}
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	int		a;

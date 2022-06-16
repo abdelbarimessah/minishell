@@ -42,6 +42,7 @@
 # define BUFFER_SIZE 1
 
 #define NUL -1
+#define LIMITERR -2
 
 typedef enum e_token_type
 {
@@ -126,6 +127,10 @@ int		ft_error(char *str, int retu);
 char	**ft_split_two(char *s, char c);
 void	printf_list(t_list *lst);
 char	*ft_strchr(const char *str, int pos);
+char	*ft_strjoin_nf(char *s1, char *s2);
+int	    ft_is_last(t_list *node, int c, int c2, int end);
+int	ft_strcmp_2(char *str1, char *str2);
+
 
 //// ----- parsing ///
 void tokenizer(char *str, char  **env);
@@ -157,7 +162,7 @@ int		get_next_line(char **line);
 //char	*find_path(char *cmd, char **envp);
 int check_tok_pip(t_list *token, int tok);
 void	execute(char *argv, char **envp);
-void 	execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2]);
+void 	execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2], t_vars var);
 void	error(void);
 int		open_file(char *argv, int i);
 void	main_pipe(int num_com, char **str, char **env, t_list *node);
