@@ -105,27 +105,32 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 			{
 				if(str[c] == '$')
 				{
-					if(str[c + 1] == '/' || str[c + 1] == '=')
-					{
-						stri = ft_substr(str, i, c - i);
-						ft_lstadd_back(node, ft_lstnew(ft_strdup(stri), WORD));
-						break ;
-					}
 					if(str[c + 1] == '?')
 					{
 						ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(g_glob->exit_status)), WORD));
-						c++;
+						x += 2;
 					}
-					if(c - x)
-						ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, c - x), WORD));
-					n = c++;
-					while(ft_isdigitt(str[c]) || ft_isalphaa(str[c]) || str[c] == '_')
-						c++;
-					s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
-					if(s)
-						ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
-					x = c;
-					c--;
+					else if (ft_isdigitt(str[c + 1]))
+						x += 2;
+					else
+					{
+						if(str[c + 1] == '/' || str[c + 1] == '=')
+						{
+							stri = ft_substr(str, i, c - i);
+							ft_lstadd_back(node, ft_lstnew(ft_strdup(stri), WORD));
+							break ;
+						}
+						if(c - x)
+							ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, c - x), WORD));
+						n = c++;
+						while(ft_isdigitt(str[c]) || ft_isalphaa(str[c]) || str[c] == '_')
+							c++;
+						s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
+						if(s)
+							ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
+						x = c;
+						c--;
+					}
 				}
 			}
 			if(j - x)
@@ -223,6 +228,13 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 			{
 				ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(g_glob->exit_status)), WORD));
 				i++;
+			}
+			else if (ft_isdigitt(str[i + 1]))
+			{
+				i++;
+				s = ft_substr(str, i, j - i);
+				if(s)
+					ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
 			}
 			else
 			{

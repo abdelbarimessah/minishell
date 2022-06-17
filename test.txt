@@ -2,8 +2,8 @@
 	echo $TEST$TEST=lol$TEST""lol + 
 	echo "$=TEST" + 
     echo "$" +
-    echo "$?TEST" - 
-    echo "$1TEST" - 
+    echo "$?TEST" + 
+    echo "$1TEST" + 
 ***************
     export 1TEST= ; +
     ls -la | wtf +

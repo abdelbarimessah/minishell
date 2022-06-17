@@ -181,7 +181,7 @@ char	*ft_path(char **env, char *cd)
 	}
 	ft_putstr_fd("minishell : command not found: ", 2);
 	if (cmd[0])
-		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(cmd[1], 2);
 	ft_putstr_fd("\n", 2);
 	ft_free(cmd);
 	g_glob->exit_status = 127;
