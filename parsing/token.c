@@ -653,7 +653,7 @@ void ft_execute_comnd(t_list *node, char **env)
 		head = head->next;
 	}
 	cmd = ft_split(str, '\v');
-	if(!str[0])
+	if(!cmd[0] || !str[0])
 		return ;
 	else
 	{
