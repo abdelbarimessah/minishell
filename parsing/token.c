@@ -105,11 +105,16 @@ int ft_checker1(t_list **node, char *str, int i, char **env)
 			{
 				if(str[c] == '$')
 				{
-					if(str[c + 1] == '/')
+					if(str[c + 1] == '/' || str[c + 1] == '=')
 					{
 						stri = ft_substr(str, i, c - i);
 						ft_lstadd_back(node, ft_lstnew(ft_strdup(stri), WORD));
 						break ;
+					}
+					if(str[c + 1] == '?')
+					{
+						ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(g_glob->exit_status)), WORD));
+						c++;
 					}
 					if(c - x)
 						ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, c - x), WORD));
@@ -481,9 +486,19 @@ void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2], t_var
 	char *path;
 	char **cmd;
 	int end_p[2];
+	int a = 0;
+	int k = -1;
 	//(void)node;
 	
-	cmd = ft_split(cmds, ' ');
+	while(cmds[++k])
+	{
+		if(cmds[k] == ' ' && cmds[k] != '\v')
+			a = 1;
+	}
+	if(a)
+		cmd = ft_split(cmds, ' ');
+	else
+		cmd = ft_split(cmds, '\v');
 	if(check_tok(node, INTPUTE_HEREDOC))
 	{
 		

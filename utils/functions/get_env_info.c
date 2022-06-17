@@ -132,14 +132,26 @@ char	*get_cmd(char *path, char **av, int i)
 char	*ft_path(char **env, char *cd)
 {
 	int		i;
+	int 	k;
 	char	*str;
 	char	*str2;
 	char	**p;
 	char	**cmd;
+	int a;
 
+	a = 0;
 	str = get_from_env(env, "PATH");
 	p = ft_split_two(str, ':');
-	cmd = ft_split(cd, ' ');
+	k = -1;
+	while(cd[++k])
+	{
+		if(cd[k] == ' ' && cd[k] != '\v')
+			a = 1;
+	}
+	if(a)
+		cmd = ft_split(cd, ' ');
+	else
+		cmd = ft_split(cd, '\v');
 	if (access(cmd[0], X_OK) == 0)
 	{
 		ft_free(cmd);

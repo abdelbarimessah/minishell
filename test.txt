@@ -1,7 +1,7 @@
 ***************
-	echo $TEST$TEST=lol$TEST""lol - 
-	echo "$=TEST" - 
-    echo "$" -
+	echo $TEST$TEST=lol$TEST""lol + 
+	echo "$=TEST" + 
+    echo "$" +
     echo "$?TEST" - 
     echo "$1TEST" - 
 ***************
@@ -9,8 +9,8 @@
     ls -la | wtf +
     cat -e|ls + 
     cd .. | pwd + 
-    mkdir sdfsdf | ls -la - 
-    echo gwg | grep g -
+    mkdir sdfsdf | ls -la - not sure
+    echo gwg | grep g - not sure
 ****************
     SHLVL +
     $HOME +
@@ -19,9 +19,9 @@
     127 in command not found -
     export aaaAA+dadasdasd -
     export aaaaa+=adasdasda +
-    export a+=sdfds -
-    ""ls -
-    echo achraf> ff sabbar -
+    export a+=sdfds +
+    ""ls +
+    echo achraf > ff sabbar - not sure
     export t========="acharfa" +
     export | ls -
     export SHLVL=-400 +
