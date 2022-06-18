@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/15 23:39:47 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/18 03:14:47 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ void	check_args(char **str)
 	char **eq1;
 	int cont;
 	int len;
-	// int j;
-	// int j1;
-	// char *plus;
+	int j;
+	int j1;
+	char *plus;
 
 	cont = 0;
 	len = 0;
-	// j = 0;
-	// j1 = 0;
+	j = 0;
+	j1 = 0;
 	list = g_glob;
 	tmp = g_glob;
 	i = 1;
@@ -131,7 +131,9 @@ void	check_args(char **str)
 				eq = ft_split(tmp->export_value,'=');
 				eq1 = ft_split(str[i],'=');
 				len = ft_strlen(eq1[0]);
-				if(eq && eq1 &&  !ft_strcmp(eq[0],eq1[0]) && eq1[0][len - 1] != '+')
+				if(eq && eq1 &&  !ft_strcmp(eq[0],eq1[0]) && eq1[0][len - 1] != '+'  && eq1[0][len] == '\0' && eq1[1] == NULL)
+					cont = 1;
+				else if(eq && eq1 &&  !ft_strcmp(eq[0],eq1[0]) && eq1[0][len - 1] != '+' && eq1[1] != NULL)
 				{
 					tmp->export_value = str[i];
 					tmp->value  = str[i];
@@ -142,42 +144,49 @@ void	check_args(char **str)
 				}
 				else if(eq && eq1 && !ft_strncmp(eq[0],eq1[0],len -1) && eq1[0][len - 1 ] == '+')
 				{
-					puts("asda");
-					tmp->export_value = ft_strjoin(tmp->export_value,eq1[1]);
-					tmp->value = ft_strjoin(tmp->export_value,eq1[1]);
+					if(!tmp->export_value[len - 1])
+					{
+						tmp->export_value = ft_strjoin(tmp->export_value, "=");
+						tmp->value = ft_strjoin(tmp->value, "=");
+						
+					}
+					plus = ft_strjoin(tmp->export_value,eq1[1]);
+					tmp->export_value = plus;
+					tmp->value = plus;
 					cont = 1;
 					ft_free(eq);
 					ft_free(eq1);
 					break;
 				}
-				// else if(eq1[0][len - 1 ] == '+')
-				// {
-				// 	puts("aaaaa");
-				// 	cont = 1;
-				// 	plus = malloc(sizeof(char *) * (ft_strlen(str[i]) - 1));
-				// 	while(str[i][j])
-				// 	{
-				// 		plus[j] = str[i][j];
-				// 		if(str[i][j] == '+')
-				// 			break;
-				// 		j++;
-				// 	}
-				// 	j1 = j;
-				// 	j += 1;
-				// 	while(str[i][j])
-				// 	{
-				// 		plus[j1] = str[i][j];
-				// 		j++;
-				// 		j1++;
-				// 	}
-				// 	plus[j1] = '\0';
-				// 	add_to_list(list,plus);
-				// 	break;
-				// }
 				tmp = tmp->next;
 			}
 			if(cont == 0)
-				add_to_list(list, str[i]);
+			{
+				if(eq1[0][len - 1 ] == '+')
+				{
+					cont = 1;
+					plus = malloc(sizeof(char *) * (ft_strlen(str[i]) - 1));
+					while(str[i][j])
+					{
+						plus[j] = str[i][j];
+						if(str[i][j] == '+')
+							break;
+						j++;
+					}
+					j1 = j;
+					j += 1;
+					while(str[i][j])
+					{
+						plus[j1] = str[i][j];
+						j++;
+						j1++;
+					}
+					plus[j1] = '\0';
+				}
+				else
+					plus = str[i];
+				add_to_list(list, plus);
+			}
 		}
 		else
 		{

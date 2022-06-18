@@ -17,7 +17,7 @@
     minishell exit +
     cat && grep ctrlc -
     127 in command not found -
-    export aaaAA+dadasdasd -
+    export aaaAA+dadasdasd +
     export aaaaa+=adasdasda +
     export a+=sdfds +
     ""ls +
@@ -25,7 +25,7 @@
     export t========="acharfa" +
     export | ls -
     export SHLVL=-400 +
-    export a=sdfsdfs && export a -
+    export a=sdfsdfs && export a +
 *********
 change SPACE to WSPACE +
 
