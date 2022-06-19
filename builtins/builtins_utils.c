@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:30:27 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 02:46:26 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/18 22:36:05 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,21 @@ char	**new_env_function(t_env *list)
 		i++;
 	}
 	return (env);
+}
+
+void	ft_cd_utils(char **args,int a)
+{
+	if (g_glob->index == 0)
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+	else
+	{
+		args[1] = path_oldpwd(g_glob);
+		if (chdir(args[1]) == -1)
+		{
+			ft_putstr_fd("cd: ", 1);
+			ft_putstr_fd(args[1], 1);
+			ft_putstr_fd(": No such file or directory\n", 1);
+		}
+	}
+	a++;
 }

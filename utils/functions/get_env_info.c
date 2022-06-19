@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/13 01:21:47 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/18 21:51:30 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,12 @@ char	*ft_path(char **env, char *cd)
 		}
 		free(str2);
 	}
+	g_glob->exit_status = 127;
 	ft_putstr_fd("minishell : command not found: ", 2);
 	if (cmd[0])
 		ft_putstr_fd(cmd[1], 2);
 	ft_putstr_fd("\n", 2);
 	ft_free(cmd);
-	g_glob->exit_status = 127;
 	exit(g_glob->exit_status);
 }
 

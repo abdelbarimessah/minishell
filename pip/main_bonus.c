@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/14 00:58:08 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/18 21:58:13 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 			close(end_pipe[0]);
 		}
 		var.id[i] = forkpipe(end_pipe);
+		g_glob->g_pid = var.id[i];
 		if(var.id[i] == -1)
 			exit(1);
 		if(var.id[i] == 0)
@@ -304,7 +305,7 @@ void main_pipe(int num_com, char **str, char **env, t_list *node)
 		close(end_pipe[0]);
 		var.fd[0] = 0;
 		var.fd[1] = 0;
-	} 
+	}
 	waitpid(var.c, NULL, 0);
 	while(i != -1)
 	{

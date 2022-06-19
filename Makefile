@@ -40,6 +40,7 @@ CPPFLAGS = "-I/goinfre/amessah/.brew/opt/readline/include"
 CC = cc
 
 all : $(NAME)
+	@echo "\n███████████████████████ minishell ███████████████████████\n"
 
 $(NAME) : $(OBJ)
 	@$(CC) $(CFLAGS) -lreadline -lncurses $(OBJ) -o $(NAME) $(LDFLAGS) $(CPPFLAGS)

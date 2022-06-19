@@ -6,11 +6,24 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/18 02:23:58 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/18 21:55:22 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+void		status_child(void)
+{
+	if (WIFEXITED(g_glob->g_pid))
+		g_glob->exit_status = WEXITSTATUS(g_glob->g_pid);
+	if (WIFSIGNALED(g_glob->g_pid))
+	{
+		g_glob->exit_status = WTERMSIG(g_glob->g_pid);
+		if (g_glob->exit_status != 131)
+			g_glob->exit_status += 128;
+	}
+}
+
 
 void	printf_list_z(t_env *lst)
 {
@@ -21,39 +34,6 @@ void	printf_list_z(t_env *lst)
 	}
 	puts("");
 }
-
-// void    incrument_shlvl(void)
-// {
-//     t_env *tmp;
-//     char **str;
-//     int shlvl;
-//     char *join;
-
-//     tmp = g_glob;
-//     while(tmp)
-//     {
-//         if(!ft_strncmp(tmp->value, "SHLVL", 5))
-//         {
-//             str = ft_split(tmp->value, '=');
-//             shlvl = ft_atoi(str[1]);
-//             printf("%d\n",shlvl);
-//             shlvl++;
-//             join = ft_strjoin("SHLVL=", ft_itoa(shlvl));
-//             printf("%s\n",join);
-//             tmp->value = join;
-//             // printf("%s\n", tmp->value);
-//             free(join);
-//             ft_free(str);
-//             break ;
-//         }
-//         tmp = tmp->next;
-//     }
-//     tmp = g_glob;
-//     while(tmp){
-//         printf("%s\n",tmp->value);
-//         tmp  = tmp->next;
-//     }
-// }
 
 char    *get_shlvl(void)
 {
@@ -105,6 +85,7 @@ int main(int ac, char **av, char **env)
     g_glob = list_env(env);
     g_glob->index = 0;
     g_glob->index_env = 0;
+    g_glob->g_pid = 0;
     incrument_shlvl();
     signal_handl();
     rl_catch_signals = 0;
@@ -116,7 +97,7 @@ int main(int ac, char **av, char **env)
         tmp = g_glob;
         head = g_glob;
         new_env = new_env_function(list);
-        input_str = readline("minishell ---: ");
+        input_str = readline("minishell$: ");
         if (!input_str)
             ctrl_d();
         if (!ft_strcmp(input_str, "exit"))
