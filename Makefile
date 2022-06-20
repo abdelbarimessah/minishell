@@ -5,15 +5,26 @@ HEADER = includes/minishell.h
 SRC = 	minishell.c                   	\
 		utils/functions/functions1.c  	\
 		utils/functions/functions2.c  	\
+		utils/functions/functions3.c  	\
+		utils/functions/functions4.c  	\
 		utils/functions/split.c       	\
-		utils/functions/get_env_info.c  \
 		utils/functions/split_two.c 	\
+		utils/functions/get_env_info.c  \
+		utils/functions/get_env_info2.c \
 		utils/linked_list/ft_lists1.c 	\
 		utils/linked_list/ft_lists2.c	\
+		utils/linked_list/ft_lists3.c	\
 		syntax/check_syntax.c			\
 		parsing/token.c 			  	\
+		parsing/token_utils1.c 		  	\
+		parsing/token_utils2.c 		  	\
+		parsing/token_utils3.c 		  	\
+		parsing/token_utils4.c 		  	\
 		pip/ft_utils.c				    \
 		pip/ft_utils2.c 				\
+		pip/ft_utils3.c 				\
+		pip/ft_utils4.c 				\
+		pip/ft_childs.c 				\
 		pip/gnl.c 						\
 		pip/main_bonus.c 				\
 		builtins/test_builtins.c 		\

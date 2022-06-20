@@ -1,42 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lists1.c                                        :+:      :+:    :+:   */
+/*   ft_lists3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/21 17:57:51 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 15:35:45 by ntanjaou         ###   ########.fr       */
+/*   Created: 2022/06/19 20:38:38 by ntanjaou          #+#    #+#             */
+/*   Updated: 2022/06/20 15:36:08 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstclearp(t_point **lst)
 {
-	t_list	*elem;
-
-	if (*lst)
-	{
-		elem = *lst;
-		elem = ft_lstlast(*lst);
-		elem->next = new;
-	}
-	*lst = new;
-}
-
-void	ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (lst && new)
-	{
-		new->next = *lst;
-		*lst = new;
-	}
-}
-
-void	ft_lstclear(t_list **lst)
-{
-	t_list	*head;
+	t_point	*head;
 
 	if (!lst)
 		return ;
@@ -51,21 +29,39 @@ void	ft_lstclear(t_list **lst)
 	*lst = NULL;
 }
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+t_point	*ft_lstnewp(void *content)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	t_point	*new;
+
+	new = malloc(sizeof(t_point));
+	if (!new)
+		return (NULL);
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+t_point	*ft_lstlastp(t_point *lst)
 {
-	if (!lst || !f)
-		return ;
-	while (lst)
+	t_point	*last;
+
+	last = lst;
+	if (!last)
+		return (NULL);
+	while (last->next != NULL)
+		last = last->next;
+	return (last);
+}
+
+void	ft_lstadd_backp(t_point **lst, t_point *new)
+{
+	t_point	*elem;
+
+	if (*lst)
 	{
-		f(lst->content);
-		lst = lst->next;
+		elem = *lst;
+		elem = ft_lstlastp(*lst);
+		elem->next = new;
 	}
+	*lst = new;
 }

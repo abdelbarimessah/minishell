@@ -135,11 +135,16 @@ void	check_args(char **str)
 					cont = 1;
 				else if(eq && eq1 &&  !ft_strcmp(eq[0],eq1[0]) && eq1[0][len - 1] != '+' && eq1[1] != NULL)
 				{
+					if(!ft_strcmp(eq[0], "SHLVL"))
+					{
+						free(tmp->export_value);
+						free(tmp->value);
+					}
 					tmp->export_value = str[i];
 					tmp->value  = str[i];
 					cont = 1;
-					ft_free(eq);
 					ft_free(eq1);
+					ft_free(eq);
 					break;
 				}
 				else if(eq && eq1 && !ft_strncmp(eq[0],eq1[0],len -1) && eq1[0][len - 1 ] == '+')
@@ -148,16 +153,18 @@ void	check_args(char **str)
 					{
 						tmp->export_value = ft_strjoin(tmp->export_value, "=");
 						tmp->value = ft_strjoin(tmp->value, "=");
-						
 					}
-					plus = ft_strjoin(tmp->export_value,eq1[1]);
+					plus = ft_strjoin(tmp->export_value, eq1[1]);
 					tmp->export_value = plus;
 					tmp->value = plus;
 					cont = 1;
+					free(plus);
 					ft_free(eq);
 					ft_free(eq1);
 					break;
 				}
+				ft_free(eq);
+				ft_free(eq1);
 				tmp = tmp->next;
 			}
 			if(cont == 0)
@@ -197,6 +204,7 @@ void	check_args(char **str)
 		}
 		i++;
 	}
+	ft_free(str);
 }
 
 void    ft_export(char **str)

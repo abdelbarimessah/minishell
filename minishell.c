@@ -3,121 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/18 21:55:22 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/20 15:04:43 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void		status_child(void)
+void	ft_initialize_one(char **env)
 {
-	if (WIFEXITED(g_glob->g_pid))
-		g_glob->exit_status = WEXITSTATUS(g_glob->g_pid);
-	if (WIFSIGNALED(g_glob->g_pid))
+	g_glob = list_env(env);
+	g_glob->point = malloc(sizeof(t_point));
+	g_glob->point->content = NULL;
+	g_glob->point->next = NULL;
+	g_glob->index = 0;
+	g_glob->index_env = 0;
+	g_glob->g_pid = 0;
+	incrument_shlvl();
+	signal_handl();
+}
+
+void	ft_initialize_two(void)
+{
+	g_glob->status = 0;
+	g_glob->sig = 0;
+}
+
+int	check_strr(char **str, char **env)
+{
+	if (!ft_strcmp((*str), "exit"))
+		return (0);
+	if (!check_syntax((*str)))
 	{
-		g_glob->exit_status = WTERMSIG(g_glob->g_pid);
-		if (g_glob->exit_status != 131)
-			g_glob->exit_status += 128;
+		ft_error("syntax error ! \n", 0);
+		free((*str));
 	}
-}
-
-
-void	printf_list_z(t_env *lst)
-{
-	while (lst)
+	else
 	{
-		printf("%s\n", lst->value);
-		lst = lst->next;
+		tokenizer(*str, env);
+		g_glob->sig = 1;
 	}
-	puts("");
+	return (1);
 }
 
-char    *get_shlvl(void)
+void	history(char *str)
 {
-    t_env *list;
-    char *str;
-    char **num;
-
-    list = g_glob;
-    while(list)
-    {
-        if(!ft_strncmp(list->value,"SHLVL",5))
-        {
-            str = list->value;
-            break;
-        }
-        list = list->next;
-    }
-    num = ft_split(str, '=');
-    return (num[1]);
+	if (str[0] != '\0')
+		add_history(str);
 }
 
-void    incrument_shlvl(void)
+int	main(int ac, char **av, char **env)
 {
-    char **str;
-    
-    g_glob->shlvl_val = ft_atoi(get_shlvl());
-    if(g_glob->shlvl_val < 0)
-        g_glob->shlvl_val = 0;
-    else
-        g_glob->shlvl_val++;
-    str = malloc(100000);////************/******************
-    str[0] = ft_strdup("export");
-    str[1] = ft_strjoin("SHLVL=",ft_itoa(g_glob->shlvl_val));
-    ft_export(str);
-}
+	char	*input_str;
+	char	**new_env;
+	t_env	*list;
 
-int main(int ac, char **av, char **env)
-{
-    char *input_str;
-    char **new_env;
-    t_env *list;
-    t_env *tmp;
-    t_env *head;
-    
-    (void)av;
-    if(ac != 1)
-        return (printf("program doesnt accepts args !"), 0);
-    input_str = NULL;
-    g_glob = list_env(env);
-    g_glob->index = 0;
-    g_glob->index_env = 0;
-    g_glob->g_pid = 0;
-    incrument_shlvl();
-    signal_handl();
-    rl_catch_signals = 0;
-    while(1)
-    {
-        g_glob->status = 0;
-        g_glob->sig = 0;
-        list = g_glob;
-        tmp = g_glob;
-        head = g_glob;
-        new_env = new_env_function(list);
-        input_str = readline("minishell$: ");
-        if (!input_str)
-            ctrl_d();
-        if (!ft_strcmp(input_str, "exit"))
-            break ;
-        if (!check_syntax(input_str))
-        {
-            ft_error("syntax error ! \n", 0);
-            free(input_str);
-        }
-        else
-        {            
-            tokenizer(input_str, new_env);
-            g_glob->sig = 1;
-        }
-
-        g_glob->index++;
-        if (input_str[0] != '\0')
-            add_history(input_str);
-        free(input_str);
-    }
-    printf("exit\n");
-    return (0);
+	(void)av;
+	if (ac != 1)
+		return (printf("program doesnt accepts args !"), 0);
+	ft_initialize_one(env);
+	//rl_catch_signals = 0;
+	while (1)
+	{
+		ft_initialize_two();
+		list = g_glob;
+		new_env = new_env_function(list);
+		input_str = readline("minishell$: ");
+		if (!(input_str))
+			ctrl_d();
+		if (!check_strr(&input_str, new_env))
+			break ;
+		g_glob->index++;
+		history(input_str);
+		free(input_str);
+		ft_lstclearp(&g_glob->point);
+	}
+	return (printf("exit\n"), 0);
 }

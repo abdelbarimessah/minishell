@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 13:04:02 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/07 17:23:24 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/20 15:29:54 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ int	ft_strcmp_2(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if(!str1)
-		return 0;
+	if (!str1)
+		return (0);
 	while (str1[i] && str2[i] && str1[i] == str2[i])
 		i++;
 	return (str1[i] - str2[i]);
 }
+
 int	ft_strcmp(char *str1, char *str2)
 {
 	int	i;
@@ -82,99 +83,4 @@ char	*ft_strchrr(char *str, int c)
 		i++;
 	}
 	return (0);
-}
-
-int	ft_strlcpy(char *dest, char *src, int size)
-{
-	int	x;
-	int	i;
-
-	x = 0;
-	while (src[x] != '\0')
-	{
-		x++;
-	}
-	i = 0;
-	if (size > 0)
-	{
-		while (src[i] != '\0' && i < (size - 1))
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
-	}
-	return (x);
-}
-
-static	int	ft_len(int n)
-{
-	int	a;
-	int	len;
-
-	a = n;
-	len = 0;
-	if (a <= 0)
-		len++;
-	while (a != 0)
-	{
-		a = a / 10;
-		len++;
-	}
-	return (len);
-}
-
-static char	*ft_pos(int n)
-{
-	char	*p;
-	int		a;
-	int		len;
-
-	a = n;
-	len = ft_len(n);
-	p = (char *) malloc (len + 1);
-	if (p == NULL)
-		return (NULL);
-	if (n == 0)
-		p[0] = '0';
-	while (n != 0)
-	{
-		len--;
-		p[len] = (n % 10) + '0';
-		n = n / 10;
-	}
-	p[ft_len(a)] = '\0';
-	return (p);
-}
-
-static char	*ft_nega(int n)
-{
-	char	*p;
-	int		a;
-	int		len;
-
-	a = n;
-	len = ft_len(n);
-	p = (char *) malloc (len + 1);
-	if (p == NULL)
-		return (NULL);
-	p[0] = '-';
-	if (n == 0)
-		p[0] = '0';
-	while (n != 0)
-	{
-		len--;
-		p[len] = -(n % 10) + '0';
-		n = n / 10;
-	}
-	p[ft_len(a)] = '\0';
-	return (p);
-}
-
-char	*ft_itoa(int n)
-{
-	if (n < 0)
-		return (ft_nega(n));
-	else
-		return (ft_pos(n));
 }

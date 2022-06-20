@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/14 00:58:20 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:13:10 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
  #include "../includes/minishell.h"
 
-void test_builtins(t_list *node,char **env)
+void test_builtins(t_list *node, char **env)
 {
     t_list *head;
     char *str;

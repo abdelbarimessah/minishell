@@ -3,170 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/18 22:01:59 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/20 21:54:54 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	ft_isalphaa(int c)
-{
-	if ((c >= 'A' && c <= 'Z' ) || (c >= 'a' && c <= 'z' ))
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_isdigitt(int c )
-{
-	if (c >= 48 && c <= 57)
-		return (1);
-	else
-		return (0);
-}
-
-int check_str(char *str, int i)
-{
-	if(str[i] && str[i] != '|' && str[i] != '&' && str[i] != ' '
-		&& str[i] != '\'' && str[i] != '"'  && str[i] != '$'
-		&& str[i] != '(' && str[i] != ')' && str[i] != '>' && str[i] != '<')
-		return(1);
-	else
-	{
-		if(str[i] == '&' && str[i + 1] != '&')
-			return(1);
-		else
-			return(0);
-	}
-}
-
-int check_tok(t_list *token, int tok)
-{
-	t_list *head;
-	head = token;
-
-	while(head)
-	{
-		if(head->token == tok)
-			return (1);
-		head = head->next;
-	}
-	return (0);
-}
-
-int check_tok_pip(t_list *token, int tok)
-{
-	t_list *head;
-
-	head = token;
-	while (head)
-	{
-		if(head->token == PIP)
-			break;
-		if(head->token == tok)
-			return(1);
-		head = head->next;
-	}
-	return(0);
-}
-
-int ft_checker1(t_list **node, char *str, int i, char **env)
-{
-	int j;
-	int c;
-	int n;
-	int x;
-	char *s;
-	char *stri;
-	
-	j = i;
-	if(str[j] == '"' && str[j + 1] == '"')
-	{
-		ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), NUL));	
-		return (0);
-	}
-	while(str[++j])
-	{
-		if(str[j] == '"')
-			break ;
-	}
-	if(str[j] == '"')
-	{
-		i++;
-		stri = ft_substr(str, i, j - i);
-		x = i;
-		if(ft_strchr(str, '$'))
-		{
-			c = i - 1;
-			while(++c < j)
-			{
-				if(str[c] == '$')
-				{
-					if(str[c + 1] == '?')
-					{
-						ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(g_glob->exit_status)), WORD));
-						x += 2;
-					}
-					else if (ft_isdigitt(str[c + 1]))
-						x += 2;
-					else
-					{
-						if(str[c + 1] == '/' || str[c + 1] == '=')
-						{
-							stri = ft_substr(str, i, c - i);
-							ft_lstadd_back(node, ft_lstnew(ft_strdup(stri), WORD));
-							break ;
-						}
-						if(c - x)
-							ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, c - x), WORD));
-						n = c++;
-						while(ft_isdigitt(str[c]) || ft_isalphaa(str[c]) || str[c] == '_')
-							c++;
-						s = get_from_env(env, ft_substr(str, n + 1, c - (n + 1)));
-						if(s)
-							ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
-						x = c;
-						c--;
-					}
-				}
-			}
-			if(j - x)
-				ft_lstadd_back(node, ft_lstnew(ft_substr(str, x, j - x), WORD));
-			free(stri);
-		}
-		else
-			ft_lstadd_back(node, ft_lstnew(stri, WORD));
-		return (j - i + 1);
-	}
-	return(printf("double quotes not closed !\n"), -1);
-}
-
-int ft_checker2(t_list **node, char *str, int i)
-{
-	int j;
-
-	j = i;
-	if(str[j] == '\'' && str[j + 1] == '\'')
-	{
-		ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), NUL));
-		return (0);
-	}
-	while(str[++j])
-	{
-		if(str[j] == '\'')
-			break ;
-	}
-	if(str[j] == '\'')
-	{
-		i++;
-		ft_lstadd_back(node, ft_lstnew(ft_substr(str, i, j - i), WORD));
-		return (j - i + 1);
-	}
-	return (-1);
-}
 
 int ft_create_tokens(struct s_list **node, char *str, char **env) 
 {
@@ -329,6 +173,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 					sb = ft_substr(str, i - j, j);
 					limiter = ft_strjoin(limiter, sb);
 				}
+				free(sb);
 			}
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(limiter), LIMITERR));
 			free(limiter);
@@ -353,28 +198,7 @@ int ft_create_tokens(struct s_list **node, char *str, char **env)
 			i++;
 	}
 	ft_lstadd_back(node, ft_lstnew(ft_strdup("---"), END_TOK));
-	
 	return (1);
-}
-
-void	printf_list(t_list *lst)
-{
-	while (lst)
-	{
-		printf("%s : %d\n", lst->content , lst->token);
-		lst = lst->next;
-	}
-	puts("");
-}
-
-int num_commande(char **str)
-{
-	int i;
-
-	i = 0;
-	while(str[i])
-		i++;
-	return (i);
 }
 
 void ft_join_pipe(t_list *node, char **env)
@@ -425,75 +249,7 @@ void ft_join_pipe(t_list *node, char **env)
 	exit(1);
 }
 
-int ft_execute_builtins(t_list *node, char **env)
-{
-	t_list *head;
-	char *str;
-	char **cmd;
-	int c;
-
-	(void)env;
-	str = ft_strdup("");
-	head = node->next;
-	c = 0;
-	while(head->token != END_TOK)
-	{
-		if(head->token == WSPACE)
-			str = ft_strjoin(str, "\v");
-		else if(head->token == OUTPUTE_REDI)
-			return (0);
-		else if(head->token == INPUTE_REDI)
-			return (0);
-		else if(head->token == OUTPUTE_HEREDOC)
-			return (0);
-		else if(head->content)
-			str = ft_strjoin(str, head->content);
-		head = head->next;
-	}
-	if(!str[0])
-		return (0);
-	cmd = ft_split(str, '\v');
-	free(str);
-	if(!strcmp(cmd[0], "echo"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	if(!strcmp(cmd[0], "cd"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	if(!strcmp(cmd[0], "export"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	if(!strcmp(cmd[0], "unset"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	if(!strcmp(cmd[0], "pwd"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	if(!strcmp(cmd[0], "env"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	if(!strcmp(cmd[0], "exit"))
-	{
-		ft_free(cmd);
-		return (1);
-	}
-	ft_free(cmd);
-	return (0);
-}
-
-void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2], t_vars var)
+void execute_tb(char *cmds, char **env, t_list *node, t_vars var)
 {
 	char *path;
 	char **cmd;
@@ -516,8 +272,8 @@ void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2], t_var
 		
 		if(!ft_is_last(node, INTPUTE_HEREDOC, INPUTE_REDI, END_TOK))
 		{
-			dup2(fd[0], i[0]);
-			close(fd[0]);
+			dup2(var.fdd[0], var.z[0]);
+			close(var.fdd[0]);
 		}
 		else
 		{
@@ -529,15 +285,15 @@ void execute_tb(char *cmds, char **env, t_list *node, int fd[2], int i[2], t_var
 			close(end_p[0]);
 		}
 	}
-	if(i[0] == 0)
+	if(var.z[0] == 0)
 	{
-		dup2(fd[0], i[0]);
-		close(fd[0]);
+		dup2(var.fdd[0], var.z[0]);
+		close(var.fdd[0]);
 	}
-	if(i[1] == 1)
+	if(var.z[1] == 1)
 	{
-		dup2(fd[1], i[1]);
-		close(fd[1]);
+		dup2(var.fdd[1], var.z[1]);
+		close(var.fdd[1]);
 	}
 	path = ft_path(env, cmds);
 	if(access(cmd[0], X_OK) == 0)
@@ -555,14 +311,12 @@ void ft_execute_comnd(t_list *node, char **env)
 	t_vars var;
 	char *str;
 	int pid;
-	int fd[2];
 	char *file_n;
-	int i[2];
 	char **cmd;
 	char *p;
 	
-	fd[0] = dup(0);
-	fd[1] = dup(1);
+	var.fdd[0] = dup(0);
+	var.fdd[1] = dup(1);
 	head = node;
 	str = ft_strdup("");
 	head = head->next;
@@ -581,14 +335,14 @@ void ft_execute_comnd(t_list *node, char **env)
 				file_n = ft_strjoin(file_n, head->content);
 				head = head->next;
 			}
-			fd[0] = open(file_n, O_RDONLY);
-			if(fd[0] == -1)
+			var.fdd[0] = open(file_n, O_RDONLY);
+			if(var.fdd[0] == -1)
 			{
 				printf(" ---> %s <----- No such file or directory\n", file_n);
 				return ;
 			}
 			free(file_n);
-			i[0] = 0;
+			var.z[0] = 0;
 		}
 		else if(head->token == INTPUTE_HEREDOC)
 		{
@@ -617,14 +371,14 @@ void ft_execute_comnd(t_list *node, char **env)
 				file_n = ft_strjoin(file_n, head->content);
 				head = head->next;
 			}
-			fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
-			if(fd[1] == -1)
+			var.fdd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+			if(var.fdd[1] == -1)
 			{
 				printf(" ---> %s <----- Error in file creation\n", file_n);
 				return ;
 			}
 			free(file_n);
-			i[1] = 1;
+			var.z[1] = 1;
 		}
 		else if(head->token == OUTPUTE_REDI)
 		{
@@ -637,14 +391,14 @@ void ft_execute_comnd(t_list *node, char **env)
 				file_n = ft_strjoin(file_n, head->content);
 				head = head->next;
 			}
-			fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if(fd[1] == -1)
+			var.fdd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
+			if(var.fdd[1] == -1)
 			{
 				printf(" ---> %s <----- Error in file creation\n", file_n);
 				return ;
 			}
 			free(file_n);
-			i[1] = 1;
+			var.z[1] = 1;
 		}
 		else if(head->token == NUL)
 			str = ft_strjoin(str, " ");
@@ -660,7 +414,7 @@ void ft_execute_comnd(t_list *node, char **env)
 		pid = fork();
 		g_glob->g_pid = pid;
 		if(pid == 0)
-			execute_tb(str, env, node, fd, i, var);
+			execute_tb(str, env, node, var);
 		else
 			g_glob->status = 1;
 		
@@ -687,13 +441,11 @@ void tokenizer(char *str, char  **env)
 	head = token;
 	if(!ft_create_tokens(&token, str, env))
 		return ;
-	// printf_list(head);
-	// exit(0);
-	// if(!check_syntax_list(head))
-	// {
-	// 	ft_error("syntax error ! \n", 0);
-	// 	return ;
-	// }
+	if(!check_syntax_list(head))
+	{
+		ft_error("syntax error ! \n", 0);
+		return ;
+	}
 	if(check_tok(head, PIP))
 	{
 		pid = fork();
@@ -701,14 +453,9 @@ void tokenizer(char *str, char  **env)
 			ft_join_pipe(head, env);
 		waitpid(pid, NULL, 0);
 	}
-
 	else if(ft_execute_builtins(head, env) == 1)
-	{
 		test_builtins(head, env);	
-	}
-	else if(!ft_execute_builtins(head, env))
-	{
+	else if(ft_execute_builtins(head, env) == 0)
 		ft_execute_comnd(head, env);
-	}
-	ft_lstclear(&token);
+	ft_lstclear(&head);
 } 
