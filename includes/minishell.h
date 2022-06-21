@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 15:16:01 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 22:00:53 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,14 @@ t_env	*g_glob;
 
 typedef struct s_vars
 {
+	int		pth_i;
+	int		pth_k;
+	int		pth_a;
+	int		pth_ans;
+	char	*pth_str;
+	char	*pth_str2;
+	char	**pth_p;
+	char	**pth_cmd;
 	int		ck_j;
 	int		ck_c;
 	int		ck_n;
@@ -99,7 +107,6 @@ typedef struct s_vars
 	int		c2;
 	int		fd[2];
 	int		fdd[2];
-	int		x[2];
 	int		z[2];
 	char	*file_n;
 	char	*value;
@@ -236,8 +243,10 @@ char	*path_oldpwd(t_env *list);
 void	ft_putstr_3(char *str, char *str1, char *str2);
 char	*ft_cd_home(t_env *list, char **args);
 void	print_sort_list(t_env *tmp1);
+void	print_sort_list_utils(char *str);
+void	check_test_builtins(char **cmd);
+char	*ft_export_utils(char *str);
 /////// i dont know
 int		ft_execute_builtins(t_list *node, char **env);
-char	*ft_path(char **env, char *cd);
 
 #endif

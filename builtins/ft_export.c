@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/21 15:09:07 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:54:28 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,21 @@ t_env	*sort_env(t_env *tmp)
 {
 	int		swap;
 	t_env	*list;
-	int		lr;
 
 	swap = 1;
 	list = tmp;
-	lr = 0;
 	while (swap == 1)
 	{
 		swap = 0;
 		list = list->next;
 		while (list != NULL && list->next != NULL)
 		{
-			lr = ft_strcmp(list->export_value, list->next->export_value);
-			if (lr > 0 && list->export_value != NULL
+			if (ft_strcmp(list->export_value, list->next->export_value) > 0
+				&& list->export_value != NULL
 				&& list->next->export_value != NULL)
 			{
 				swap_list(list, list->next);
 				swap = 1;
-				lr = 0;
 			}
 			list = list->next;
 		}
@@ -152,26 +149,7 @@ void	check_args(char **str)
 			if (cont == 0)
 			{
 				if (eq1[0][len - 1] == '+')
-				{
-					cont = 1;
-					plus = malloc(sizeof(char *) * (ft_strlen(str[i]) - 1));
-					while (str[i][j])
-					{
-						plus[j] = str[i][j];
-						if (str[i][j] == '+')
-							break ;
-						j++;
-					}
-					j1 = j;
-					j += 1;
-					while (str[i][j])
-					{
-						plus[j1] = str[i][j];
-						j++;
-						j1++;
-					}
-					plus[j1] = '\0';
-				}
+					plus = ft_export_utils(str[i]);
 				else
 					plus = str[i];
 				add_to_list(list, plus);

@@ -6,41 +6,14 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 15:30:46 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 19:03:08 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_path(char **env, char *cd)
+int	check_cmdd(char **cmd)
 {
-	int		i;
-	int		k;
-	char	*str;
-	char	*str2;
-	char	**p;
-	char	**cmd;
-	int		a;
-
-	a = 0;
-	str = get_from_env(env, "PATH");
-	p = ft_split_two(str, ':');
-	k = -1;
-	while (cd[++k])
-	{
-		if (cd[k] == ' ' && cd[k] != '\v')
-			a = 1;
-	}
-	if (a)
-		cmd = ft_split(cd, ' ');
-	else
-		cmd = ft_split(cd, '\v');
-	if (access(cmd[0], X_OK) == 0)
-	{
-		ft_free(cmd);
-		ft_free(p);
-		return (cmd[0]);
-	}
 	if (!cmd)
 	{
 		ft_putstr_fd("minishell : command not found: ", 2);
@@ -49,26 +22,64 @@ char	*ft_path(char **env, char *cd)
 		ft_putstr_fd("\n", 2);
 		ft_free(cmd);
 		g_glob->exit_status = 127;
-		exit(g_glob->exit_status);
+		return (0);
 	}
-	i = -1;
-	while (p[++i])
+	return (1);
+}
+
+char	**spc_ver(char *cd)
+{
+	int		k;
+	int		i;
+	char	**cmd;
+
+	i = 0;
+	k = -1;
+	while (cd[++k])
 	{
-		str2 = ft_strjoin(p[i], cmd[0]);
-		if (access(str2, X_OK) == 0)
-		{
-			ft_free(cmd);
-			return (str2);
-		}
-		free(str2);
+		if (cd[k] == ' ' && cd[k] != '\v')
+			i = 1;
 	}
+	if (i)
+		cmd = ft_split(cd, ' ');
+	else
+		cmd = ft_split(cd, '\v');
+	return (cmd);
+}
+
+void	cmd_notfound(char **cmd)
+{
 	g_glob->exit_status = 127;
 	ft_putstr_fd("minishell : command not found: ", 2);
 	if (cmd[0])
 		ft_putstr_fd(cmd[1], 2);
 	ft_putstr_fd("\n", 2);
 	ft_free(cmd);
-	ft_free(p);
+}
+
+char	*ft_path(char **env, char *cd)
+{
+	t_vars	var;
+
+	var.pth_i = 0;
+	var.pth_str = get_from_env(env, "PATH");
+	var.pth_p = ft_split_two(var.pth_str, ':');
+	var.pth_cmd = spc_ver(cd);
+	if (access(var.pth_cmd[0], X_OK) == 0)
+		return (ft_free(var.pth_p), ft_free(var.pth_cmd), cd);
+	var.pth_ans = check_cmdd(var.pth_cmd);
+	if (!var.pth_ans)
+		exit(g_glob->exit_status);
+	var.pth_i = -1;
+	while (var.pth_p[++var.pth_i])
+	{
+		var.pth_str2 = ft_strjoin(var.pth_p[var.pth_i], var.pth_cmd[0]);
+		if (access(var.pth_str2, X_OK) == 0)
+			return (ft_free(var.pth_cmd), var.pth_str2);
+		free(var.pth_str2);
+	}
+	cmd_notfound(var.pth_cmd);
+	ft_free(var.pth_p);
 	exit(g_glob->exit_status);
 }
 

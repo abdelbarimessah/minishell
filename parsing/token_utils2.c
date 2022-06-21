@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:46:51 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 16:57:04 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 21:23:35 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ char	*ft_create_str(t_list **lst)
 		if (head->token == WSPACE)
 			str = ft_strjoin(str, "\v");
 		else if (head->token == OUTPUTE_REDI)
-			return (0);
+			break ;
 		else if (head->token == INPUTE_REDI)
-			return (0);
+			break ;
 		else if (head->token == OUTPUTE_HEREDOC)
-			return (0);
+			break ;
 		else if (head->content)
 			str = ft_strjoin(str, head->content);
 		head = head->next;
@@ -76,11 +76,9 @@ int	ft_execute_builtins(t_list *node, char **env)
 	t_list	*head;
 	char	*str;
 	char	**cmd;
-	int		c;
 
 	(void)env;
 	head = node->next;
-	c = 0;
 	str = ft_create_str(&head);
 	if (!str[0])
 		return (0);

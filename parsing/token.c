@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 15:51:28 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 21:24:26 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -446,11 +446,11 @@ void	tokenizer(char *str, char **env)
 	head = token;
 	if (!ft_create_tokens(&token, str, env))
 		return ;
-	if (!check_syntax_list(head))
-	{
-		ft_error("syntax error ! \n", 0);
-		return ;
-	}
+	// if (!check_syntax_list(head))
+	// {
+	// 	ft_error("syntax error ! \n", 0);
+	// 	return ;
+	// }
 	if (check_tok(head, PIP))
 	{
 		pid = fork();
@@ -459,8 +459,12 @@ void	tokenizer(char *str, char **env)
 		waitpid(pid, NULL, 0);
 	}
 	else if (ft_execute_builtins(head, env) == 1)
+	{
 		test_builtins(head, env);
+	}
 	else if (ft_execute_builtins(head, env) == 0)
+	{
 		ft_execute_comnd(head, env);
+	}
 	ft_lstclear(&head);
 }

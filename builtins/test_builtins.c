@@ -6,11 +6,29 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/21 15:18:14 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:45:19 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	check_test_builtins(char **cmd)
+{
+	if (ft_strcmp(cmd[0], "echo") == 0)
+		ft_echo(cmd);
+	else if (!ft_strcmp(cmd[0], "unset"))
+		ft_unset(cmd);
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
+		ft_pwd();
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		ft_exit(cmd);
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		ft_export(cmd);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		ft_env(cmd);
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		ft_cd(cmd);
+}
 
 void	test_builtins(t_list *node, char **env)
 {
@@ -32,18 +50,5 @@ void	test_builtins(t_list *node, char **env)
 		head = head->next;
 	}
 	cmd = ft_split(str, '\v');
-	if (ft_strcmp(cmd[0], "echo") == 0)
-		ft_echo(cmd);
-	else if (!ft_strcmp(cmd[0], "unset"))
-		ft_unset(cmd);
-	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		ft_pwd();
-	else if (ft_strcmp(cmd[0], "exit") == 0)
-		ft_exit(cmd);
-	else if (ft_strcmp(cmd[0], "export") == 0)
-		ft_export(cmd);
-	else if (ft_strcmp(cmd[0], "env") == 0)
-		ft_env(cmd);
-	else if (ft_strcmp(cmd[0], "cd") == 0)
-		ft_cd(cmd);
+	check_test_builtins(cmd);
 }

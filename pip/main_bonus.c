@@ -6,11 +6,73 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/21 15:36:22 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 22:16:04 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int outp_redi(t_list **nod, t_vars var)
+{
+	var.file_n = ft_strdup("");
+	(*nod) = (*nod)->next;
+	if ((*nod)->token == WSPACE)
+		(*nod) = (*nod)->next;
+	while ((*nod)->token == WORD && (*nod)->token != END_TOK)
+	{
+		var.file_n = ft_strjoin(var.file_n, (*nod)->content);
+		(*nod) = (*nod)->next;
+	}
+	var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (var.fd[1] == -1)
+	{
+		printf(" %s Error in file creation\n", var.file_n);
+		return (0);
+	}
+	free(var.file_n);
+	return (var.fd[1]);
+}
+
+int outp_herdc(t_list **nod, t_vars var)
+{
+	var.file_n = ft_strdup("");
+	(*nod) = (*nod)->next;
+	if ((*nod)->token == WSPACE)
+		(*nod) = (*nod)->next;
+	while ((*nod)->token == WORD && (*nod)->token != END_TOK)
+	{
+		var.file_n = ft_strjoin(var.file_n, (*nod)->content);
+		(*nod) = (*nod)->next;
+	}
+	var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_APPEND, 0777);
+	if (var.fd[1] == -1)
+	{
+		printf(" %s Error in file creation\n", var.file_n);
+		return (0);
+	}
+	free(var.file_n);
+	return (var.fd[1]);
+}
+
+void her_dc(t_list **nod, t_vars var)
+{
+	char *p;
+
+	var.value = ft_strdup("");
+	(*nod) = (*nod)->next;
+	while ((*nod)->token == WSPACE && (*nod)->token != END_TOK)
+		(*nod) = (*nod)->next;
+	dup2(var.st_in, 0);
+	while (1)
+	{
+		p = readline("> ");
+		if (!ft_strcmp(p, (*nod)->content))
+			break ;
+		p = ft_strjoin_nf(p, "\n");
+		var.value = ft_strjoin(var.value, p);
+		free(p);
+	}
+}
 
 void	main_pipe(int num_com, char **str, char **env, t_list *node)
 {
@@ -18,7 +80,7 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 	int		end_pipe[2];
 	int		i;
 	t_list	*head;
-	char	*p;
+	//char	*p;
 
 	i = -1;
 	var.file_n = ft_strdup("");
@@ -35,61 +97,34 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 		{
 			if (head->token == OUTPUTE_REDI)
 			{
-				var.file_n = ft_strdup("");
-				head = head->next;
-				if (head->token == WSPACE)
-					head = head->next;
-				while (head->token == WORD && head->token != END_TOK)
-				{
-					var.file_n = ft_strjoin(var.file_n, head->content);
-					head = head->next;
-				}
-				var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
-				if (var.fd[1] == -1)
-				{
-					printf(" %s Error in file creation\n", var.file_n);
+				var.fd[1] = outp_redi(&head, var);
+				printf("%d \n", var.fd[1]);
+				if(!var.fd[1])
 					break ;
-				}
-				free(var.file_n);
-				var.x[1] = 1;
 			}
 			else if (head->token == OUTPUTE_HEREDOC)
 			{
-				var.file_n = ft_strdup("");
-				head = head->next;
-				if (head->token == WSPACE)
-					head = head->next;
-				while (head->token == WORD && head->token != END_TOK)
-				{
-					var.file_n = ft_strjoin(var.file_n, head->content);
-					head = head->next;
-				}
-				var.fd[1] = open(var.file_n, O_CREAT
-						| O_WRONLY | O_APPEND, 0777);
-				if (var.fd[1] == -1)
-				{
-					printf(" %s Error in file creation\n", var.file_n);
+				var.fd[1] = outp_herdc(&head, var);
+				if(!var.fd[1])
 					break ;
-				}
-				free(var.file_n);
-				var.x[1] = 1;
 			}
 			else if (head->token == INTPUTE_HEREDOC)
 			{
-				var.value = ft_strdup("");
-				head = head->next;
-				while (head->token == WSPACE && head->token != END_TOK)
-					head = head->next;
-				dup2(var.st_in, 0);
-				while (1)
-				{
-					p = readline("> ");
-					if (!ft_strcmp(p, head->content))
-						break ;
-					p = ft_strjoin_nf(p, "\n");
-					var.value = ft_strjoin(var.value, p);
-					free(p);
-				}
+				// var.value = ft_strdup("");
+				// head = head->next;
+				// while (head->token == WSPACE && head->token != END_TOK)
+				// 	head = head->next;
+				// dup2(var.st_in, 0);
+				// while (1)
+				// {
+				// 	p = readline("> ");
+				// 	if (!ft_strcmp(p, head->content))
+				// 		break ;
+				// 	p = ft_strjoin_nf(p, "\n");
+				// 	var.value = ft_strjoin(var.value, p);
+				// 	free(p);
+				// }
+				her_dc(&head, var);
 			}
 			else if (head->token == INPUTE_REDI)
 			{
@@ -109,7 +144,6 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 					break ;
 				}
 				free(var.file_n);
-				var.x[0] = 0;
 			}
 			else
 				head = head->next;
