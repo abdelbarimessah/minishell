@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:11:22 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 02:20:26 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:22:11 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,26 @@ int	ft_isalnum(char *str)
 	}
 	return (1);
 }
-int ft_exit(char **str)
+
+int	ft_exit(char **str)
 {	
-	if(str[0] && !str[1])
+	if (str[0] && !str[1])
 	{
-		ft_putstr_fd("exit\n",1);
+		ft_putstr_fd("exit\n", 1);
 		exit(g_glob->exit_status);
 	}
 	else
 	{
-		if(ft_isalnum(str[1]) == 0)
+		if (ft_isalnum(str[1]) == 0)
 		{
-			ft_putstr_fd("exit\nminishell: exit: ",2);
-			ft_putstr_fd(str[1],2);
+			ft_putstr_fd("exit\nminishell: exit: ", 2);
+			ft_putstr_fd(str[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			g_glob->exit_status = 255;
 		}
 		else
 		{
-			ft_putstr_fd("exit\n",1);
+			ft_putstr_fd("exit\n", 1);
 			g_glob->exit_status = ft_atoi(str[1]);
 		}
 		exit(g_glob->exit_status);

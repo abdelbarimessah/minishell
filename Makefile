@@ -38,6 +38,7 @@ SRC = 	minishell.c                   	\
 		builtins/ft_sig.c		 		\
 		builtins/ft_unset.c		 		\
 		builtins/ft_ctrl_d.c		 	\
+		builtins/ft_env_utils.c			\
 
 
 OBJ = ${SRC:.c=.o}

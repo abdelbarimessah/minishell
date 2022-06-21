@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:32:46 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/18 22:34:05 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:13:13 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	old_pwd(t_env *list)
 	if (!getcwd(path, 1024))
 		g_glob->exit_status = 0;
 	old = ft_strjoin("OLDPWD=", path);
-	list = search_and_replce_OLDPWD(g_glob, old);
+	list = search_and_replce_oldpwd(g_glob, old);
 }
 
 void	cd_pwd(t_env *list)
@@ -52,7 +52,7 @@ void	cd_pwd(t_env *list)
 		return ;
 	}
 	pwd = ft_strjoin("PWD=", path);
-	list = search_and_replce_PWD(g_glob, pwd);
+	list = search_and_replce_pwd(g_glob, pwd);
 }
 
 char	*path_oldpwd(t_env *list)
@@ -78,35 +78,21 @@ char	*path_oldpwd(t_env *list)
 
 void	ft_cd(char **args)
 {
-	char	*str;
-	char	**cm;
 	t_env	*list;
 	int		a;
 
 	a = 0;
 	list = g_glob;
 	if (args[1] != NULL && !ft_strcmp(args[1], "-"))
-		ft_cd_utils(args, a);
+		a = ft_cd_utils(args, a);
 	old_pwd(list);
 	if (args[1] == NULL || !ft_strcmp(args[1], "--")
 		|| !ft_strcmp(args[1], "~"))
-	{
-		cm = new_env_function(list);
-		str = check_home_path(cm);
-		if (!str)
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			g_glob->exit_status = 1;
-			return ;
-		}
-		args[1] = str;
-	}
+		ft_cd_home(list, args);
 	if (chdir(args[1]) == -1 && a == 0 && args[1])
 	{
 		g_glob->exit_status = 1;
-		ft_putstr_fd("cd: ", 1);
-		ft_putstr_fd(args[1], 1);
-		ft_putstr_fd(": No such file or directory\n", 1);
+		ft_putstr_3("cd: ", args[1], ": No such file or directory\n");
 	}
 	cd_pwd(list);
 	g_glob->index++;

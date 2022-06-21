@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ctrl_d.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 02:27:02 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/18 21:21:23 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:01:56 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static int	ft_putchar(int c)
 }
 
 void	ctrl_d(void)
-{ 
-	char *sr_cap;
-    
-	sr_cap = tgetstr("sr", NULL); 
-	tputs(sr_cap, 0, ft_putchar); 
+{
+	char	*sr_cap;
+
+	sr_cap = tgetstr("sr", NULL);
+	tputs(sr_cap, 0, ft_putchar);
 	ft_putstr_fd("		exit\n", 1);
-	exit(g_glob->exit_status); 
+	exit(g_glob->exit_status);
 }

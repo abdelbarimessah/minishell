@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 21:53:49 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:16:01 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,22 +218,24 @@ char	**new_env_function(t_env *list);
 void	ft_export(char **env);
 void	ft_cd(char **args);
 char	*check_home_path(char **str);
-t_env	*search_and_replce_OLDPWD(t_env *list, void *data);
-t_env	*search_and_replce_PWD(t_env *list, void *data);
+t_env	*search_and_replce_oldpwd(t_env *list, void *data);
+t_env	*search_and_replce_pwd(t_env *list, void *data);
 int		check_for_equal(char *str);
 void	sig_handler(int sig);
 void	signal_handl(void);
 void	ft_unset(char **str);
 int		check_arg(char *arg);
-void	deleteNode_from_export(t_env *list, char *str, int len);
-void	deleteNode_from_env(t_env *list, char *str, int len);
+void	deletenode_from_env(t_env *list, char *str, int len);
 int		ft_isalnum1(int c);
 int		ft_isalpha(int c);
 void	ctrl_d(void);
 void	status_child(void);
 void	ft_putchar_fd(char c, int fd);
-void	ft_cd_utils(char **args, int a);
+int		ft_cd_utils(char **args, int a);
 char	*path_oldpwd(t_env *list);
+void	ft_putstr_3(char *str, char *str1, char *str2);
+char	*ft_cd_home(t_env *list, char **args);
+void	print_sort_list(t_env *tmp1);
 /////// i dont know
 int		ft_execute_builtins(t_list *node, char **env);
 char	*ft_path(char **env, char *cd);

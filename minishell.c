@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 15:04:43 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:28:55 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_initialize_one(char **env)
 	g_glob->index = 0;
 	g_glob->index_env = 0;
 	g_glob->g_pid = 0;
-	incrument_shlvl();
+	// incrument_shlvl();
 	signal_handl();
 }
 

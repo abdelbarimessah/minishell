@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 16:24:28 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:30:46 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 char	*ft_path(char **env, char *cd)
 {
 	int		i;
-	int 	k;
+	int		k;
 	char	*str;
 	char	*str2;
 	char	**p;
 	char	**cmd;
-	int a;
+	int		a;
 
 	a = 0;
 	str = get_from_env(env, "PATH");
 	p = ft_split_two(str, ':');
 	k = -1;
-	while(cd[++k])
+	while (cd[++k])
 	{
-		if(cd[k] == ' ' && cd[k] != '\v')
+		if (cd[k] == ' ' && cd[k] != '\v')
 			a = 1;
 	}
-	if(a)
+	if (a)
 		cmd = ft_split(cd, ' ');
 	else
 		cmd = ft_split(cd, '\v');

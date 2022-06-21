@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:30:27 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/18 22:36:05 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:01:02 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**new_env_function(t_env *list)
 	return (env);
 }
 
-void	ft_cd_utils(char **args,int a)
+int	ft_cd_utils(char **args, int a)
 {
 	if (g_glob->index == 0)
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
@@ -69,4 +69,29 @@ void	ft_cd_utils(char **args,int a)
 		}
 	}
 	a++;
+	return (a);
+}
+
+void	ft_putstr_3(char *str, char *str1, char *str2)
+{
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(str1, 2);
+	ft_putstr_fd(str2, 2);
+}
+
+char	*ft_cd_home(t_env *list, char **args)
+{
+	char	*str;
+	char	**cm;
+
+	cm = new_env_function(list);
+	str = check_home_path(cm);
+	if (!str)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		g_glob->exit_status = 1;
+		return (NULL);
+	}
+	args[1] = str;
+	return (args[1]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 23:22:42 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/12 21:53:45 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:03:15 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,32 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-int ft_check_n(char *str,char *substr)
+int	ft_check_n(char *str, char *substr)
 {
-	int i ;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == substr[j] && str[i + 1] == substr[j + 1])
-			return(0);
+		if (str[i] == substr[j] && str[i + 1] == substr[j + 1])
+			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int				ft_echo(char **args)
+int	ft_echo(char **args)
 {
-	int		i;
-	int		n_option;
-	int cpt;
+	int	i;
+	int	n_option;
+	int	cpt;
 
 	i = 1;
 	n_option = 0;
 	cpt = 0;
-	if(args[1] && !ft_strncmp(args[1],"-n",2))
+	if (args[1] && !ft_strncmp(args[1], "-n", 2))
 	{
 		n_option = 1;
 		i = 2;
