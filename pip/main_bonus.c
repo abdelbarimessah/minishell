@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/21 22:16:04 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 15:47:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,22 @@ int outp_herdc(t_list **nod, t_vars var)
 	return (var.fd[1]);
 }
 
-void her_dc(t_list **nod, t_vars var)
+void her_dc(t_list **nod, t_vars *var)
 {
 	char *p;
 
-	var.value = ft_strdup("");
+	var->value = ft_strdup("");
 	(*nod) = (*nod)->next;
 	while ((*nod)->token == WSPACE && (*nod)->token != END_TOK)
 		(*nod) = (*nod)->next;
-	dup2(var.st_in, 0);
+	dup2(var->st_in, 0);
 	while (1)
 	{
 		p = readline("> ");
 		if (!ft_strcmp(p, (*nod)->content))
 			break ;
 		p = ft_strjoin_nf(p, "\n");
-		var.value = ft_strjoin(var.value, p);
+		var->value = ft_strjoin(var->value, p);
 		free(p);
 	}
 }
@@ -80,7 +80,6 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 	int		end_pipe[2];
 	int		i;
 	t_list	*head;
-	//char	*p;
 
 	i = -1;
 	var.file_n = ft_strdup("");
@@ -109,23 +108,7 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 					break ;
 			}
 			else if (head->token == INTPUTE_HEREDOC)
-			{
-				// var.value = ft_strdup("");
-				// head = head->next;
-				// while (head->token == WSPACE && head->token != END_TOK)
-				// 	head = head->next;
-				// dup2(var.st_in, 0);
-				// while (1)
-				// {
-				// 	p = readline("> ");
-				// 	if (!ft_strcmp(p, head->content))
-				// 		break ;
-				// 	p = ft_strjoin_nf(p, "\n");
-				// 	var.value = ft_strjoin(var.value, p);
-				// 	free(p);
-				// }
-				her_dc(&head, var);
-			}
+				her_dc(&head, &var);
 			else if (head->token == INPUTE_REDI)
 			{
 				var.file_n = ft_strdup("");
