@@ -6,206 +6,11 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 21:24:26 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 20:58:36 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	ft_create_tokens(struct s_list **node, char *str, char **env)
-{
-	int		i;
-	int		j;
-	char	*sb;
-	char	*s;
-	char	*st;
-	t_env	*tmp;
-	char	*limiter;
-	char	**env1;
-
-	(void)env;
-	i = 0;
-	j = 1;
-	tmp = g_glob;
-	env1 = new_env_function(tmp);
-	while (str[i] == ' ')
-		i++;
-	while (i < ft_strlen(str))
-	{
-		j = 0;
-		if (str[i] == ' ')
-		{
-			while (str[i] == ' ')
-				i++;
-			if (!str[i])
-				break ;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WSPACE));
-			i--;
-		}
-		else if (str[i] == '|')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIP));
-		else if (str[i] == '"')
-		{
-			j = ft_checker1(node, str, i, env1);
-			if (j == -1)
-				return (0);
-			i += j + 1;
-		}
-		else if (str[i] == '\'')
-		{
-			j = ft_checker2(node, str, i);
-			if (j == -1)
-			{
-				printf("single quotes not closed !\n");
-				return (0);
-			}
-			i += j + 1;
-		}
-		else if (str[i] == '$')
-		{
-			if (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '$')
-			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WORD));
-				i++;
-			}
-			else if (str[i + 1] == '?')
-			{
-				ft_lstadd_back(node, ft_lstnew
-					(ft_strdup(ft_itoa(g_glob->exit_status)), WORD));
-				i++;
-			}
-			else if (ft_isdigitt(str[i + 1]))
-			{
-				i++;
-				s = ft_substr(str, i, j - i);
-				if (s)
-					ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
-			}
-			else
-			{
-				j = i + 1;
-				while (ft_isdigitt(str[j])
-					|| ft_isalphaa(str[j]) || str[j] == '_')
-					j++;
-				st = ft_substr(str, i, j - i);
-				s = get_from_env(env1, ft_substr(str, i + 1, j - (i + 1)));
-				if (s)
-					ft_lstadd_back(node, ft_lstnew(ft_strdup(s), WORD));
-				else if (str[i + 1] == '/')
-					ft_lstadd_back(node, ft_lstnew(ft_strdup(st), WORD));
-				i += (j - i);
-			}
-		}
-		else if (str[i] == '>' && str[i + 1] == '>')
-		{
-			i++;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUTE_HEREDOC));
-		}
-		else if (str[i] == '<' && str[i + 1] == '<')
-		{
-			limiter = ft_strdup("");
-			i += 2;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INTPUTE_HEREDOC));
-			while (str[i] == ' ')
-				i++;
-			while (str[i] && str[i] != ' '
-				&& str[i] != '<'
-				&& str[i] != '>' && str[i] != '|')
-			{
-				if (str[i] == '"')
-				{
-					if (str[i] == '"' && str[i + 1] == '"')
-					{
-						sb = ft_strdup("");
-						i += 2;
-						j = 1;
-					}
-					else
-					{
-						i++;
-						j = 0;
-						while (str[i] && str[i] != '"')
-						{
-							i++;
-							j++;
-						}
-						if (!str[i])
-							return (printf("double quotes not closed !\n"), 0);
-						else
-						{
-							sb = ft_substr(str, i - j, j);
-							limiter = ft_strjoin(limiter, sb);
-						}
-						i++;
-					}
-				}
-				else if (str[i] == '\'')
-				{
-					if (str[i] == '\'' && str[i + 1] == '\'')
-					{
-						sb = ft_strdup("");
-						i += 2;
-						j = 1;
-					}
-					else
-					{
-						i++;
-						j = 0;
-						while (str[i] && str[i] != '\'')
-						{
-							i++;
-							j++;
-						}
-						if (!str[i])
-							return (printf("single quotes not closed !\n"), 0);
-						else
-						{
-							sb = ft_substr(str, i - j, j);
-							limiter = ft_strjoin(limiter, sb);
-						}
-						i++;
-					}
-				}
-				else
-				{
-					j = 0;
-					while (str[i] && str[i] != '\'' && str[i] != '"'
-						&& str[i] != ' ' && str[i] != '<'
-						&& str[i] != '>' && str[i] != '|')
-					{
-						i++;
-						j++;
-					}
-					sb = ft_substr(str, i - j, j);
-					limiter = ft_strjoin(limiter, sb);
-				}
-				free(sb);
-			}
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(limiter), LIMITERR));
-			free(limiter);
-			j = 5;
-		}
-		else if (str[i] == '>' && str[i + 1] != '>')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OUTPUTE_REDI));
-		else if (str[i] == '<' && str[i + 1] != '<')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), INPUTE_REDI));
-		else
-		{
-			if (str[i] != ' ')
-			{
-				i--;
-				while (check_str(str, ++i))
-					j++;
-				ft_lstadd_back(node, ft_lstnew
-					(ft_substr(str, i - j, j), WORD));
-			}
-		}
-		if (!j)
-			i++;
-	}
-	ft_lstadd_back(node, ft_lstnew(ft_strdup("---"), END_TOK));
-	return (1);
-}
 
 void	ft_join_pipe(t_list *node, char **env)
 {
@@ -444,8 +249,10 @@ void	tokenizer(char *str, char **env)
 		return ;
 	token = ft_lstnew(ft_strdup("---"), START_TOK);
 	head = token;
-	if (!ft_create_tokens(&token, str, env))
+	if (!ft_create_tokens(&token, str))
 		return ;
+	// printf_list(head);
+	// exit(0);
 	// if (!check_syntax_list(head))
 	// {
 	// 	ft_error("syntax error ! \n", 0);

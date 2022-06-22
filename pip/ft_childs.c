@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:06:53 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 22:20:08 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 18:39:26 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	ft_child_1(char *cmd, char **env, int *end_pipe, t_vars var)
 
 void	ft_child_2(char *cmd, char **env, t_vars var)
 {
-	
 	if (check_tok_pip(var.node, INPUTE_REDI)
 		&& ft_is_last(var.node, INPUTE_REDI, INTPUTE_HEREDOC, PIP))
 	{

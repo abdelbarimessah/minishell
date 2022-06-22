@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:03:50 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 21:54:32 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 21:22:05 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	ft_expd_utils(t_list **lst, char *s, int i)
 	else if (s[i + 1] == '?')
 		return (ft_lstadd_back(lst, ft_lstnew
 				(ft_strdup(ft_itoa(g_glob->exit_status)), WORD)), 2);
-	else if (!ft_isalphaa(s[i + 1]) && !ft_isdigitt(s[i + 1]))
-		return (ft_lstadd_back(lst, ft_lstnew(ft_strdup(""), WORD)), 2);
 	else if (ft_isdigitt(s[i + 1]))
 		return (2);
 	return (-1);
@@ -42,7 +40,7 @@ int	ft_expd_dquot(t_list **lst, char *s, char **env, int i)
 	{
 		if (s[i + 1] == '/' || s[i + 1] == '=')
 		{
-			str = ft_substr(str, k, i - k);
+			str = ft_substr(s, k, i - k);
 			return (ft_lstadd_back(lst, ft_lstnew(ft_strdup(str), WORD)), 0);
 		}
 		j = i++;
@@ -60,6 +58,7 @@ int	expd_dquot_utils(char *s, int i, char **env, t_list **node)
 	int	j;
 	int	x;
 	int	c;
+	int	res;
 
 	j = i;
 	j = skip_dquo(s, j);
@@ -72,7 +71,10 @@ int	expd_dquot_utils(char *s, int i, char **env, t_list **node)
 		{
 			if (c - x)
 				ft_lstadd_back(node, ft_lstnew(ft_substr(s, x, c - x), WORD));
-			c += ft_expd_dquot(node, s, env, c);
+			res = ft_expd_dquot(node, s, env, c);
+			if (!res)
+				break ;
+			c += res;
 			x = c;
 		}
 	}

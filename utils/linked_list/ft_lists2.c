@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:59:00 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 17:31:06 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 19:04:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	printf_list(t_list *lst)
 {
 	while (lst)
 	{
-		printf("%s : %d\n", lst->content, lst->token);
+		printf("%d : %s\n", lst->token, lst->content);
 		lst = lst->next;
 	}
 	puts("");

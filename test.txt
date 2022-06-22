@@ -35,7 +35,6 @@ change SPACE to WSPACE +
 ************************
 NORM :
     get_env_info.c -
-    main_bonus.c - not finished, problem in here_doc
     token.c -
     builtins(abdo) -
 

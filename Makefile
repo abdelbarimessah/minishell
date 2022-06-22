@@ -20,6 +20,9 @@ SRC = 	minishell.c                   	\
 		parsing/token_utils2.c 		  	\
 		parsing/token_utils3.c 		  	\
 		parsing/token_utils4.c 		  	\
+		parsing/cr_token_utils1.c		\
+		parsing/cr_token_utils2.c		\
+		parsing/create_token.c 		  	\
 		pip/ft_utils.c				    \
 		pip/ft_utils2.c 				\
 		pip/ft_utils3.c 				\
