@@ -53,30 +53,26 @@ void	print_sort_list_utils(char *str)
 void	print_sort_list(t_env *tmp1)
 {
 	t_env	*tmp;
-	int		lr;
+	int		l;
 
-	lr = 0;
+	l = 0;
 	tmp = tmp1;
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", 1);
-		lr = 0;
-		if(!ft_strncmp("OLDPWD", tmp->export_value, 6) && g_glob->index == 0)
+		l = 0;
+		if (!ft_strncmp("OLDPWD", tmp->export_value, 6) && g_glob->index == 0)
 		{
 			ft_putstr_fd("OLDPWD\n", 1);
 			tmp = tmp->next;
 			continue ;
 		}
-		while (tmp->export_value[lr])
+		while (tmp->export_value[l])
 		{
-			if (tmp->export_value[lr] == '='
-				&& tmp->export_value[lr - 1] != '=')
-			{
-				ft_putstr_fd("=\"", 1);
-				lr++;
-			}
-			write(1, &tmp->export_value[lr], 1);
-			lr++;
+			if (tmp->export_value[l] == '=' && tmp->export_value[l - 1] != '=')
+				l = print_sort_list_utils1(l);
+			write(1, &tmp->export_value[l], 1);
+			l++;
 		}
 		print_sort_list_utils(tmp->value);
 		tmp = tmp->next;

@@ -37,7 +37,7 @@ static void	process(int sign_num)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 		g_glob->exit_status = 1;
 	}
@@ -49,9 +49,9 @@ void	sig_handler(int sig)
 		process(sig);
 	else if (sig == SIGINT && ! g_glob->status)
 	{
-		write(1, "\n", 1);
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
 		rl_redisplay();
 		g_glob->exit_status = 1;
 	}

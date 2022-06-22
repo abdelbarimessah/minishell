@@ -44,7 +44,6 @@ t_env	*sort_env(t_env *tmp)
 		}
 		list = tmp;
 	}
-	// list = list->next;
 	print_sort_list(list);
 	return (tmp);
 }
@@ -78,84 +77,16 @@ int	check_for_special(char *str)
 void	check_args(char **str)
 {
 	int		i;
-	t_env	*list;
 	t_env	*tmp;
-	char	**eq;
-	char	**eq1;
-	int		cont;
-	int		len;
-	int		j;
-	int		j1;
-	char	*plus;
 	char	*ui;
 
-	cont = 0;
-	len = 0;
-	j = 0;
-	j1 = 0;
-	list = g_glob;
 	tmp = g_glob;
 	i = 1;
 	while (str[i])
 	{
 		if ((str[i][0] == '_' || ft_isalpha(str[i][0]))
 			&& check_for_special(str[i]))
-		{
-			while (tmp)
-			{
-				eq = ft_split(tmp->export_value, '=');
-				eq1 = ft_split(str[i], '=');
-				len = ft_strlen(eq1[0]);
-				if (eq && eq1 && !ft_strcmp(eq[0], eq1[0])
-					&& eq1[0][len - 1] != '+'
-					&& eq1[0][len] == '\0' && eq1[1] == NULL)
-					cont = 1;
-				else if (eq && eq1 && !ft_strcmp(eq[0], eq1[0])
-					&& eq1[0][len - 1] != '+' && eq1[1] != NULL)
-				{
-					// if (!ft_strcmp(eq[0], "SHLVL"))
-					// {
-					// 	free(tmp->export_value);
-					// 	free(tmp->value);
-					// }
-					tmp->export_value = str[i];
-					tmp->value = str[i];
-					cont = 1;
-					ft_free(eq1);
-					ft_free(eq);
-					break ;
-				}
-				else if (eq && eq1 && !ft_strncmp(eq[0], eq1[0], len -1)
-					&& eq1[0][len - 1] == '+' )
-				{
-					if (!tmp->export_value[len - 1])
-					{
-						tmp->export_value = ft_strjoin(tmp->export_value, "=");
-						tmp->value = ft_strjoin(tmp->value, "=");
-					}
-					plus = ft_strjoin(tmp->export_value, eq1[1]);
-					tmp->export_value = plus;
-					tmp->value = plus;
-					cont = 1;
-					free(plus);
-					ft_free(eq);
-					ft_free(eq1);
-					break ;
-				}
-				// ft_free(eq);
-				// ft_free(eq1);
-				tmp = tmp->next;
-			}
-			if (cont == 0)
-			{ 
-				if (eq1[0][len - 1] == '+')
-					plus = ft_export_utils(str[i]);
-				else
-					plus = ft_strdup(str[i]);
-				add_to_list(list, plus);
-				// free(plus);
-			}
-		}
+			ft_export_utils1(str[i], tmp);
 		else
 		{
 			ui = ": not a valid identifier\n";

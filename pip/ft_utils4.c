@@ -63,6 +63,7 @@ void	incrument_shlvl(void)
 	int		len;
 	char	*tmp;
 	char	*tmp1;
+	char	**str1;
 
 	tmp1 = get_shlvl();
 	g_glob->shlvl_val = ft_atoi(tmp1);
@@ -73,8 +74,12 @@ void	incrument_shlvl(void)
 	tmp = ft_itoa(g_glob->shlvl_val);
 	len = ft_strlen(tmp);
 	str = malloc(sizeof(char *) * (len + 2));
+	str1 = malloc(sizeof(char *) * (len + 2));
 	str[0] = ft_strdup("export");
+	str1[0] = ft_strdup("unset");
 	str[1] = ft_strjoin("SHLVL=", tmp);
+	str1[1] = ft_strjoin("SHLVL", tmp);
+	ft_unset(str1);
 	ft_export(str);
 	free(tmp);
 	free(tmp1);

@@ -246,6 +246,8 @@ void	print_sort_list(t_env *tmp1);
 void	print_sort_list_utils(char *str);
 void	check_test_builtins(char **cmd);
 char	*ft_export_utils(char *str);
+void	ft_export_utils1(char *str, t_env *tmp);
+int		print_sort_list_utils1(int lr);
 /////// i dont know
 int		ft_execute_builtins(t_list *node, char **env);
 
