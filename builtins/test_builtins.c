@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/21 16:45:19 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 18:04:54 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,18 @@ void	ft_export_utils1(char *str, t_env *tmp)
 		tmp = tmp->next;
 	}
 	if (cont == 0)
-	{
-		if (eq1[0][len - 1] == '+')
-			plus = ft_export_utils(str);
-		else
-			plus = ft_strdup(str);
-		add_to_list(list, plus);
-		// free(plus);
-	}
+		ft_export_utils2(eq1, len, str);
+}
+
+void	ft_export_utils2(char **eq1, int len, char *str)
+{
+	t_env	*list;
+	char	*plus;
+
+	list = g_glob;
+	if (eq1[0][len - 1] == '+')
+		plus = ft_export_utils(str);
+	else
+		plus = ft_strdup(str);
+	add_to_list(list, plus);
 }
