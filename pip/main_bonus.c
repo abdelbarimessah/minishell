@@ -6,24 +6,54 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/22 17:04:32 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 17:27:37 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void pip_herdc(int pip[2], t_vars *var)
+{
+	if(pipe(pip) == -1)
+		perror("Error");
+	ft_putstr_fd(var->value, pip[1]);
+	close(pip[1]);
+	dup2(pip[0], 0);
+	close(pip[0]);
+}
+
+void re_initialize(int pip[2], t_vars *var)
+{
+		dup2(pip[0], 0);
+		close(pip[1]);
+		close(pip[0]);
+		var->fd[0] = 0;
+		var->fd[1] = 0;
+}
+
+void call_childs(char **str, int end_pipe[2], char **env, t_vars *var)
+{
+	if (!str[var->main_pi + 1])
+		var->c2 = 1;
+	if (var->main_pi == 0)
+	ft_child_1(str[var->main_pi], env, end_pipe, *var);
+	else if (ft_cheak(var->main_pi, str) == 2)
+		ft_child_2(str[var->main_pi], env, *var);
+	else if (ft_cheak(var->main_pi, str) == 3)
+		ft_child_3(str[var->main_pi], env, end_pipe, *var);
+}
+
 void	main_pipe(int num_com, char **str, char **env, t_list *node)
 {
 	t_vars	var;
 	int		end_pipe[2];
-	int		i;
 	t_list	*head;
 
-	i = -1;
+	var.main_pi = -1;
 	var.id = malloc(num_com * sizeof(int));
 	var.st_in = dup(0);
 	var.st_out = dup(1);
-	while (str[++i])
+	while (str[++var.main_pi])
 	{
 		var.node = node;
 		var.c = 0;
@@ -31,43 +61,23 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 		head = node;
 		loop_list(&head, &var);
 		if (check_tok_pip(node, INTPUTE_HEREDOC) && var.value)
-		{
-			if (pipe(end_pipe) == -1)
-				perror("Error");
-			ft_putstr_fd(var.value, end_pipe[1]);
-			close(end_pipe[1]);
-			dup2(end_pipe[0], 0);
-			close(end_pipe[0]);
-		}
-		var.id[i] = forkpipe(end_pipe);
-		g_glob->g_pid = var.id[i];
-		if (var.id[i] == -1)
+			pip_herdc(end_pipe, &var);
+		var.id[var.main_pi] = forkpipe(end_pipe);
+		g_glob->g_pid = var.id[var.main_pi];
+		if (var.id[var.main_pi] == -1)
 			exit(1);
-		if (var.id[i] == 0)
-		{
-			if (!str[i + 1])
-				var.c2 = 1;
-			if (i == 0)
-				ft_child_1(str[i], env, end_pipe, var);
-			else if (ft_cheak(i, str) == 2)
-				ft_child_2(str[i], env, var);
-			else if (ft_cheak(i, str) == 3)
-				ft_child_3(str[i], env, end_pipe, var);
-		}
-		if (i == 0 && !check_tok(node, INTPUTE_HEREDOC))
-			var.c = var.id[i];
+		if (var.id[var.main_pi] == 0)
+			call_childs(str, end_pipe, env, &var);
+		if (var.main_pi == 0 && !check_tok(node, INTPUTE_HEREDOC))
+			var.c = var.id[var.main_pi];
 		ft_skip_node(&node);
-		dup2(end_pipe[0], 0);
-		close(end_pipe[1]);
-		close(end_pipe[0]);
-		var.fd[0] = 0;
-		var.fd[1] = 0;
+		re_initialize(end_pipe, &var);
 	}
 	waitpid(var.c, NULL, 0);
-	while (i != -1)
+	while (var.main_pi != -1)
 	{
-		waitpid(var.id[i], NULL, 0);
-		i--;
+		waitpid(var.id[var.main_pi], NULL, 0);
+		var.main_pi--;
 	}
 	ft_free(str);
 }

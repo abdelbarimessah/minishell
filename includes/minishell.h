@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/22 17:04:48 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 17:23:51 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_vars
 	char	*value;
 	int		st_in;
 	int		st_out;
+	int		main_pi;
 	t_list	*node;
 	int		*id;
 }	t_vars;
