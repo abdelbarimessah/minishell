@@ -21,7 +21,7 @@ void	ft_initialize_one(char **env)
 	g_glob->index = 0;
 	g_glob->index_env = 0;
 	g_glob->g_pid = 0;
-	// incrument_shlvl();
+	incrument_shlvl();
 	signal_handl();
 }
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (printf("program doesnt accepts args !"), 0);
 	ft_initialize_one(env);
-	//rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	while (1)
 	{
 		ft_initialize_two();

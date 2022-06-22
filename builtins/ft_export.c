@@ -31,7 +31,6 @@ t_env	*sort_env(t_env *tmp)
 	while (swap == 1)
 	{
 		swap = 0;
-		list = list->next;
 		while (list != NULL && list->next != NULL)
 		{
 			if (ft_strcmp(list->export_value, list->next->export_value) > 0
@@ -45,7 +44,8 @@ t_env	*sort_env(t_env *tmp)
 		}
 		list = tmp;
 	}
-	print_sort_list(tmp);
+	// list = list->next;
+	print_sort_list(list);
 	return (tmp);
 }
 
@@ -113,11 +113,11 @@ void	check_args(char **str)
 				else if (eq && eq1 && !ft_strcmp(eq[0], eq1[0])
 					&& eq1[0][len - 1] != '+' && eq1[1] != NULL)
 				{
-					if (!ft_strcmp(eq[0], "SHLVL"))
-					{
-						free(tmp->export_value);
-						free(tmp->value);
-					}
+					// if (!ft_strcmp(eq[0], "SHLVL"))
+					// {
+					// 	free(tmp->export_value);
+					// 	free(tmp->value);
+					// }
 					tmp->export_value = str[i];
 					tmp->value = str[i];
 					cont = 1;
@@ -142,17 +142,18 @@ void	check_args(char **str)
 					ft_free(eq1);
 					break ;
 				}
-				ft_free(eq);
-				ft_free(eq1);
+				// ft_free(eq);
+				// ft_free(eq1);
 				tmp = tmp->next;
 			}
 			if (cont == 0)
-			{
+			{ 
 				if (eq1[0][len - 1] == '+')
 					plus = ft_export_utils(str[i]);
 				else
-					plus = str[i];
+					plus = ft_strdup(str[i]);
 				add_to_list(list, plus);
+				// free(plus);
 			}
 		}
 		else

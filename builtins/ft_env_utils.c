@@ -61,6 +61,12 @@ void	print_sort_list(t_env *tmp1)
 	{
 		ft_putstr_fd("declare -x ", 1);
 		lr = 0;
+		if(!ft_strncmp("OLDPWD", tmp->export_value, 6) && g_glob->index == 0)
+		{
+			ft_putstr_fd("OLDPWD\n", 1);
+			tmp = tmp->next;
+			continue ;
+		}
 		while (tmp->export_value[lr])
 		{
 			if (tmp->export_value[lr] == '='
