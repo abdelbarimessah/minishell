@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 20:46:00 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 17:07:00 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (printf("program doesnt accepts args !"), 0);
 	ft_initialize_one(env);
-	rl_catch_signals = 0;
+	//rl_catch_signals = 0;
 	while (1)
 	{
 		ft_initialize_two();

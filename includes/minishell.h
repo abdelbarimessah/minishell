@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 22:00:53 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 17:04:48 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,5 +250,10 @@ void	ft_export_utils1(char *str, t_env *tmp);
 int		print_sort_list_utils1(int lr);
 /////// i dont know
 int		ft_execute_builtins(t_list *node, char **env);
+int		outp_redi(t_list **nod, t_vars var);
+int		outp_herdc(t_list **nod, t_vars var);
+int		inp_redi(t_list **nod, t_vars var);
+void	her_dc(t_list **nod, t_vars *var);
+void	loop_list(t_list **nod, t_vars *var);
 
 #endif

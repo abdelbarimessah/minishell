@@ -6,73 +6,11 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/22 15:47:59 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/22 17:04:32 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int outp_redi(t_list **nod, t_vars var)
-{
-	var.file_n = ft_strdup("");
-	(*nod) = (*nod)->next;
-	if ((*nod)->token == WSPACE)
-		(*nod) = (*nod)->next;
-	while ((*nod)->token == WORD && (*nod)->token != END_TOK)
-	{
-		var.file_n = ft_strjoin(var.file_n, (*nod)->content);
-		(*nod) = (*nod)->next;
-	}
-	var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (var.fd[1] == -1)
-	{
-		printf(" %s Error in file creation\n", var.file_n);
-		return (0);
-	}
-	free(var.file_n);
-	return (var.fd[1]);
-}
-
-int outp_herdc(t_list **nod, t_vars var)
-{
-	var.file_n = ft_strdup("");
-	(*nod) = (*nod)->next;
-	if ((*nod)->token == WSPACE)
-		(*nod) = (*nod)->next;
-	while ((*nod)->token == WORD && (*nod)->token != END_TOK)
-	{
-		var.file_n = ft_strjoin(var.file_n, (*nod)->content);
-		(*nod) = (*nod)->next;
-	}
-	var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_APPEND, 0777);
-	if (var.fd[1] == -1)
-	{
-		printf(" %s Error in file creation\n", var.file_n);
-		return (0);
-	}
-	free(var.file_n);
-	return (var.fd[1]);
-}
-
-void her_dc(t_list **nod, t_vars *var)
-{
-	char *p;
-
-	var->value = ft_strdup("");
-	(*nod) = (*nod)->next;
-	while ((*nod)->token == WSPACE && (*nod)->token != END_TOK)
-		(*nod) = (*nod)->next;
-	dup2(var->st_in, 0);
-	while (1)
-	{
-		p = readline("> ");
-		if (!ft_strcmp(p, (*nod)->content))
-			break ;
-		p = ft_strjoin_nf(p, "\n");
-		var->value = ft_strjoin(var->value, p);
-		free(p);
-	}
-}
 
 void	main_pipe(int num_com, char **str, char **env, t_list *node)
 {
@@ -82,7 +20,6 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 	t_list	*head;
 
 	i = -1;
-	var.file_n = ft_strdup("");
 	var.id = malloc(num_com * sizeof(int));
 	var.st_in = dup(0);
 	var.st_out = dup(1);
@@ -92,45 +29,7 @@ void	main_pipe(int num_com, char **str, char **env, t_list *node)
 		var.c = 0;
 		var.c2 = 0;
 		head = node;
-		while (head && head->token != PIP)
-		{
-			if (head->token == OUTPUTE_REDI)
-			{
-				var.fd[1] = outp_redi(&head, var);
-				printf("%d \n", var.fd[1]);
-				if(!var.fd[1])
-					break ;
-			}
-			else if (head->token == OUTPUTE_HEREDOC)
-			{
-				var.fd[1] = outp_herdc(&head, var);
-				if(!var.fd[1])
-					break ;
-			}
-			else if (head->token == INTPUTE_HEREDOC)
-				her_dc(&head, &var);
-			else if (head->token == INPUTE_REDI)
-			{
-				var.file_n = ft_strdup("");
-				head = head->next;
-				if (head->token == WSPACE)
-					head = head->next;
-				while (head->token == WORD && head->token != END_TOK)
-				{
-					var.file_n = ft_strjoin(var.file_n, head->content);
-					head = head->next;
-				}
-				var.fd[0] = open(var.file_n, O_RDONLY);
-				if (var.fd[0] == -1)
-				{
-					printf(" %s Error in file opening\n", var.file_n);
-					break ;
-				}
-				free(var.file_n);
-			}
-			else
-				head = head->next;
-		}
+		loop_list(&head, &var);
 		if (check_tok_pip(node, INTPUTE_HEREDOC) && var.value)
 		{
 			if (pipe(end_pipe) == -1)

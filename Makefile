@@ -27,6 +27,7 @@ SRC = 	minishell.c                   	\
 		pip/ft_childs.c 				\
 		pip/gnl.c 						\
 		pip/main_bonus.c 				\
+		pip/main_bonus_utils1.c 		\
 		builtins/test_builtins.c 		\
 		builtins/builtins_utils.c 		\
 		builtins/ft_echo.c		 		\
