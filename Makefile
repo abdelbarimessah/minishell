@@ -16,6 +16,8 @@ SRC = 	minishell.c                   	\
 		utils/linked_list/ft_lists3.c	\
 		syntax/check_syntax.c			\
 		parsing/token.c 			  	\
+		parsing/token_pip_join.c 		\
+		parsing/token_joinp.c 			\
 		parsing/token_utils1.c 		  	\
 		parsing/token_utils2.c 		  	\
 		parsing/token_utils3.c 		  	\
@@ -24,6 +26,7 @@ SRC = 	minishell.c                   	\
 		parsing/cr_token_utils2.c		\
 		parsing/create_token.c 		  	\
 		parsing/token_exec.c			\
+		parsing/token_exec2.c			\
 		pip/ft_utils.c				    \
 		pip/ft_utils2.c 				\
 		pip/ft_utils3.c 				\

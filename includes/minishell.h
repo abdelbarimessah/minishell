@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 21:27:45 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 22:37:27 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ t_env	*g_glob;
 
 typedef struct s_vars
 {
+	char	*extb_path;
+	char	**extb_cmd;
+	int		extb_end_p[2];
+	int		extb_a;
+	int		extb_k;
 	int		crt_pid;
 	int		crt_wait_int;
 	char	*crt_str;
@@ -284,6 +289,15 @@ int		outp_herdc(t_list **nod, t_vars var);
 int		inp_redi(t_list **nod, t_vars var);
 void	her_dc(t_list **nod, t_vars *var);
 void	loop_list(t_list **nod, t_vars *var);
+void	skip_outpherdc(t_list **head);
+void	skip_outpredi(t_list **head);
+char	*loop_join_pip(t_list **head, char *str);
+void	ft_join_pipe(t_list *node, char **env);
+void	dup_in(t_vars *var);
+void	dup_out(t_vars *var);
+void	error_jp(void);
+int		check_order(t_list **node, t_vars *var);
+void	execute_tb(char *cmds, char **env, t_list *node, t_vars var);
 
 ///////////creations of tokens
 int		spc_tok(char *str, t_list **node, t_vars *var);
