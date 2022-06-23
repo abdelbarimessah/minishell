@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:16:02 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 14:19:24 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 02:46:46 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	status_child(void)
+void	status_child(int wt)
 {
-	if (WIFEXITED(g_glob->g_pid))
-		g_glob->exit_status = WEXITSTATUS(g_glob->g_pid);
-	if (WIFSIGNALED(g_glob->g_pid))
+	if (WIFEXITED(wt))
+		g_glob->exit_status = WEXITSTATUS(wt);
+	if (WIFSIGNALED(wt))
 	{
-		g_glob->exit_status = WTERMSIG(g_glob->g_pid);
+		g_glob->exit_status = WTERMSIG(wt);
 		if (g_glob->exit_status != 131)
 			g_glob->exit_status += 128;
 	}

@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 01:32:21 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 02:51:20 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ int		check_tok(t_list *token, int tok);
 int		ft_error_pipe(t_list *list);
 ////// --------- pipe ////
 int		ft_create_tokens(struct s_list **node, char *str);
-void	status_child(void);
 void	printf_list_z(t_env *lst);
 char	*get_shlvl(void);
 void	incrument_shlvl(void);
@@ -245,7 +244,7 @@ void	deletenode_from_env(t_env *list, char *str, int len);
 int		ft_isalnum1(int c);
 int		ft_isalpha(int c);
 void	ctrl_d(void);
-void	status_child(void);
+void	status_child(int wt);
 void	ft_putchar_fd(char c, int fd);
 int		ft_cd_utils(char **args, int a);
 char	*path_oldpwd(t_env *list);
@@ -261,8 +260,8 @@ void	ft_export_utils2(char **eq1, int len, char *str);
 int		ft_export_utils4(char **eq, char **eq1);
 int		ft_export_utils5(char **eq, char **eq1);
 int		ft_export_utils6(char **eq, char **eq1);
-int		ft_export_utils7(t_env *tmp,char **eq,char **eq1);
-int		ft_export_utils8(t_env *tmp,char **eq,char **eq1,char *str);
+int		ft_export_utils7(t_env *tmp, char **eq, char **eq1);
+int		ft_export_utils8(t_env *tmp, char **eq, char **eq1, char *str);
 /////// i dont know
 int		ft_execute_builtins(t_list *node, char **env);
 int		outp_redi(t_list **nod, t_vars var);

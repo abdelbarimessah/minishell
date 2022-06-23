@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:51:04 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/22 18:39:07 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 02:21:56 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	init_pip(t_list **node, t_vars *var, char **env, char **str)
 	if (check_tok_pip(*node, INTPUTE_HEREDOC) && var->value)
 		pip_herdc(end_pipe, var);
 	var->id[var->main_pi] = forkpipe(end_pipe);
-	g_glob->g_pid = var->id[var->main_pi];
+	// g_glob->g_pid = var->id[var->main_pi];
 	if (var->id[var->main_pi] == -1)
 		exit(1);
 	if (var->id[var->main_pi] == 0)

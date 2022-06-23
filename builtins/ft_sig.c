@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/23 00:04:32 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 02:37:59 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ static void	process(int sign_num)
 		rl_redisplay();
 		g_glob->exit_status = 1;
 	}
+	g_glob->g_pid = 0;
 }
 
 void	sig_handler(int sig)
 {
 	if ((sig == SIGINT || sig == SIGQUIT) && g_glob->g_pid != 0)
 		process(sig);
-	else if (sig == SIGINT && ! g_glob->status)
+	else if (sig == SIGINT && !g_glob->status)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);

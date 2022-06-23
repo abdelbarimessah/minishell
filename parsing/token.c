@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/22 20:58:36 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 02:45:46 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	ft_execute_comnd(t_list *node, char **env)
 	char	*file_n;
 	char	**cmd;
 	char	*p;
+	int		wait_int;
 
 	var.fdd[0] = dup(0);
 	var.fdd[1] = dup(1);
@@ -228,8 +229,8 @@ void	ft_execute_comnd(t_list *node, char **env)
 			execute_tb(str, env, node, var);
 		else
 			g_glob->status = 1;
-		waitpid(pid, NULL, 0);
-		status_child();
+		waitpid(pid, &wait_int, 0);
+		status_child(wait_int);
 	}
 	free(str);
 	ft_free(cmd);
