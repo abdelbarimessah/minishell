@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/22 23:35:23 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 01:32:21 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,11 @@ char	*ft_export_utils(char *str);
 void	ft_export_utils1(char *str, t_env *tmp);
 int		print_sort_list_utils1(int lr);
 void	ft_export_utils2(char **eq1, int len, char *str);
+int		ft_export_utils4(char **eq, char **eq1);
+int		ft_export_utils5(char **eq, char **eq1);
+int		ft_export_utils6(char **eq, char **eq1);
+int		ft_export_utils7(t_env *tmp,char **eq,char **eq1);
+int		ft_export_utils8(t_env *tmp,char **eq,char **eq1,char *str);
 /////// i dont know
 int		ft_execute_builtins(t_list *node, char **env);
 int		outp_redi(t_list **nod, t_vars var);
