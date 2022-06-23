@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 02:45:46 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 21:31:35 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,126 +116,6 @@ void	execute_tb(char *cmds, char **env, t_list *node, t_vars var)
 	}	
 }
 
-void	ft_execute_comnd(t_list *node, char **env)
-{
-	t_list	*head;
-	t_vars	var;
-	char	*str;
-	int		pid;
-	char	*file_n;
-	char	**cmd;
-	char	*p;
-	int		wait_int;
-
-	var.fdd[0] = dup(0);
-	var.fdd[1] = dup(1);
-	head = node;
-	str = ft_strdup("");
-	head = head->next;
-	while (head)
-	{
-		if (head->token == WSPACE)
-			str = ft_strjoin(str, "\v");
-		else if (head->token == INPUTE_REDI)
-		{	
-			file_n = ft_strdup("");
-			head = head->next;
-			if (head->token == WSPACE)
-				head = head->next;
-			while (head->token == WORD && head->token != END_TOK)
-			{
-				file_n = ft_strjoin(file_n, head->content);
-				head = head->next;
-			}
-			var.fdd[0] = open(file_n, O_RDONLY);
-			if (var.fdd[0] == -1)
-			{
-				printf(" ---> %s <----- No such file or directory\n", file_n);
-				return ;
-			}
-			free(file_n);
-			var.z[0] = 0;
-		}
-		else if (head->token == INTPUTE_HEREDOC)
-		{
-			var.value = ft_strdup("");
-			head = head->next;
-			while (head->token == WSPACE && head->token != END_TOK)
-				head = head->next;
-			while (1)
-			{
-				p = readline("> ");
-				if (!ft_strcmp_2(p, head->content))
-					break ;
-				p = ft_strjoin_nf(p, "\n");
-				var.value = ft_strjoin(var.value, p);
-				free(p);
-			}
-		}
-		else if (head->token == OUTPUTE_HEREDOC)
-		{
-			file_n = ft_strdup("");
-			head = head->next;
-			if (head->token == WSPACE)
-				head = head->next;
-			while (head->token == WORD && head->token != END_TOK)
-			{
-				file_n = ft_strjoin(file_n, head->content);
-				head = head->next;
-			}
-			var.fdd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
-			if (var.fdd[1] == -1)
-			{
-				printf(" %s Error in file creation\n", file_n);
-				return ;
-			}
-			free(file_n);
-			var.z[1] = 1;
-		}
-		else if (head->token == OUTPUTE_REDI)
-		{
-			file_n = ft_strdup("");
-			head = head->next;
-			if (head->token == WSPACE)
-				head = head->next;
-			while (head->token == WORD && head->token != END_TOK)
-			{
-				file_n = ft_strjoin(file_n, head->content);
-				head = head->next;
-			}
-			var.fdd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if (var.fdd[1] == -1)
-			{
-				printf(" %s Error in file creation\n", file_n);
-				return ;
-			}
-			free(file_n);
-			var.z[1] = 1;
-		}
-		else if (head->token == NUL)
-			str = ft_strjoin(str, " ");
-		else if (head->token == WORD)
-			str = ft_strjoin(str, head->content);
-		head = head->next;
-	}
-	cmd = ft_split(str, '\v');
-	if (!cmd[0] || !str[0])
-		return ;
-	else
-	{
-		pid = fork();
-		g_glob->g_pid = pid;
-		if (pid == 0)
-			execute_tb(str, env, node, var);
-		else
-			g_glob->status = 1;
-		waitpid(pid, &wait_int, 0);
-		status_child(wait_int);
-	}
-	free(str);
-	ft_free(cmd);
-}
-
 void	tokenizer(char *str, char **env)
 {
 	int		i;
@@ -252,8 +132,6 @@ void	tokenizer(char *str, char **env)
 	head = token;
 	if (!ft_create_tokens(&token, str))
 		return ;
-	// printf_list(head);
-	// exit(0);
 	// if (!check_syntax_list(head))
 	// {
 	// 	ft_error("syntax error ! \n", 0);
@@ -267,12 +145,8 @@ void	tokenizer(char *str, char **env)
 		waitpid(pid, NULL, 0);
 	}
 	else if (ft_execute_builtins(head, env) == 1)
-	{
 		test_builtins(head, env);
-	}
 	else if (ft_execute_builtins(head, env) == 0)
-	{
 		ft_execute_comnd(head, env);
-	}
 	ft_lstclear(&head);
 }

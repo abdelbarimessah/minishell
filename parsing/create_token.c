@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:41:58 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/22 23:32:35 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 18:23:34 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,22 @@ void	redi_in_out(t_vars *var, char *str, t_list **node)
 
 int	token_cr_ut(t_vars *var, t_list **node, char *str)
 {
+	int	state;
+
 	var->ct_j = 0;
 	if (str[var->ct_i] == ' ')
 	{
 		if (!spc_tok(str, node, var))
 			return (2);
+		return (3);
 	}	
 	else if (str[var->ct_i] == '"' || str[var->ct_i] == '\''
 		|| str[var->ct_i] == '|')
 	{
-		if (!check_sq_dq_p(var, node, str))
+		state = check_sq_dq_p(var, node, str);
+		if (!state)
 			return (0);
+		return (3);
 	}
 	return (1);
 }
@@ -55,7 +60,11 @@ int	token_cr(t_vars *var, t_list **node, char *str)
 
 	state = token_cr_ut(var, node, str);
 	if (state != 1)
+	{
+		if (state == 3)
+			var->ct_i++;
 		return (state);
+	}
 	else if (str[var->ct_i] == '$')
 		var->ct_i = dol_tok(str, node, var);
 	else if ((str[var->ct_i] == '>' && str[var->ct_i + 1] == '>')

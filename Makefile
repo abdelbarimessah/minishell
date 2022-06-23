@@ -23,6 +23,7 @@ SRC = 	minishell.c                   	\
 		parsing/cr_token_utils1.c		\
 		parsing/cr_token_utils2.c		\
 		parsing/create_token.c 		  	\
+		parsing/token_exec.c			\
 		pip/ft_utils.c				    \
 		pip/ft_utils2.c 				\
 		pip/ft_utils3.c 				\
@@ -50,13 +51,13 @@ OBJ = ${SRC:.c=.o}
 
 CFLAGS = -Wall -Wextra -Werror
 
-LDFLAGS = "-L/goinfre/amessah/.brew/opt/readline/lib"
+# LDFLAGS = "-L/goinfre/amessah/.brew/opt/readline/lib"
 
-CPPFLAGS = "-I/goinfre/amessah/.brew/opt/readline/include"
+# CPPFLAGS = "-I/goinfre/amessah/.brew/opt/readline/include"
 
-# LDFLAGS = "-L/goinfre/ntanjaou/.brew/opt/readline/lib"
+LDFLAGS = "-L/goinfre/ntanjaou/.brew/opt/readline/lib"
 
-# CPPFLAGS = "-I/goinfre/ntanjaou/.brew/opt/readline/include"
+CPPFLAGS = "-I/goinfre/ntanjaou/.brew/opt/readline/include"
 
 CC = cc
 

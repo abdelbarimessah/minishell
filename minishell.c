@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/22 23:56:17 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 16:34:21 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (printf("program doesnt accepts args !"), 0);
 	ft_initialize_one(env);
-	rl_catch_signals = 0;
+	//rl_catch_signals = 0;
 	while (1)
 	{
 		ft_initialize_two();

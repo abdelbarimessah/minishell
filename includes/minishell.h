@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 02:51:20 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 21:27:45 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ t_env	*g_glob;
 
 typedef struct s_vars
 {
+	int		crt_pid;
+	int		crt_wait_int;
+	char	*crt_str;
+	char	*crt_file_n;
+	char	**crt_cmd;
+	char	*crt_p;
 	int		ct_i;
 	int		ct_j;
 	char	*ct_sb;
@@ -262,7 +268,16 @@ int		ft_export_utils5(char **eq, char **eq1);
 int		ft_export_utils6(char **eq, char **eq1);
 int		ft_export_utils7(t_env *tmp, char **eq, char **eq1);
 int		ft_export_utils8(t_env *tmp, char **eq, char **eq1, char *str);
-/////// i dont know
+/////// extra functions for executions 
+void	init_exec(t_vars *var);
+int		inp_redi_exec(t_list **node, t_vars *var);
+void	inp_herdc_exec(t_list **node, t_vars *var);
+int		outp_redi_exec(t_list **node, t_vars *var);
+int		outp_herdc_exec(t_list **node, t_vars *var);
+int		out_herdc_redi_exec(t_list **node, t_vars *var);
+void	loop_lst_exec(t_list **node, t_vars *var);
+void	spc_null_word(t_list **node, t_vars *var);
+void	ft_execute_comnd(t_list *node, char **env);
 int		ft_execute_builtins(t_list *node, char **env);
 int		outp_redi(t_list **nod, t_vars var);
 int		outp_herdc(t_list **nod, t_vars var);
