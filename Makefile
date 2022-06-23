@@ -54,13 +54,13 @@ OBJ = ${SRC:.c=.o}
 
 CFLAGS = -Wall -Wextra -Werror
 
-# LDFLAGS = "-L/goinfre/amessah/.brew/opt/readline/lib"
+LDFLAGS = "-L/goinfre/amessah/.brew/opt/readline/lib"
 
-# CPPFLAGS = "-I/goinfre/amessah/.brew/opt/readline/include"
+CPPFLAGS = "-I/goinfre/amessah/.brew/opt/readline/include"
 
-LDFLAGS = "-L/goinfre/ntanjaou/.brew/opt/readline/lib"
+# LDFLAGS = "-L/goinfre/ntanjaou/.brew/opt/readline/lib"
 
-CPPFLAGS = "-I/goinfre/ntanjaou/.brew/opt/readline/include"
+# CPPFLAGS = "-I/goinfre/ntanjaou/.brew/opt/readline/include"
 
 CC = cc
 

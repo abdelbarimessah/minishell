@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sig.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/23 16:34:30 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 22:48:12 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	process(int sign_num)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 		g_glob->exit_status = 1;
 	}
@@ -51,7 +51,7 @@ void	sig_handler(int sig)
 	else if (sig == SIGINT && !g_glob->status)
 	{
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		rl_redisplay();
 		g_glob->exit_status = 1;

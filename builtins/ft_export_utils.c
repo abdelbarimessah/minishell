@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 01:29:18 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/23 01:34:32 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 23:17:24 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_export_utils6(char **eq, char **eq1)
 	return (1);
 }
 
-int	ft_export_utils7(t_env *tmp, char **eq, char **eq1)
+int	ft_export_utils7(t_env *tmp, char **eq1)
 {
 	char	*plus;
 
@@ -59,18 +59,14 @@ int	ft_export_utils7(t_env *tmp, char **eq, char **eq1)
 	tmp->export_value = ft_strdup(plus);
 	tmp->value = ft_strdup(plus);
 	free(plus);
-	ft_free(eq);
-	ft_free(eq1);
 	return (1);
 }
 
-int	ft_export_utils8(t_env *tmp, char **eq, char **eq1, char *str)
+int	ft_export_utils8(t_env *tmp, char *str)
 {
 	free(tmp->export_value);
 	free(tmp->value);
 	tmp->export_value = ft_strdup(str);
 	tmp->value = ft_strdup(str);
-	ft_free(eq1);
-	ft_free(eq);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 22:41:15 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/23 22:46:41 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	tokenizer(char *str, char **env)
 		waitpid(pid, NULL, 0);
 	}
 	state = ft_execute_builtins(head, env);
-	else if (state == 1)
+	if (state == 1)
 		test_builtins(head, env);
 	else if (state == 0)
 		ft_execute_comnd(head, env);

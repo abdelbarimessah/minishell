@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 23:22:42 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/21 14:03:15 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/24 00:21:52 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	utils_ctrl_d(char *input_str)
+{
+	if (!(input_str))
+		ctrl_d();
+}
 
 void	ft_putstr_fd(char *s, int fd)
 {

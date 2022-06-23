@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 22:37:27 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/24 00:22:06 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,8 +271,8 @@ void	ft_export_utils2(char **eq1, int len, char *str);
 int		ft_export_utils4(char **eq, char **eq1);
 int		ft_export_utils5(char **eq, char **eq1);
 int		ft_export_utils6(char **eq, char **eq1);
-int		ft_export_utils7(t_env *tmp, char **eq, char **eq1);
-int		ft_export_utils8(t_env *tmp, char **eq, char **eq1, char *str);
+int		ft_export_utils7(t_env *tmp, char **eq1);
+int		ft_export_utils8(t_env *tmp, char *str);
 /////// extra functions for executions 
 void	init_exec(t_vars *var);
 int		inp_redi_exec(t_list **node, t_vars *var);
@@ -298,6 +298,7 @@ void	dup_out(t_vars *var);
 void	error_jp(void);
 int		check_order(t_list **node, t_vars *var);
 void	execute_tb(char *cmds, char **env, t_list *node, t_vars var);
+void	utils_ctrl_d(char *input_str);
 
 ///////////creations of tokens
 int		spc_tok(char *str, t_list **node, t_vars *var);
