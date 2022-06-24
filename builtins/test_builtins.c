@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/23 23:22:27 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 18:07:09 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,24 @@ void	ft_export_utils1(char *str, t_env *tmp)
 		tmp = tmp->next;
 	}
 	if (cont == 0)
-		ft_export_utils2(eq2, ft_strlen(eq2[0]), str);
+		ft_export_utils2(str);
 }
 
-void	ft_export_utils2(char **eq1, int len, char *str)
+void	ft_export_utils2(char *str)
 {
 	t_env	*list;
 	char	*plus;
+	char	**tmp;
+	int		len;
 
 	list = g_glob;
-	if (eq1[0][len - 1] == '+')
+	tmp = ft_split(str, '=');
+	len = ft_strlen(tmp[0]);
+	if (str[len - 1] == '+')
 		plus = ft_export_utils(str);
 	else
 		plus = ft_strdup(str);
 	add_to_list(list, plus);
 	free(plus);
+	ft_free(tmp);
 }
