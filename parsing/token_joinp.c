@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 22:35:49 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 22:39:02 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/24 22:47:00 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	check_order(t_list **node, t_vars *var)
 void	execute_tb(char *cmds, char **env, t_list *node, t_vars var)
 {
 	var.extb_a = 0;
-	var.extb_a = -1;
-	while (cmds[++var.extb_a])
+	var.extb_k = -1;
+	while (cmds[++var.extb_k])
 	{
-		if (cmds[var.extb_a] == ' ' && cmds[var.extb_a] != '\v')
+		if (cmds[var.extb_k] == ' ' && cmds[var.extb_a] != '\v')
 			var.extb_a = 1;
 	}
 	if (var.extb_a)
