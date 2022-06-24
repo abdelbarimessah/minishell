@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 23:22:42 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 00:21:52 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 18:49:11 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ int	ft_echo(char **args)
 	if (n_option == 0)
 		write(1, "\n", 1);
 	g_glob->exit_status = 0;
+	ft_free(args);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:32:46 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 00:18:32 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 20:20:37 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ void	ft_cd(char **args)
 	{
 		g_glob->exit_status = 1;
 		ft_putstr_3("cd: ", args[1], ": No such file or directory\n");
+		ft_free(args);
 	}
+	else if (chdir(args[1]) != -1)
+		g_glob->index++;
 	cd_pwd(list);
-	g_glob->index++;
+	ft_lstadd_backp(&g_glob->point, (ft_lstnewp((void *)args)));
 }

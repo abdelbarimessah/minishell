@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 18:07:09 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 19:08:40 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	check_test_builtins(char **cmd)
 	else if (!ft_strcmp(cmd[0], "unset"))
 		ft_unset(cmd);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
+	{
 		ft_pwd();
+		ft_free(cmd);
+	}
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(cmd);
 	else if (ft_strcmp(cmd[0], "export") == 0)
@@ -50,6 +53,7 @@ void	test_builtins(t_list *node, char **env)
 		head = head->next;
 	}
 	cmd = ft_split(str, '\v');
+	free(str);
 	check_test_builtins(cmd);
 }
 

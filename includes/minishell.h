@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/24 18:07:53 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 20:11:57 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,7 @@ int		ft_export_utils5(char **eq, char **eq1);
 int		ft_export_utils6(char **eq, char **eq1);
 int		ft_export_utils7(t_env *tmp, char **eq1);
 int		ft_export_utils8(t_env *tmp, char *str);
+char	*ft_strcpy(char *s1);
 /////// extra functions for executions 
 void	init_exec(t_vars *var);
 int		inp_redi_exec(t_list **node, t_vars *var);
