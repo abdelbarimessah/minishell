@@ -6,28 +6,11 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 12:01:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/21 15:24:39 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/24 17:54:40 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	ft_error_pipe(t_list *list)
-{
-	while (list)
-	{
-		if (list->token == PIP)
-		{
-			list = list->next;
-			while (list->token == WSPACE)
-				list = list->next;
-			if (list->next->token != WORD || list->next->token == END_TOK)
-				return (0);
-		}
-		list = list->next;
-	}
-	return (1);
-}
 
 int	check_special_caracs(char *str)
 {
@@ -58,15 +41,23 @@ int	check_special_caracs(char *str)
 	return (1);
 }
 
-int	check_double_special_carac(char *str)
+int	ft_check_oredi(char *input)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	while (str[i])
+	while (input[i])
 	{
-		if (str[i] == '|' && str[i + 1] == '|')
-			return (0);
+		if (input[i] == '>' && input[i + 1] != '>')
+		{
+			i++;
+			while (input[i] && input[i] == ' '
+				&& input[i] != '|' && input[i] != '<' && input[i] != '>')
+				i++;
+			if (!input[i]
+				|| input[i] == '|' || input[i] == '<' || input[i] == '>')
+				return (print_error_syntax(), 0);
+		}
 		i++;
 	}
 	return (1);
@@ -76,14 +67,15 @@ int	check_syntax(char *str)
 {
 	if (!check_special_caracs(str))
 		return (0);
-	if (!check_double_special_carac(str))
+	if (!ft_check_pipe(str))
 		return (0);
-	return (1);
-}
-
-int	check_syntax_list(t_list *list)
-{
-	if (!ft_error_pipe(list))
+	if (!ft_check_input_h(str))
+		return (0);
+	if (!ft_check_iredi(str))
+		return (0);
+	if (!ft_check_output_h(str))
+		return (0);
+	if (!ft_check_oredi(str))
 		return (0);
 	return (1);
 }

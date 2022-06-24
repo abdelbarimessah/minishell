@@ -33,10 +33,6 @@ change SPACE to WSPACE +
 
 
 ************************
-NORM :
-    get_env_info.c -
-    token.c -
-    builtins(abdo) -
 
     //// github///////////
     https://github.com/solaldunckel/minishell-tester/blob/master/test.sh

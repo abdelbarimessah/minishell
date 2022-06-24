@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/24 00:22:06 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 17:56:12 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,11 +183,16 @@ int		num_commande(char **str);
 int		ft_execute_builtins(t_list *node, char **env);
 ////// ------ syntax ////
 int		check_syntax(char *str);
+void	print_error_syntax(void);
 int		check_syntax_list(t_list *list);
 int		inside_limiters(char *str, char limiter, char c);
 int		limiter_stat(char *str, char limiter);
 int		check_tok(t_list *token, int tok);
-int		ft_error_pipe(t_list *list);
+int		ft_check_pipe(char *input);
+int		ft_check_input_h(char *input);
+int		ft_check_iredi(char *input);
+int		ft_check_output_h(char *input);
+int		ft_check_oredi(char *input);
 ////// --------- pipe ////
 int		ft_create_tokens(struct s_list **node, char *str);
 void	printf_list_z(t_env *lst);

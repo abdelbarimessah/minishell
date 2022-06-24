@@ -15,6 +15,7 @@ SRC = 	minishell.c                   	\
 		utils/linked_list/ft_lists2.c	\
 		utils/linked_list/ft_lists3.c	\
 		syntax/check_syntax.c			\
+		syntax/syntax_utils.c			\
 		parsing/token.c 			  	\
 		parsing/token_pip_join.c 		\
 		parsing/token_joinp.c 			\

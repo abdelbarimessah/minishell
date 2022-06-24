@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 22:46:41 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/24 17:07:25 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	launch_exec(t_list **head, char **env)
+{
+	int	state;
+
+	state = ft_execute_builtins(*head, env);
+	if (state == 1)
+		test_builtins(*head, env);
+	else if (state == 0)
+		ft_execute_comnd(*head, env);
+}
 
 void	tokenizer(char *str, char **env)
 {
@@ -19,7 +30,6 @@ void	tokenizer(char *str, char **env)
 	pid_t	pid;
 	t_list	*token;
 	t_list	*head;
-	int state;
 
 	i = 0;
 	j = 1;
@@ -29,11 +39,6 @@ void	tokenizer(char *str, char **env)
 	head = token;
 	if (!ft_create_tokens(&token, str))
 		return ;
-	// if (!check_syntax_list(head))
-	// {
-	// 	ft_error("syntax error ! \n", 0);
-	// 	return ;
-	// }
 	if (check_tok(head, PIP))
 	{
 		pid = fork();
@@ -41,10 +46,6 @@ void	tokenizer(char *str, char **env)
 			ft_join_pipe(head, env);
 		waitpid(pid, NULL, 0);
 	}
-	state = ft_execute_builtins(head, env);
-	if (state == 1)
-		test_builtins(head, env);
-	else if (state == 0)
-		ft_execute_comnd(head, env);
+	launch_exec(&head, env);
 	ft_lstclear(&head);
 }
