@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:46:51 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 18:36:52 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:34:18 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_create_str(t_list **lst)
 	while (head->token != END_TOK)
 	{
 		if (head->token == WSPACE)
-			str = ft_strjoin2(str, "\v");
+			str = ft_strjoin3(str, "\v");
 		else if (head->token == OUTPUTE_REDI)
 			break ;
 		else if (head->token == INPUTE_REDI)
@@ -65,7 +65,7 @@ char	*ft_create_str(t_list **lst)
 		else if (head->token == OUTPUTE_HEREDOC)
 			break ;
 		else if (head->content)
-			str = ft_strjoin2(str, head->content);
+			str = ft_strjoin3(str, head->content);
 		head = head->next;
 	}
 	return (str);

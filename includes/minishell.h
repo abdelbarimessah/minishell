@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 18:37:12 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:33:25 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ char	*ft_strchr(const char *str, int pos);
 char	*ft_strjoin_nf(char *s1, char *s2);
 int		ft_is_last(t_list *node, int c, int c2, int end);
 int		ft_strcmp_2(char *str1, char *str2);
+char	*ft_strjoin3(char *s1, char *s2);
 //// ----- parsing ///
 void	tokenizer(char *str, char **env);
 int		check_tok(t_list *token, int tok);
