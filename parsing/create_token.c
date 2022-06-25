@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:41:58 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 18:22:09 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 20:44:16 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	token_cr_ut(t_vars *var, t_list **node, char *str)
 			return (2);
 		return (3);
 	}	
-	else if (str[var->ct_i] == '"' || str[var->ct_i] == '\''
+	if (str[var->ct_i] == '"' || str[var->ct_i] == '\''
 		|| str[var->ct_i] == '|')
 	{
 		state = check_sq_dq_p(var, node, str);

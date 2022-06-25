@@ -7,6 +7,7 @@ SRC = 	minishell.c                   	\
 		utils/functions/functions2.c  	\
 		utils/functions/functions3.c  	\
 		utils/functions/functions4.c  	\
+		utils/functions/functions5.c  	\
 		utils/functions/split.c       	\
 		utils/functions/split_two.c 	\
 		utils/functions/get_env_info.c  \
