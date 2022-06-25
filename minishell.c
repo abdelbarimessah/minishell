@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 02:21:59 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/25 18:29:07 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int ac, char **av, char **env)
 		history(input_str);
 		free(input_str);
 		ft_lstclearp(&g_glob->point);
+		ft_free(new_env);
 	}
 	return (printf("exit\n"), 0);
 }

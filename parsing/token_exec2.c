@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 21:25:09 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 21:30:12 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 18:43:57 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ void	init_exec(t_vars *var)
 {
 	var->fdd[0] = dup(0);
 	var->fdd[1] = dup(1);
-	var->crt_str = ft_strdup("");
+	var->crt_str = NULL;
 }
 
 int	inp_redi_exec(t_list **node, t_vars *var)
 {
-	var->crt_file_n = ft_strdup("");
+	var->crt_file_n = 	NULL;
 	(*node) = (*node)->next;
 	if ((*node)->token == WSPACE)
 		(*node) = (*node)->next;
 	while ((*node)->token == WORD && (*node)->token != END_TOK)
 	{
-		var->crt_file_n = ft_strjoin(var->crt_file_n, (*node)->content);
+		var->crt_file_n = ft_strjoin2(var->crt_file_n, (*node)->content);
 		(*node) = (*node)->next;
 	}
 	var->fdd[0] = open(var->crt_file_n, O_RDONLY);
@@ -42,7 +42,7 @@ int	inp_redi_exec(t_list **node, t_vars *var)
 
 void	inp_herdc_exec(t_list **node, t_vars *var)
 {
-	var->value = ft_strdup("");
+	var->value = NULL;
 	(*node) = (*node)->next;
 	while ((*node)->token == WSPACE && (*node)->token != END_TOK)
 		(*node) = (*node)->next;
@@ -52,20 +52,20 @@ void	inp_herdc_exec(t_list **node, t_vars *var)
 		if (!ft_strcmp_2(var->crt_p, (*node)->content))
 			break ;
 		var->crt_p = ft_strjoin_nf(var->crt_p, "\n");
-		var->value = ft_strjoin(var->value, var->crt_p);
+		var->value = ft_strjoin2(var->value, var->crt_p);
 		free(var->crt_p);
 	}
 }
 
 int	outp_redi_exec(t_list **node, t_vars *var)
 {
-	var->crt_file_n = ft_strdup("");
+	var->crt_file_n = NULL;
 	(*node) = (*node)->next;
 	if ((*node)->token == WSPACE)
 		(*node) = (*node)->next;
 	while ((*node)->token == WORD && (*node)->token != END_TOK)
 	{
-		var->crt_file_n = ft_strjoin(var->crt_file_n, (*node)->content);
+		var->crt_file_n = ft_strjoin2(var->crt_file_n, (*node)->content);
 		(*node) = (*node)->next;
 	}
 	var->fdd[1] = open(var->crt_file_n, O_CREAT | O_RDWR | O_TRUNC, 0777);
@@ -80,13 +80,13 @@ int	outp_redi_exec(t_list **node, t_vars *var)
 
 int	outp_herdc_exec(t_list **node, t_vars *var)
 {
-	var->crt_file_n = ft_strdup("");
+	var->crt_file_n = NULL;
 	(*node) = (*node)->next;
 	if ((*node)->token == WSPACE)
 		(*node) = (*node)->next;
 	while ((*node)->token == WORD && (*node)->token != END_TOK)
 	{
-		var->crt_file_n = ft_strjoin(var->crt_file_n, (*node)->content);
+		var->crt_file_n = ft_strjoin2(var->crt_file_n, (*node)->content);
 		(*node) = (*node)->next;
 	}
 	var->fdd[1] = open(var->crt_file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);

@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:41:58 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/24 22:35:42 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 18:22:09 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ int	token_cr(t_vars *var, t_list **node, char *str)
 	return (1);
 }
 
-int	ft_create_tokens(struct s_list **node, char *str)
+int	ft_create_tokens(struct s_list **node, char *str, char **env)
 {
 	t_vars	var;
 	int		state;
 
-	init_vars(&var, str);
+	init_vars(&var, str, env);
 	while (var.ct_i < ft_strlen(str))
 	{
 		state = token_cr(&var, node, str);

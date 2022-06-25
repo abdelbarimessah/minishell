@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:30:27 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/25 02:22:16 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/25 18:19:56 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ char	**new_env_function(t_env *list)
 		i++;
 		tmp = tmp->next;
 	}
-	env = malloc((i + 10) * sizeof(char *));
+	env = malloc((i + 1) * sizeof(char *));
+	env[i] = NULL;
 	if (!list)
 		return (NULL);
 	i = 0;
 	while (list)
 	{
-		env[i] = list->value;
+		env[i] = ft_strdup(list->value);
 		list = list->next;
 		i++;
 	}

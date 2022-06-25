@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:23:07 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/24 22:36:29 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:07:00 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	launch_exec(t_list **head, char **env)
 	state = ft_execute_builtins(*head, env);
 	if (state == 1)
 		test_builtins(*head, env);
-	else if (state == 0)
+	if (state == 0)
 		ft_execute_comnd(*head, env);
 }
 
@@ -37,7 +37,7 @@ void	tokenizer(char *str, char **env)
 		return ;
 	token = ft_lstnew(ft_strdup("---"), START_TOK);
 	head = token;
-	if (!ft_create_tokens(&token, str))
+	if (!ft_create_tokens(&token, str, env))
 		return ;
 	if (check_tok(head, PIP))
 	{

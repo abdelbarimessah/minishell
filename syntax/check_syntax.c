@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 12:01:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/24 17:54:40 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 18:24:57 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	check_special_caracs(char *str)
 	int		j;
 
 	i = 0;
-	special = malloc(sizeof(char) * 6);
-	special = ";#&\\";
+	special = ft_strdup(";#&\\");
 	while (str[i])
 	{
 		j = 0;
@@ -38,6 +37,7 @@ int	check_special_caracs(char *str)
 		}
 		i++;
 	}
+	free(special);
 	return (1);
 }
 

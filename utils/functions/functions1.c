@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:55:46 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/20 15:26:48 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 18:36:39 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,30 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	s = movee(s1, s2, s);
 	if (i == 1)
+		free(s1);
+	return (s);
+}
+
+char	*ft_strjoin2(char *s1, char *s2)
+{
+	int		a;
+	char	*s;
+	int i;
+	
+	i = 0;
+	if (!s1)
+	{
+		s1 = ft_strdup("");
+		i = 1;
+	}
+	if (!s2)
+		return (NULL);
+	a = ft_strlen(s1);
+	s = (char *)malloc(a + ft_strlen(s2) + 1);
+	if (s == NULL)
+		return (NULL);
+	s = movee(s1, s2, s);
+	if(i == 1)
 		free(s1);
 	return (s);
 }

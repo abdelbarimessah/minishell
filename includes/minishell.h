@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/24 20:11:57 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/25 18:37:12 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int		ft_check_iredi(char *input);
 int		ft_check_output_h(char *input);
 int		ft_check_oredi(char *input);
 ////// --------- pipe ////
-int		ft_create_tokens(struct s_list **node, char *str);
+int		ft_create_tokens(struct s_list **node, char *str, char **env);
 void	printf_list_z(t_env *lst);
 char	*get_shlvl(void);
 void	incrument_shlvl(void);
@@ -280,6 +280,7 @@ int		ft_export_utils7(t_env *tmp, char **eq1);
 int		ft_export_utils8(t_env *tmp, char *str);
 char	*ft_strcpy(char *s1);
 /////// extra functions for executions 
+char	*ft_strjoin2(char *s1, char *s2);
 void	init_exec(t_vars *var);
 int		inp_redi_exec(t_list **node, t_vars *var);
 void	inp_herdc_exec(t_list **node, t_vars *var);
@@ -312,7 +313,7 @@ int		dol_tok_utils(char *str, t_list **node, t_vars *var);
 int		dol_tok(char *str, t_list **node, t_vars *var);
 int		herdoc_dquo(char *str, t_vars *var);
 int		herdoc_squo(char *str, t_vars *var);
-void	init_vars(t_vars *var, char *str);
+void	init_vars(t_vars *var, char *str, char **env);
 void	herdoc_utils(char *str, t_vars *var);
 int		herdoc_utils_2(t_vars *var, char *str);
 int		herdoc(t_vars *var, char *str, t_list **node);
@@ -322,6 +323,5 @@ void	last_tok(t_vars *var, char *str, t_list **node);
 void	redi_in_out(t_vars *var, char *str, t_list **node);
 int		token_cr_ut(t_vars *var, t_list **node, char *str);
 int		token_cr(t_vars *var, t_list **node, char *str);
-int		ft_create_tokens(struct s_list **node, char *str);
 
 #endif
