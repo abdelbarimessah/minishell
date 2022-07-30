@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:39:36 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 00:02:37 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 16:41:17 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	check_args(char **str)
 		}
 		i++;
 	}
+	ft_free(str);
 }
 
 void	ft_export(char **str)
@@ -103,13 +104,7 @@ void	ft_export(char **str)
 
 	list = g_glob;
 	if (!str[1])
-	{
 		sort_env(list);
-		ft_free(str);
-	}
 	else
-	{
 		check_args(str);
-		ft_free(str);
-	}
 }

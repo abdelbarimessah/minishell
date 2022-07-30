@@ -7,7 +7,6 @@ SRC = 	minishell.c                   	\
 		utils/functions/functions2.c  	\
 		utils/functions/functions3.c  	\
 		utils/functions/functions4.c  	\
-		utils/functions/functions5.c  	\
 		utils/functions/split.c       	\
 		utils/functions/split_two.c 	\
 		utils/functions/get_env_info.c  \
@@ -18,8 +17,6 @@ SRC = 	minishell.c                   	\
 		syntax/check_syntax.c			\
 		syntax/syntax_utils.c			\
 		parsing/token.c 			  	\
-		parsing/token_pip_join.c 		\
-		parsing/token_joinp.c 			\
 		parsing/token_utils1.c 		  	\
 		parsing/token_utils2.c 		  	\
 		parsing/token_utils3.c 		  	\
@@ -28,7 +25,9 @@ SRC = 	minishell.c                   	\
 		parsing/cr_token_utils2.c		\
 		parsing/create_token.c 		  	\
 		parsing/token_exec.c			\
+		parsing/ft_join_pip.c			\
 		parsing/token_exec2.c			\
+		parsing/ft_token_exec.c			\
 		pip/ft_utils.c				    \
 		pip/ft_utils2.c 				\
 		pip/ft_utils3.c 				\

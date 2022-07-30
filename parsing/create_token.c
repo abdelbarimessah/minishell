@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:41:58 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 20:44:16 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 18:23:34 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	token_cr_ut(t_vars *var, t_list **node, char *str)
 			return (2);
 		return (3);
 	}	
-	if (str[var->ct_i] == '"' || str[var->ct_i] == '\''
+	else if (str[var->ct_i] == '"' || str[var->ct_i] == '\''
 		|| str[var->ct_i] == '|')
 	{
 		state = check_sq_dq_p(var, node, str);
@@ -83,12 +83,12 @@ int	token_cr(t_vars *var, t_list **node, char *str)
 	return (1);
 }
 
-int	ft_create_tokens(struct s_list **node, char *str, char **env)
+int	ft_create_tokens(struct s_list **node, char *str)
 {
 	t_vars	var;
 	int		state;
 
-	init_vars(&var, str, env);
+	init_vars(&var, str);
 	while (var.ct_i < ft_strlen(str))
 	{
 		state = token_cr(&var, node, str);

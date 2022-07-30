@@ -6,7 +6,7 @@
 /*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:38 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 21:16:02 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/25 23:18:41 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,12 @@ t_env	*g_glob;
 
 typedef struct s_vars
 {
-	char	*extb_path;
-	char	**extb_cmd;
-	int		extb_end_p[2];
-	int		extb_a;
-	int		extb_k;
+	char	*jp_path;
+	char	**jp_cmd;
+	int		jp_end_p[2];
+	int		jp_a;
+	int		jp_k;
+
 	int		crt_pid;
 	int		crt_wait_int;
 	char	*crt_str;
@@ -171,8 +172,6 @@ char	*ft_strchr(const char *str, int pos);
 char	*ft_strjoin_nf(char *s1, char *s2);
 int		ft_is_last(t_list *node, int c, int c2, int end);
 int		ft_strcmp_2(char *str1, char *str2);
-char	*ft_strjoin3(char *s1, char *s2);
-char	*movee(char *s1, char *s2, char *s);
 //// ----- parsing ///
 void	tokenizer(char *str, char **env);
 int		check_tok(t_list *token, int tok);
@@ -185,18 +184,13 @@ int		num_commande(char **str);
 int		ft_execute_builtins(t_list *node, char **env);
 ////// ------ syntax ////
 int		check_syntax(char *str);
-void	print_error_syntax(void);
 int		check_syntax_list(t_list *list);
 int		inside_limiters(char *str, char limiter, char c);
 int		limiter_stat(char *str, char limiter);
 int		check_tok(t_list *token, int tok);
-int		ft_check_pipe(char *input);
-int		ft_check_input_h(char *input);
-int		ft_check_iredi(char *input);
-int		ft_check_output_h(char *input);
-int		ft_check_oredi(char *input);
+int		ft_error_pipe(t_list *list);
 ////// --------- pipe ////
-int		ft_create_tokens(struct s_list **node, char *str, char **env);
+int		ft_create_tokens(struct s_list **node, char *str);
 void	printf_list_z(t_env *lst);
 char	*get_shlvl(void);
 void	incrument_shlvl(void);
@@ -274,15 +268,13 @@ void	check_test_builtins(char **cmd);
 char	*ft_export_utils(char *str);
 void	ft_export_utils1(char *str, t_env *tmp);
 int		print_sort_list_utils1(int lr);
-void	ft_export_utils2(char *str);
+void	ft_export_utils2(char **eq1, int len, char *str);
 int		ft_export_utils4(char **eq, char **eq1);
 int		ft_export_utils5(char **eq, char **eq1);
 int		ft_export_utils6(char **eq, char **eq1);
-int		ft_export_utils7(t_env *tmp, char **eq1);
-int		ft_export_utils8(t_env *tmp, char *str);
-char	*ft_strcpy(char *s1);
+int		ft_export_utils7(t_env *tmp, char **eq, char **eq1);
+int		ft_export_utils8(t_env *tmp, char **eq, char **eq1, char *str);
 /////// extra functions for executions 
-char	*ft_strjoin2(char *s1, char *s2);
 void	init_exec(t_vars *var);
 int		inp_redi_exec(t_list **node, t_vars *var);
 void	inp_herdc_exec(t_list **node, t_vars *var);
@@ -298,16 +290,6 @@ int		outp_herdc(t_list **nod, t_vars var);
 int		inp_redi(t_list **nod, t_vars var);
 void	her_dc(t_list **nod, t_vars *var);
 void	loop_list(t_list **nod, t_vars *var);
-void	skip_outpherdc(t_list **head);
-void	skip_outpredi(t_list **head);
-char	*loop_join_pip(t_list **head, char *str);
-void	ft_join_pipe(t_list *node, char **env);
-void	dup_in(t_vars *var);
-void	dup_out(t_vars *var);
-void	error_jp(void);
-int		check_order(t_list **node, t_vars *var);
-void	execute_tb(char *cmds, char **env, t_list *node, t_vars var);
-void	utils_ctrl_d(char *input_str);
 
 ///////////creations of tokens
 int		spc_tok(char *str, t_list **node, t_vars *var);
@@ -315,7 +297,7 @@ int		dol_tok_utils(char *str, t_list **node, t_vars *var);
 int		dol_tok(char *str, t_list **node, t_vars *var);
 int		herdoc_dquo(char *str, t_vars *var);
 int		herdoc_squo(char *str, t_vars *var);
-void	init_vars(t_vars *var, char *str, char **env);
+void	init_vars(t_vars *var, char *str);
 void	herdoc_utils(char *str, t_vars *var);
 int		herdoc_utils_2(t_vars *var, char *str);
 int		herdoc(t_vars *var, char *str, t_list **node);
@@ -325,5 +307,16 @@ void	last_tok(t_vars *var, char *str, t_list **node);
 void	redi_in_out(t_vars *var, char *str, t_list **node);
 int		token_cr_ut(t_vars *var, t_list **node, char *str);
 int		token_cr(t_vars *var, t_list **node, char *str);
+int		ft_create_tokens(struct s_list **node, char *str);
+void	ft_join_pipe(t_list *node, char **env);
+void	dup_in(t_vars *var);
+void	dup_out(t_vars *var);
+void	ft_pereor(void);
+int		check_toorder(t_vars *var, t_list **node);
+void	print_error_syntax(void);
+int		ft_check_pipe(char *input);
+int		ft_check_input_h(char *input);
+int		ft_check_iredi(char *input);
+int		ft_check_output_h(char *input);
 
 #endif

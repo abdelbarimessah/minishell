@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:21:54 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 19:08:40 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 16:46:59 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void	check_test_builtins(char **cmd)
 	else if (!ft_strcmp(cmd[0], "unset"))
 		ft_unset(cmd);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
-	{
 		ft_pwd();
-		ft_free(cmd);
-	}
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(cmd);
 	else if (ft_strcmp(cmd[0], "export") == 0)
@@ -53,7 +50,6 @@ void	test_builtins(t_list *node, char **env)
 		head = head->next;
 	}
 	cmd = ft_split(str, '\v');
-	free(str);
 	check_test_builtins(cmd);
 }
 
@@ -69,7 +65,6 @@ void	ft_export_utils1(char *str, t_env *tmp)
 	t_env	*list;
 	int		cont;
 	char	**eq1;
-	char	**eq2;
 	char	**eq;
 
 	cont = 0;
@@ -78,36 +73,27 @@ void	ft_export_utils1(char *str, t_env *tmp)
 	{
 		eq = ft_split(tmp->export_value, '=');
 		eq1 = ft_split(str, '=');
-		eq2 = eq1;
 		if (!ft_export_utils4(eq, eq1))
 			cont = 1;
 		else if (!ft_export_utils5(eq, eq1))
-			cont = ft_export_utils8(tmp, str);
+			cont = ft_export_utils8(tmp, eq, eq1, str);
 		else if (!ft_export_utils6(eq, eq1))
-			cont = ft_export_utils7(tmp, eq1);
-		ft_free(eq);
-		ft_free(eq1);
+			cont = ft_export_utils7(tmp, eq, eq1);
 		tmp = tmp->next;
 	}
 	if (cont == 0)
-		ft_export_utils2(str);
+		ft_export_utils2(eq1, ft_strlen(eq1[0]), str);
 }
 
-void	ft_export_utils2(char *str)
+void	ft_export_utils2(char **eq1, int len, char *str)
 {
 	t_env	*list;
 	char	*plus;
-	char	**tmp;
-	int		len;
 
 	list = g_glob;
-	tmp = ft_split(str, '=');
-	len = ft_strlen(tmp[0]);
-	if (str[len - 1] == '+')
+	if (eq1[0][len - 1] == '+')
 		plus = ft_export_utils(str);
 	else
 		plus = ft_strdup(str);
 	add_to_list(list, plus);
-	free(plus);
-	ft_free(tmp);
 }

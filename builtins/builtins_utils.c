@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:30:27 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/25 18:19:56 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 23:24:52 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ char	*ft_cd_home(t_env *list, char **args)
 		g_glob->exit_status = 1;
 		return (NULL);
 	}
-	args[1] = ft_strcpy(str);
-	free(str);
-	g_glob->index++;
+	args[1] = str;
 	return (args[1]);
 }

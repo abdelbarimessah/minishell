@@ -1,43 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_pip_join.c                                   :+:      :+:    :+:   */
+/*   ft_join_pip.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/23 22:17:04 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/23 22:39:37 by ntanjaou         ###   ########.fr       */
+/*   Created: 2022/06/25 22:40:43 by amessah           #+#    #+#             */
+/*   Updated: 2022/06/25 22:50:32 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	skip_outpherdc(t_list **head)
+void	skip_outherdc(t_list **head)
 {
 	(*head) = (*head)->next;
 	while ((*head)->token == WSPACE && (*head)->token != END_TOK)
 		(*head) = (*head)->next;
 }
 
-void	skip_outpredi(t_list **head)
+void	skip_outredi(t_list **head)
 {
 	(*head) = (*head)->next;
 	while ((*head)->token == WSPACE && (*head)->token != END_TOK)
 		(*head) = (*head)->next;
 }
 
-char	*loop_join_pip(t_list **head, char *str)
+char	*loop_pip(t_list **head, char *str)
 {
 	while ((*head))
 	{
 		if ((*head)->token == PIP)
 			str = ft_strjoin(str, "|");
 		else if ((*head)->token == OUTPUTE_HEREDOC)
-			skip_outpherdc(head);
+			skip_outherdc(head);
 		else if ((*head)->token == INTPUTE_HEREDOC)
 			(*head) = (*head)->next;
 		else if ((*head)->token == OUTPUTE_REDI)
-			skip_outpredi(head);
+			skip_outredi(head);
 		else if ((*head)->token == INPUTE_REDI)
 		{
 			(*head) = (*head)->next;
@@ -64,7 +64,7 @@ void	ft_join_pipe(t_list *node, char **env)
 
 	str = ft_strdup("");
 	head = node->next;
-	str = loop_join_pip(&head, str);
+	str = loop_pip(&head, str);
 	str_split = ft_split(str, '|');
 	num_com = num_commande(str_split);
 	free(str);

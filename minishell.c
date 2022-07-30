@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:42:29 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 18:29:07 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/07/30 14:27:55 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,14 @@ int	main(int ac, char **av, char **env)
 		list = g_glob;
 		new_env = new_env_function(list);
 		input_str = readline("minishell$: ");
-		utils_ctrl_d(input_str);
+		if (!(input_str))
+			ctrl_d();
 		if (!check_strr(&input_str, new_env))
 			break ;
+		g_glob->index++;
 		history(input_str);
 		free(input_str);
 		ft_lstclearp(&g_glob->point);
-		ft_free(new_env);
 	}
 	return (printf("exit\n"), 0);
 }

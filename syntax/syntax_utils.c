@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:38:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/24 17:58:10 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/25 23:20:38 by amessah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_error_syntax(void)
 {
-	ft_putstr_fd("syntax error !!\n", 2);
+	ft_putstr_fd("syntax error !\n", 2);
 }
 
 int	ft_check_pipe(char *input)

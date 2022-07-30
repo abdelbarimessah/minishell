@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 20:21:59 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:19:24 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ void	ft_env(char **str)
 	tmp = g_glob;
 	if (str[1])
 	{
-		ft_putstr_3("env: ", str[1], ": No such file or directory\n");
+		ft_putstr_fd("env: ", 2);
+		ft_putstr_fd(str[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		g_glob->exit_status = 127;
-		ft_free(str);
 	}
 	else
 	{
-		ft_free(str);
 		g_glob->exit_status = 0;
 		while (tmp)
 		{

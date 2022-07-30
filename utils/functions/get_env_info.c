@@ -6,7 +6,7 @@
 /*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:28:18 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 18:57:53 by ntanjaou         ###   ########.fr       */
+/*   Updated: 2022/06/21 19:03:08 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	cmd_notfound(char **cmd)
 	g_glob->exit_status = 127;
 	ft_putstr_fd("minishell : command not found: ", 2);
 	if (cmd[0])
-		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(cmd[1], 2);
 	ft_putstr_fd("\n", 2);
 	ft_free(cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:30:04 by ntanjaou          #+#    #+#             */
-/*   Updated: 2022/06/25 20:26:27 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/23 21:29:29 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	out_herdc_redi_exec(t_list **node, t_vars *var)
 void	spc_null_word(t_list **node, t_vars *var)
 {
 	if ((*node)->token == WSPACE)
-		var->crt_str = ft_strjoin3(var->crt_str, "\v");
+		var->crt_str = ft_strjoin(var->crt_str, "\v");
 	else if ((*node)->token == NUL)
-		var->crt_str = ft_strjoin3(var->crt_str, " ");
+		var->crt_str = ft_strjoin(var->crt_str, " ");
 	else if ((*node)->token == WORD)
-		var->crt_str = ft_strjoin3(var->crt_str, (*node)->content);
+		var->crt_str = ft_strjoin(var->crt_str, (*node)->content);
 }
 
 void	loop_lst_exec(t_list **node, t_vars *var)
@@ -72,7 +72,6 @@ void	ft_execute_comnd(t_list *node, char **env)
 	t_list	*head;
 	t_vars	var;
 
-	(void)env;
 	init_exec(&var);
 	head = node;
 	head = head->next;
@@ -91,6 +90,6 @@ void	ft_execute_comnd(t_list *node, char **env)
 		waitpid(var.crt_pid, &var.crt_wait_int, 0);
 		status_child(var.crt_wait_int);
 	}
-	ft_free(var.crt_cmd);
 	free(var.crt_str);
+	ft_free(var.crt_cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amessah <amessah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntanjaou <ntanjaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:32:13 by amessah           #+#    #+#             */
-/*   Updated: 2022/06/24 20:22:49 by amessah          ###   ########.fr       */
+/*   Updated: 2022/06/21 15:16:23 by ntanjaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ void	ft_unset(char **str)
 	{
 		if (!check_arg(str[i]))
 		{
-			ft_putstr_3("unset: `", str[i], "': not a valid identifier\n");
+			ft_putstr_fd("unset: `", 2);
+			ft_putstr_fd(str[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			g_glob->exit_status = 1;
 		}
 		else
@@ -98,5 +100,4 @@ void	ft_unset(char **str)
 		}
 		i++;
 	}
-	ft_free(str);
 }
